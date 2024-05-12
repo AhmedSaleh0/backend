@@ -92,7 +92,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
+      title: 'Display a listing of Inspire posts.'
       description: ''
       authenticated: false
       custom: []
@@ -131,7 +131,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
+      title: 'Store a newly created Inspire post in storage.'
       description: ''
       authenticated: false
       custom: []
@@ -142,8 +142,58 @@ endpoints:
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+    bodyParameters:
+      title:
+        name: title
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: begewdysdmesriykvestnzfu
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      content:
+        name: content
+        description: ''
+        required: true
+        example: excepturi
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      video_url:
+        name: video_url
+        description: 'Must be a valid URL.'
+        required: false
+        example: 'http://www.trantow.com/enim-repudiandae-alias-laudantium-et.html'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      category:
+        name: category
+        description: ''
+        required: true
+        example: omnis
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      sub_category:
+        name: sub_category
+        description: ''
+        required: true
+        example: saepe
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      title: begewdysdmesriykvestnzfu
+      content: excepturi
+      video_url: 'http://www.trantow.com/enim-repudiandae-alias-laudantium-et.html'
+      category: omnis
+      sub_category: saepe
     fileParameters: []
     responses: []
     responseFields: []
@@ -161,7 +211,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
+      title: 'Display the specified Inspire post.'
       description: ''
       authenticated: false
       custom: []
@@ -173,13 +223,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: quibusdam
+        example: impedit
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: quibusdam
+      id: impedit
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -210,7 +260,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
+      title: 'Update the specified Inspire post in storage.'
       description: ''
       authenticated: false
       custom: []
@@ -222,17 +272,79 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: voluptatem
+        example: est
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: voluptatem
+      id: est
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+    bodyParameters:
+      title:
+        name: title
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: onozl
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      content:
+        name: content
+        description: ''
+        required: false
+        example: sapiente
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      video_url:
+        name: video_url
+        description: 'Must be a valid URL.'
+        required: false
+        example: 'https://www.sawayn.net/aperiam-qui-rem-sint-rem-quae-consequuntur-ea'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      category:
+        name: category
+        description: ''
+        required: false
+        example: deleniti
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      sub_category:
+        name: sub_category
+        description: ''
+        required: false
+        example: nihil
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      status:
+        name: status
+        description: ''
+        required: false
+        example: active
+        type: string
+        enumValues:
+          - active
+          - inactive
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      title: onozl
+      content: sapiente
+      video_url: 'https://www.sawayn.net/aperiam-qui-rem-sint-rem-quae-consequuntur-ea'
+      category: deleniti
+      sub_category: nihil
+      status: active
     fileParameters: []
     responses: []
     responseFields: []
@@ -250,7 +362,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: ''
+      title: 'Remove the specified Inspire post from storage.'
       description: ''
       authenticated: false
       custom: []
@@ -262,13 +374,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: fugit
+        example: corrupti
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: fugit
+      id: corrupti
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -334,15 +446,79 @@ endpoints:
       authenticated: false
       custom: []
     headers:
-      Content-Type: application/json
+      Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
+    bodyParameters:
+      post_title:
+        name: post_title
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: aqeipftrijhbiyjcbkxwjrsk
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_short_description:
+        name: post_short_description
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: ygxuqbumlpepukid
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_image:
+        name: post_image
+        description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_price:
+        name: post_price
+        description: '2MB max size.'
+        required: true
+        example: 1.8656153
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_price_type:
+        name: post_price_type
+        description: ''
+        required: true
+        example: hourly
+        type: string
+        enumValues:
+          - fixed
+          - hourly
+        exampleWasSpecified: false
+        custom: []
+      post_status:
+        name: post_status
+        description: ''
+        required: true
+        example: active
+        type: string
+        enumValues:
+          - active
+          - inactive
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      post_title: aqeipftrijhbiyjcbkxwjrsk
+      post_short_description: ygxuqbumlpepukid
+      post_price: 1.8656153
+      post_price_type: hourly
+      post_status: active
+    fileParameters:
+      post_image: null
     responses: []
     responseFields: []
     auth: []
@@ -371,13 +547,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: laborum
+        example: ut
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: laborum
+      id: ut
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -413,25 +589,89 @@ endpoints:
       authenticated: false
       custom: []
     headers:
-      Content-Type: application/json
+      Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
       id:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: quibusdam
+        example: atque
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: quibusdam
+      id: atque
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
+    bodyParameters:
+      post_title:
+        name: post_title
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: obbeavm
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_short_description:
+        name: post_short_description
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: mb
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_image:
+        name: post_image
+        description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_price:
+        name: post_price
+        description: ''
+        required: false
+        example: 3500.0
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_price_type:
+        name: post_price_type
+        description: ''
+        required: false
+        example: fixed
+        type: string
+        enumValues:
+          - fixed
+          - hourly
+        exampleWasSpecified: false
+        custom: []
+      post_status:
+        name: post_status
+        description: ''
+        required: false
+        example: active
+        type: string
+        enumValues:
+          - active
+          - inactive
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      post_title: obbeavm
+      post_short_description: mb
+      post_price: 3500.0
+      post_price_type: fixed
+      post_status: active
+    fileParameters:
+      post_image: null
     responses: []
     responseFields: []
     auth: []
@@ -460,13 +700,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: non
+        example: amet
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: non
+      id: amet
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -532,15 +772,79 @@ endpoints:
       authenticated: false
       custom: []
     headers:
-      Content-Type: application/json
+      Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
+    bodyParameters:
+      post_title:
+        name: post_title
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: lbbbqwjnsdzdbl
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_short_description:
+        name: post_short_description
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: sgphbisodviazakkpjl
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_image:
+        name: post_image
+        description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_price:
+        name: post_price
+        description: '2MB max size.'
+        required: true
+        example: 16.595938692
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_price_type:
+        name: post_price_type
+        description: ''
+        required: true
+        example: fixed
+        type: string
+        enumValues:
+          - fixed
+          - hourly
+        exampleWasSpecified: false
+        custom: []
+      post_status:
+        name: post_status
+        description: ''
+        required: true
+        example: inactive
+        type: string
+        enumValues:
+          - active
+          - inactive
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      post_title: lbbbqwjnsdzdbl
+      post_short_description: sgphbisodviazakkpjl
+      post_price: 16.595938692
+      post_price_type: fixed
+      post_status: inactive
+    fileParameters:
+      post_image: null
     responses: []
     responseFields: []
     auth: []
@@ -569,13 +873,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: qui
+        example: ut
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: qui
+      id: ut
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -611,25 +915,89 @@ endpoints:
       authenticated: false
       custom: []
     headers:
-      Content-Type: application/json
+      Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
       id:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: aut
+        example: iusto
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: aut
+      id: iusto
     queryParameters: []
     cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
+    bodyParameters:
+      post_title:
+        name: post_title
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: ltq
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_short_description:
+        name: post_short_description
+        description: 'Must not be greater than 255 characters.'
+        required: false
+        example: rfadm
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_image:
+        name: post_image
+        description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+        required: false
+        example: null
+        type: file
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_price:
+        name: post_price
+        description: ''
+        required: false
+        example: 710509965.74
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      post_price_type:
+        name: post_price_type
+        description: ''
+        required: false
+        example: hourly
+        type: string
+        enumValues:
+          - fixed
+          - hourly
+        exampleWasSpecified: false
+        custom: []
+      post_status:
+        name: post_status
+        description: ''
+        required: false
+        example: inactive
+        type: string
+        enumValues:
+          - active
+          - inactive
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      post_title: ltq
+      post_short_description: rfadm
+      post_price: 710509965.74
+      post_price_type: hourly
+      post_status: inactive
+    fileParameters:
+      post_image: null
     responses: []
     responseFields: []
     auth: []
@@ -658,13 +1026,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: voluptatem
+        example: et
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: voluptatem
+      id: et
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

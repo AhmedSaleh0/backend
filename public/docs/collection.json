@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "I-plus API documentation",
-        "_postman_id": "821d005e-d981-450b-9ce4-33b567901601",
+        "_postman_id": "c3c8bc95-135f-407f-8f94-11c70900b5dd",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -79,7 +79,7 @@
                     "response": []
                 },
                 {
-                    "name": "GET api\/inspire\/posts",
+                    "name": "Display a listing of Inspire posts.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -127,7 +127,7 @@
                     ]
                 },
                 {
-                    "name": "POST api\/inspire\/posts",
+                    "name": "Store a newly created Inspire post in storage.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -146,7 +146,10 @@
                                 "value": "application\/json"
                             }
                         ],
-                        "body": null,
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"title\":\"begewdysdmesriykvestnzfu\",\"content\":\"excepturi\",\"video_url\":\"http:\\\/\\\/www.trantow.com\\\/enim-repudiandae-alias-laudantium-et.html\",\"category\":\"omnis\",\"sub_category\":\"saepe\"}"
+                        },
                         "description": "",
                         "auth": {
                             "type": "noauth"
@@ -155,7 +158,7 @@
                     "response": []
                 },
                 {
-                    "name": "GET api\/inspire\/posts\/{id}",
+                    "name": "Display the specified Inspire post.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -166,7 +169,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quibusdam",
+                                    "value": "impedit",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -211,7 +214,7 @@
                     ]
                 },
                 {
-                    "name": "PUT api\/inspire\/posts\/{id}",
+                    "name": "Update the specified Inspire post in storage.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -222,7 +225,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "voluptatem",
+                                    "value": "est",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -238,7 +241,10 @@
                                 "value": "application\/json"
                             }
                         ],
-                        "body": null,
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"title\":\"onozl\",\"content\":\"sapiente\",\"video_url\":\"https:\\\/\\\/www.sawayn.net\\\/aperiam-qui-rem-sint-rem-quae-consequuntur-ea\",\"category\":\"deleniti\",\"sub_category\":\"nihil\",\"status\":\"active\"}"
+                        },
                         "description": "",
                         "auth": {
                             "type": "noauth"
@@ -247,7 +253,7 @@
                     "response": []
                 },
                 {
-                    "name": "DELETE api\/inspire\/posts\/{id}",
+                    "name": "Remove the specified Inspire post from storage.",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -258,7 +264,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "fugit",
+                                    "value": "corrupti",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -343,14 +349,53 @@
                         "header": [
                             {
                                 "key": "Content-Type",
-                                "value": "application\/json"
+                                "value": "multipart\/form-data"
                             },
                             {
                                 "key": "Accept",
                                 "value": "application\/json"
                             }
                         ],
-                        "body": null,
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "post_title",
+                                    "value": "aqeipftrijhbiyjcbkxwjrsk",
+                                    "type": "text",
+                                    "description": "Must not be greater than 255 characters."
+                                },
+                                {
+                                    "key": "post_short_description",
+                                    "value": "ygxuqbumlpepukid",
+                                    "type": "text",
+                                    "description": "Must not be greater than 255 characters."
+                                },
+                                {
+                                    "key": "post_price",
+                                    "value": 1.8656153,
+                                    "type": "text",
+                                    "description": "2MB max size."
+                                },
+                                {
+                                    "key": "post_price_type",
+                                    "value": "hourly",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "post_status",
+                                    "value": "active",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "post_image",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
                         "description": "",
                         "auth": {
                             "type": "noauth"
@@ -370,7 +415,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "laborum",
+                                    "value": "ut",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -426,23 +471,67 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quibusdam",
+                                    "value": "atque",
                                     "description": "The ID of the post."
                                 }
                             ]
                         },
-                        "method": "PUT",
+                        "method": "POST",
                         "header": [
                             {
                                 "key": "Content-Type",
-                                "value": "application\/json"
+                                "value": "multipart\/form-data"
                             },
                             {
                                 "key": "Accept",
                                 "value": "application\/json"
                             }
                         ],
-                        "body": null,
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "post_title",
+                                    "value": "obbeavm",
+                                    "type": "text",
+                                    "description": "Must not be greater than 255 characters."
+                                },
+                                {
+                                    "key": "post_short_description",
+                                    "value": "mb",
+                                    "type": "text",
+                                    "description": "Must not be greater than 255 characters."
+                                },
+                                {
+                                    "key": "post_price",
+                                    "value": 3500,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "post_price_type",
+                                    "value": "fixed",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "post_status",
+                                    "value": "active",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "post_image",
+                                    "src": [],
+                                    "type": "file"
+                                },
+                                {
+                                    "key": "_method",
+                                    "value": "PUT",
+                                    "type": "text"
+                                }
+                            ]
+                        },
                         "description": "",
                         "auth": {
                             "type": "noauth"
@@ -462,7 +551,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "non",
+                                    "value": "amet",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -547,14 +636,53 @@
                         "header": [
                             {
                                 "key": "Content-Type",
-                                "value": "application\/json"
+                                "value": "multipart\/form-data"
                             },
                             {
                                 "key": "Accept",
                                 "value": "application\/json"
                             }
                         ],
-                        "body": null,
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "post_title",
+                                    "value": "lbbbqwjnsdzdbl",
+                                    "type": "text",
+                                    "description": "Must not be greater than 255 characters."
+                                },
+                                {
+                                    "key": "post_short_description",
+                                    "value": "sgphbisodviazakkpjl",
+                                    "type": "text",
+                                    "description": "Must not be greater than 255 characters."
+                                },
+                                {
+                                    "key": "post_price",
+                                    "value": 16.595938692,
+                                    "type": "text",
+                                    "description": "2MB max size."
+                                },
+                                {
+                                    "key": "post_price_type",
+                                    "value": "fixed",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "post_status",
+                                    "value": "inactive",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "post_image",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
                         "description": "",
                         "auth": {
                             "type": "noauth"
@@ -574,7 +702,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "qui",
+                                    "value": "ut",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -630,23 +758,67 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "aut",
+                                    "value": "iusto",
                                     "description": "The ID of the post."
                                 }
                             ]
                         },
-                        "method": "PUT",
+                        "method": "POST",
                         "header": [
                             {
                                 "key": "Content-Type",
-                                "value": "application\/json"
+                                "value": "multipart\/form-data"
                             },
                             {
                                 "key": "Accept",
                                 "value": "application\/json"
                             }
                         ],
-                        "body": null,
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "post_title",
+                                    "value": "ltq",
+                                    "type": "text",
+                                    "description": "Must not be greater than 255 characters."
+                                },
+                                {
+                                    "key": "post_short_description",
+                                    "value": "rfadm",
+                                    "type": "text",
+                                    "description": "Must not be greater than 255 characters."
+                                },
+                                {
+                                    "key": "post_price",
+                                    "value": 710509965.74,
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "post_price_type",
+                                    "value": "hourly",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "post_status",
+                                    "value": "inactive",
+                                    "type": "text",
+                                    "description": ""
+                                },
+                                {
+                                    "key": "post_image",
+                                    "src": [],
+                                    "type": "file"
+                                },
+                                {
+                                    "key": "_method",
+                                    "value": "PUT",
+                                    "type": "text"
+                                }
+                            ]
+                        },
                         "description": "",
                         "auth": {
                             "type": "noauth"
@@ -666,7 +838,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "voluptatem",
+                                    "value": "et",
                                     "description": "The ID of the post."
                                 }
                             ]

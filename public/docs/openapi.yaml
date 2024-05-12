@@ -47,8 +47,8 @@ paths:
       security: []
   /api/inspire/posts:
     get:
-      summary: ''
-      operationId: getApiInspirePosts
+      summary: 'Display a listing of Inspire posts.'
+      operationId: displayAListingOfInspirePosts
       description: ''
       parameters: []
       responses:
@@ -68,18 +68,50 @@ paths:
         - Endpoints
       security: []
     post:
-      summary: ''
-      operationId: postApiInspirePosts
+      summary: 'Store a newly created Inspire post in storage.'
+      operationId: storeANewlyCreatedInspirePostInStorage
       description: ''
       parameters: []
       responses: {  }
       tags:
         - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: begewdysdmesriykvestnzfu
+                content:
+                  type: string
+                  description: ''
+                  example: excepturi
+                video_url:
+                  type: string
+                  description: 'Must be a valid URL.'
+                  example: 'http://www.trantow.com/enim-repudiandae-alias-laudantium-et.html'
+                category:
+                  type: string
+                  description: ''
+                  example: omnis
+                sub_category:
+                  type: string
+                  description: ''
+                  example: saepe
+              required:
+                - title
+                - content
+                - category
+                - sub_category
       security: []
   '/api/inspire/posts/{id}':
     get:
-      summary: ''
-      operationId: getApiInspirePostsId
+      summary: 'Display the specified Inspire post.'
+      operationId: displayTheSpecifiedInspirePost
       description: ''
       parameters: []
       responses:
@@ -99,17 +131,51 @@ paths:
         - Endpoints
       security: []
     put:
-      summary: ''
-      operationId: putApiInspirePostsId
+      summary: 'Update the specified Inspire post in storage.'
+      operationId: updateTheSpecifiedInspirePostInStorage
       description: ''
       parameters: []
       responses: {  }
       tags:
         - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: onozl
+                content:
+                  type: string
+                  description: ''
+                  example: sapiente
+                video_url:
+                  type: string
+                  description: 'Must be a valid URL.'
+                  example: 'https://www.sawayn.net/aperiam-qui-rem-sint-rem-quae-consequuntur-ea'
+                category:
+                  type: string
+                  description: ''
+                  example: deleniti
+                sub_category:
+                  type: string
+                  description: ''
+                  example: nihil
+                status:
+                  type: string
+                  description: ''
+                  example: active
+                  enum:
+                    - active
+                    - inactive
       security: []
     delete:
-      summary: ''
-      operationId: deleteApiInspirePostsId
+      summary: 'Remove the specified Inspire post from storage.'
+      operationId: removeTheSpecifiedInspirePostFromStorage
       description: ''
       parameters: []
       responses: {  }
@@ -121,7 +187,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: quibusdam
+        example: impedit
         required: true
         schema:
           type: string
@@ -155,6 +221,49 @@ paths:
       responses: {  }
       tags:
         - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                post_title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: aqeipftrijhbiyjcbkxwjrsk
+                post_short_description:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: ygxuqbumlpepukid
+                post_image:
+                  type: string
+                  format: binary
+                  description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+                post_price:
+                  type: number
+                  description: '2MB max size.'
+                  example: 1.8656153
+                post_price_type:
+                  type: string
+                  description: ''
+                  example: hourly
+                  enum:
+                    - fixed
+                    - hourly
+                post_status:
+                  type: string
+                  description: ''
+                  example: active
+                  enum:
+                    - active
+                    - inactive
+              required:
+                - post_title
+                - post_short_description
+                - post_price
+                - post_price_type
+                - post_status
       security: []
   '/api/ican/posts/{id}':
     get:
@@ -186,6 +295,43 @@ paths:
       responses: {  }
       tags:
         - Endpoints
+      requestBody:
+        required: false
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                post_title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: obbeavm
+                post_short_description:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: mb
+                post_image:
+                  type: string
+                  format: binary
+                  description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+                post_price:
+                  type: number
+                  description: ''
+                  example: 3500.0
+                post_price_type:
+                  type: string
+                  description: ''
+                  example: fixed
+                  enum:
+                    - fixed
+                    - hourly
+                post_status:
+                  type: string
+                  description: ''
+                  example: active
+                  enum:
+                    - active
+                    - inactive
       security: []
     delete:
       summary: ''
@@ -201,7 +347,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: laborum
+        example: ut
         required: true
         schema:
           type: string
@@ -235,6 +381,49 @@ paths:
       responses: {  }
       tags:
         - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                post_title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: lbbbqwjnsdzdbl
+                post_short_description:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: sgphbisodviazakkpjl
+                post_image:
+                  type: string
+                  format: binary
+                  description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+                post_price:
+                  type: number
+                  description: '2MB max size.'
+                  example: 16.595938692
+                post_price_type:
+                  type: string
+                  description: ''
+                  example: fixed
+                  enum:
+                    - fixed
+                    - hourly
+                post_status:
+                  type: string
+                  description: ''
+                  example: inactive
+                  enum:
+                    - active
+                    - inactive
+              required:
+                - post_title
+                - post_short_description
+                - post_price
+                - post_price_type
+                - post_status
       security: []
   '/api/ineed/posts/{id}':
     get:
@@ -266,6 +455,43 @@ paths:
       responses: {  }
       tags:
         - Endpoints
+      requestBody:
+        required: false
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                post_title:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: ltq
+                post_short_description:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: rfadm
+                post_image:
+                  type: string
+                  format: binary
+                  description: 'Must be an image. Must not be greater than 2048 kilobytes.'
+                post_price:
+                  type: number
+                  description: ''
+                  example: 710509965.74
+                post_price_type:
+                  type: string
+                  description: ''
+                  example: hourly
+                  enum:
+                    - fixed
+                    - hourly
+                post_status:
+                  type: string
+                  description: ''
+                  example: inactive
+                  enum:
+                    - active
+                    - inactive
       security: []
     delete:
       summary: ''
@@ -281,7 +507,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: qui
+        example: ut
         required: true
         schema:
           type: string

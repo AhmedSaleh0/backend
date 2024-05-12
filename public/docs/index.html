@@ -78,19 +78,19 @@
                                 <a href="#endpoints-POSTapi-auth-logout">Logout user (Revoke the token).</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-inspire-posts">
-                                <a href="#endpoints-GETapi-inspire-posts">GET api/inspire/posts</a>
+                                <a href="#endpoints-GETapi-inspire-posts">Display a listing of Inspire posts.</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-POSTapi-inspire-posts">
-                                <a href="#endpoints-POSTapi-inspire-posts">POST api/inspire/posts</a>
+                                <a href="#endpoints-POSTapi-inspire-posts">Store a newly created Inspire post in storage.</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-inspire-posts--id-">
-                                <a href="#endpoints-GETapi-inspire-posts--id-">GET api/inspire/posts/{id}</a>
+                                <a href="#endpoints-GETapi-inspire-posts--id-">Display the specified Inspire post.</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-PUTapi-inspire-posts--id-">
-                                <a href="#endpoints-PUTapi-inspire-posts--id-">PUT api/inspire/posts/{id}</a>
+                                <a href="#endpoints-PUTapi-inspire-posts--id-">Update the specified Inspire post in storage.</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-inspire-posts--id-">
-                                <a href="#endpoints-DELETEapi-inspire-posts--id-">DELETE api/inspire/posts/{id}</a>
+                                <a href="#endpoints-DELETEapi-inspire-posts--id-">Remove the specified Inspire post from storage.</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-ican-posts">
                                 <a href="#endpoints-GETapi-ican-posts">GET api/ican/posts</a>
@@ -417,7 +417,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-GETapi-inspire-posts">GET api/inspire/posts</h2>
+                    <h2 id="endpoints-GETapi-inspire-posts">Display a listing of Inspire posts.</h2>
 
 <p>
 </p>
@@ -541,7 +541,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-POSTapi-inspire-posts">POST api/inspire/posts</h2>
+                    <h2 id="endpoints-POSTapi-inspire-posts">Store a newly created Inspire post in storage.</h2>
 
 <p>
 </p>
@@ -556,7 +556,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-bash">curl --request POST \
     "https://i-plus.co/backend/api/inspire/posts" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"title\": \"begewdysdmesriykvestnzfu\",
+    \"content\": \"excepturi\",
+    \"video_url\": \"http:\\/\\/www.trantow.com\\/enim-repudiandae-alias-laudantium-et.html\",
+    \"category\": \"omnis\",
+    \"sub_category\": \"saepe\"
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
@@ -569,9 +577,18 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "title": "begewdysdmesriykvestnzfu",
+    "content": "excepturi",
+    "video_url": "http:\/\/www.trantow.com\/enim-repudiandae-alias-laudantium-et.html",
+    "category": "omnis",
+    "sub_category": "saepe"
+};
+
 fetch(url, {
     method: "POST",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -647,9 +664,65 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="title"                data-endpoint="POSTapi-inspire-posts"
+               value="begewdysdmesriykvestnzfu"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>begewdysdmesriykvestnzfu</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>content</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="content"                data-endpoint="POSTapi-inspire-posts"
+               value="excepturi"
+               data-component="body">
+    <br>
+<p>Example: <code>excepturi</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>video_url</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="video_url"                data-endpoint="POSTapi-inspire-posts"
+               value="http://www.trantow.com/enim-repudiandae-alias-laudantium-et.html"
+               data-component="body">
+    <br>
+<p>Must be a valid URL. Example: <code>http://www.trantow.com/enim-repudiandae-alias-laudantium-et.html</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>category</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="category"                data-endpoint="POSTapi-inspire-posts"
+               value="omnis"
+               data-component="body">
+    <br>
+<p>Example: <code>omnis</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>sub_category</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="sub_category"                data-endpoint="POSTapi-inspire-posts"
+               value="saepe"
+               data-component="body">
+    <br>
+<p>Example: <code>saepe</code></p>
+        </div>
+        </form>
 
-                    <h2 id="endpoints-GETapi-inspire-posts--id-">GET api/inspire/posts/{id}</h2>
+                    <h2 id="endpoints-GETapi-inspire-posts--id-">Display the specified Inspire post.</h2>
 
 <p>
 </p>
@@ -662,14 +735,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "https://i-plus.co/backend/api/inspire/posts/quibusdam" \
+    --get "https://i-plus.co/backend/api/inspire/posts/impedit" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "https://i-plus.co/backend/api/inspire/posts/quibusdam"
+    "https://i-plus.co/backend/api/inspire/posts/impedit"
 );
 
 const headers = {
@@ -778,14 +851,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-inspire-posts--id-"
-               value="quibusdam"
+               value="impedit"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>quibusdam</code></p>
+<p>The ID of the post. Example: <code>impedit</code></p>
             </div>
                     </form>
 
-                    <h2 id="endpoints-PUTapi-inspire-posts--id-">PUT api/inspire/posts/{id}</h2>
+                    <h2 id="endpoints-PUTapi-inspire-posts--id-">Update the specified Inspire post in storage.</h2>
 
 <p>
 </p>
@@ -798,14 +871,23 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "https://i-plus.co/backend/api/inspire/posts/voluptatem" \
+    "https://i-plus.co/backend/api/inspire/posts/est" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"title\": \"onozl\",
+    \"content\": \"sapiente\",
+    \"video_url\": \"https:\\/\\/www.sawayn.net\\/aperiam-qui-rem-sint-rem-quae-consequuntur-ea\",
+    \"category\": \"deleniti\",
+    \"sub_category\": \"nihil\",
+    \"status\": \"active\"
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "https://i-plus.co/backend/api/inspire/posts/voluptatem"
+    "https://i-plus.co/backend/api/inspire/posts/est"
 );
 
 const headers = {
@@ -813,9 +895,19 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "title": "onozl",
+    "content": "sapiente",
+    "video_url": "https:\/\/www.sawayn.net\/aperiam-qui-rem-sint-rem-quae-consequuntur-ea",
+    "category": "deleniti",
+    "sub_category": "nihil",
+    "status": "active"
+};
+
 fetch(url, {
     method: "PUT",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -898,14 +990,83 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-inspire-posts--id-"
-               value="voluptatem"
+               value="est"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>voluptatem</code></p>
+<p>The ID of the post. Example: <code>est</code></p>
             </div>
-                    </form>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="title"                data-endpoint="PUTapi-inspire-posts--id-"
+               value="onozl"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>onozl</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>content</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="content"                data-endpoint="PUTapi-inspire-posts--id-"
+               value="sapiente"
+               data-component="body">
+    <br>
+<p>Example: <code>sapiente</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>video_url</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="video_url"                data-endpoint="PUTapi-inspire-posts--id-"
+               value="https://www.sawayn.net/aperiam-qui-rem-sint-rem-quae-consequuntur-ea"
+               data-component="body">
+    <br>
+<p>Must be a valid URL. Example: <code>https://www.sawayn.net/aperiam-qui-rem-sint-rem-quae-consequuntur-ea</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>category</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="category"                data-endpoint="PUTapi-inspire-posts--id-"
+               value="deleniti"
+               data-component="body">
+    <br>
+<p>Example: <code>deleniti</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>sub_category</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="sub_category"                data-endpoint="PUTapi-inspire-posts--id-"
+               value="nihil"
+               data-component="body">
+    <br>
+<p>Example: <code>nihil</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>status</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="status"                data-endpoint="PUTapi-inspire-posts--id-"
+               value="active"
+               data-component="body">
+    <br>
+<p>Example: <code>active</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>active</code></li> <li><code>inactive</code></li></ul>
+        </div>
+        </form>
 
-                    <h2 id="endpoints-DELETEapi-inspire-posts--id-">DELETE api/inspire/posts/{id}</h2>
+                    <h2 id="endpoints-DELETEapi-inspire-posts--id-">Remove the specified Inspire post from storage.</h2>
 
 <p>
 </p>
@@ -918,14 +1079,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "https://i-plus.co/backend/api/inspire/posts/fugit" \
+    "https://i-plus.co/backend/api/inspire/posts/corrupti" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "https://i-plus.co/backend/api/inspire/posts/fugit"
+    "https://i-plus.co/backend/api/inspire/posts/corrupti"
 );
 
 const headers = {
@@ -1018,10 +1179,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-inspire-posts--id-"
-               value="fugit"
+               value="corrupti"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>fugit</code></p>
+<p>The ID of the post. Example: <code>corrupti</code></p>
             </div>
                     </form>
 
@@ -1163,8 +1324,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
     "https://i-plus.co/backend/api/ican/posts" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Content-Type: multipart/form-data" \
+    --header "Accept: application/json" \
+    --form "post_title=aqeipftrijhbiyjcbkxwjrsk"\
+    --form "post_short_description=ygxuqbumlpepukid"\
+    --form "post_price=1.8656153"\
+    --form "post_price_type=hourly"\
+    --form "post_status=active"\
+    --form "post_image=@C:\Users\Ahmed Saleh\AppData\Local\Temp\phpF7CE.tmp" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -1173,13 +1340,22 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const headers = {
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
     "Accept": "application/json",
 };
+
+const body = new FormData();
+body.append('post_title', 'aqeipftrijhbiyjcbkxwjrsk');
+body.append('post_short_description', 'ygxuqbumlpepukid');
+body.append('post_price', '1.8656153');
+body.append('post_price_type', 'hourly');
+body.append('post_status', 'active');
+body.append('post_image', document.querySelector('input[name="post_image"]').files[0]);
 
 fetch(url, {
     method: "POST",
     headers,
+    body,
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -1204,7 +1380,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <form id="form-POSTapi-ican-posts" data-method="POST"
       data-path="api/ican/posts"
       data-authed="0"
-      data-hasfiles="0"
+      data-hasfiles="1"
       data-isarraybody="0"
       autocomplete="off"
       onsubmit="event.preventDefault(); executeTryOut('POSTapi-ican-posts', this);">
@@ -1239,10 +1415,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Content-Type"                data-endpoint="POSTapi-ican-posts"
-               value="application/json"
+               value="multipart/form-data"
                data-component="header">
     <br>
-<p>Example: <code>application/json</code></p>
+<p>Example: <code>multipart/form-data</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
@@ -1255,7 +1431,78 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="post_title"                data-endpoint="POSTapi-ican-posts"
+               value="aqeipftrijhbiyjcbkxwjrsk"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>aqeipftrijhbiyjcbkxwjrsk</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_short_description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="post_short_description"                data-endpoint="POSTapi-ican-posts"
+               value="ygxuqbumlpepukid"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>ygxuqbumlpepukid</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_image</code></b>&nbsp;&nbsp;
+<small>file</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="file" style="display: none"
+                              name="post_image"                data-endpoint="POSTapi-ican-posts"
+               value=""
+               data-component="body">
+    <br>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>C:\Users\Ahmed Saleh\AppData\Local\Temp\phpF7CE.tmp</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_price</code></b>&nbsp;&nbsp;
+<small>number</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="post_price"                data-endpoint="POSTapi-ican-posts"
+               value="1.8656153"
+               data-component="body">
+    <br>
+<p>2MB max size. Example: <code>1.8656153</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_price_type</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="post_price_type"                data-endpoint="POSTapi-ican-posts"
+               value="hourly"
+               data-component="body">
+    <br>
+<p>Example: <code>hourly</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>fixed</code></li> <li><code>hourly</code></li></ul>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_status</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="post_status"                data-endpoint="POSTapi-ican-posts"
+               value="active"
+               data-component="body">
+    <br>
+<p>Example: <code>active</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>active</code></li> <li><code>inactive</code></li></ul>
+        </div>
+        </form>
 
                     <h2 id="endpoints-GETapi-ican-posts--id-">GET api/ican/posts/{id}</h2>
 
@@ -1270,14 +1517,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "https://i-plus.co/backend/api/ican/posts/laborum" \
+    --get "https://i-plus.co/backend/api/ican/posts/ut" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "https://i-plus.co/backend/api/ican/posts/laborum"
+    "https://i-plus.co/backend/api/ican/posts/ut"
 );
 
 const headers = {
@@ -1386,10 +1633,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-ican-posts--id-"
-               value="laborum"
+               value="ut"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>laborum</code></p>
+<p>The ID of the post. Example: <code>ut</code></p>
             </div>
                     </form>
 
@@ -1406,24 +1653,39 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "https://i-plus.co/backend/api/ican/posts/quibusdam" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    "https://i-plus.co/backend/api/ican/posts/atque" \
+    --header "Content-Type: multipart/form-data" \
+    --header "Accept: application/json" \
+    --form "post_title=obbeavm"\
+    --form "post_short_description=mb"\
+    --form "post_price=3500"\
+    --form "post_price_type=fixed"\
+    --form "post_status=active"\
+    --form "post_image=@C:\Users\Ahmed Saleh\AppData\Local\Temp\phpF7DE.tmp" </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "https://i-plus.co/backend/api/ican/posts/quibusdam"
+    "https://i-plus.co/backend/api/ican/posts/atque"
 );
 
 const headers = {
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
     "Accept": "application/json",
 };
+
+const body = new FormData();
+body.append('post_title', 'obbeavm');
+body.append('post_short_description', 'mb');
+body.append('post_price', '3500');
+body.append('post_price_type', 'fixed');
+body.append('post_status', 'active');
+body.append('post_image', document.querySelector('input[name="post_image"]').files[0]);
 
 fetch(url, {
     method: "PUT",
     headers,
+    body,
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -1448,7 +1710,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <form id="form-PUTapi-ican-posts--id-" data-method="PUT"
       data-path="api/ican/posts/{id}"
       data-authed="0"
-      data-hasfiles="0"
+      data-hasfiles="1"
       data-isarraybody="0"
       autocomplete="off"
       onsubmit="event.preventDefault(); executeTryOut('PUTapi-ican-posts--id-', this);">
@@ -1483,10 +1745,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Content-Type"                data-endpoint="PUTapi-ican-posts--id-"
-               value="application/json"
+               value="multipart/form-data"
                data-component="header">
     <br>
-<p>Example: <code>application/json</code></p>
+<p>Example: <code>multipart/form-data</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
@@ -1506,12 +1768,83 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-ican-posts--id-"
-               value="quibusdam"
+               value="atque"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>quibusdam</code></p>
+<p>The ID of the post. Example: <code>atque</code></p>
             </div>
-                    </form>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="post_title"                data-endpoint="PUTapi-ican-posts--id-"
+               value="obbeavm"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>obbeavm</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_short_description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="post_short_description"                data-endpoint="PUTapi-ican-posts--id-"
+               value="mb"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>mb</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_image</code></b>&nbsp;&nbsp;
+<small>file</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="file" style="display: none"
+                              name="post_image"                data-endpoint="PUTapi-ican-posts--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>C:\Users\Ahmed Saleh\AppData\Local\Temp\phpF7DE.tmp</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_price</code></b>&nbsp;&nbsp;
+<small>number</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="post_price"                data-endpoint="PUTapi-ican-posts--id-"
+               value="3500"
+               data-component="body">
+    <br>
+<p>Example: <code>3500</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_price_type</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="post_price_type"                data-endpoint="PUTapi-ican-posts--id-"
+               value="fixed"
+               data-component="body">
+    <br>
+<p>Example: <code>fixed</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>fixed</code></li> <li><code>hourly</code></li></ul>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_status</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="post_status"                data-endpoint="PUTapi-ican-posts--id-"
+               value="active"
+               data-component="body">
+    <br>
+<p>Example: <code>active</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>active</code></li> <li><code>inactive</code></li></ul>
+        </div>
+        </form>
 
                     <h2 id="endpoints-DELETEapi-ican-posts--id-">DELETE api/ican/posts/{id}</h2>
 
@@ -1526,14 +1859,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "https://i-plus.co/backend/api/ican/posts/non" \
+    "https://i-plus.co/backend/api/ican/posts/amet" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "https://i-plus.co/backend/api/ican/posts/non"
+    "https://i-plus.co/backend/api/ican/posts/amet"
 );
 
 const headers = {
@@ -1626,10 +1959,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-ican-posts--id-"
-               value="non"
+               value="amet"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>non</code></p>
+<p>The ID of the post. Example: <code>amet</code></p>
             </div>
                     </form>
 
@@ -1771,8 +2104,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
     "https://i-plus.co/backend/api/ineed/posts" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Content-Type: multipart/form-data" \
+    --header "Accept: application/json" \
+    --form "post_title=lbbbqwjnsdzdbl"\
+    --form "post_short_description=sgphbisodviazakkpjl"\
+    --form "post_price=16.595938692"\
+    --form "post_price_type=fixed"\
+    --form "post_status=inactive"\
+    --form "post_image=@C:\Users\Ahmed Saleh\AppData\Local\Temp\phpF7EF.tmp" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -1781,13 +2120,22 @@ You can check the Dev Tools console for debugging information.</code></pre>
 );
 
 const headers = {
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
     "Accept": "application/json",
 };
+
+const body = new FormData();
+body.append('post_title', 'lbbbqwjnsdzdbl');
+body.append('post_short_description', 'sgphbisodviazakkpjl');
+body.append('post_price', '16.595938692');
+body.append('post_price_type', 'fixed');
+body.append('post_status', 'inactive');
+body.append('post_image', document.querySelector('input[name="post_image"]').files[0]);
 
 fetch(url, {
     method: "POST",
     headers,
+    body,
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -1812,7 +2160,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <form id="form-POSTapi-ineed-posts" data-method="POST"
       data-path="api/ineed/posts"
       data-authed="0"
-      data-hasfiles="0"
+      data-hasfiles="1"
       data-isarraybody="0"
       autocomplete="off"
       onsubmit="event.preventDefault(); executeTryOut('POSTapi-ineed-posts', this);">
@@ -1847,10 +2195,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Content-Type"                data-endpoint="POSTapi-ineed-posts"
-               value="application/json"
+               value="multipart/form-data"
                data-component="header">
     <br>
-<p>Example: <code>application/json</code></p>
+<p>Example: <code>multipart/form-data</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
@@ -1863,7 +2211,78 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="post_title"                data-endpoint="POSTapi-ineed-posts"
+               value="lbbbqwjnsdzdbl"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>lbbbqwjnsdzdbl</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_short_description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="post_short_description"                data-endpoint="POSTapi-ineed-posts"
+               value="sgphbisodviazakkpjl"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>sgphbisodviazakkpjl</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_image</code></b>&nbsp;&nbsp;
+<small>file</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="file" style="display: none"
+                              name="post_image"                data-endpoint="POSTapi-ineed-posts"
+               value=""
+               data-component="body">
+    <br>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>C:\Users\Ahmed Saleh\AppData\Local\Temp\phpF7EF.tmp</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_price</code></b>&nbsp;&nbsp;
+<small>number</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="post_price"                data-endpoint="POSTapi-ineed-posts"
+               value="16.595938692"
+               data-component="body">
+    <br>
+<p>2MB max size. Example: <code>16.595938692</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_price_type</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="post_price_type"                data-endpoint="POSTapi-ineed-posts"
+               value="fixed"
+               data-component="body">
+    <br>
+<p>Example: <code>fixed</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>fixed</code></li> <li><code>hourly</code></li></ul>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_status</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="post_status"                data-endpoint="POSTapi-ineed-posts"
+               value="inactive"
+               data-component="body">
+    <br>
+<p>Example: <code>inactive</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>active</code></li> <li><code>inactive</code></li></ul>
+        </div>
+        </form>
 
                     <h2 id="endpoints-GETapi-ineed-posts--id-">GET api/ineed/posts/{id}</h2>
 
@@ -1878,14 +2297,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "https://i-plus.co/backend/api/ineed/posts/qui" \
+    --get "https://i-plus.co/backend/api/ineed/posts/ut" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "https://i-plus.co/backend/api/ineed/posts/qui"
+    "https://i-plus.co/backend/api/ineed/posts/ut"
 );
 
 const headers = {
@@ -1994,10 +2413,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-ineed-posts--id-"
-               value="qui"
+               value="ut"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>qui</code></p>
+<p>The ID of the post. Example: <code>ut</code></p>
             </div>
                     </form>
 
@@ -2014,24 +2433,39 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "https://i-plus.co/backend/api/ineed/posts/aut" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    "https://i-plus.co/backend/api/ineed/posts/iusto" \
+    --header "Content-Type: multipart/form-data" \
+    --header "Accept: application/json" \
+    --form "post_title=ltq"\
+    --form "post_short_description=rfadm"\
+    --form "post_price=710509965.74"\
+    --form "post_price_type=hourly"\
+    --form "post_status=inactive"\
+    --form "post_image=@C:\Users\Ahmed Saleh\AppData\Local\Temp\phpF7F0.tmp" </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "https://i-plus.co/backend/api/ineed/posts/aut"
+    "https://i-plus.co/backend/api/ineed/posts/iusto"
 );
 
 const headers = {
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
     "Accept": "application/json",
 };
+
+const body = new FormData();
+body.append('post_title', 'ltq');
+body.append('post_short_description', 'rfadm');
+body.append('post_price', '710509965.74');
+body.append('post_price_type', 'hourly');
+body.append('post_status', 'inactive');
+body.append('post_image', document.querySelector('input[name="post_image"]').files[0]);
 
 fetch(url, {
     method: "PUT",
     headers,
+    body,
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -2056,7 +2490,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <form id="form-PUTapi-ineed-posts--id-" data-method="PUT"
       data-path="api/ineed/posts/{id}"
       data-authed="0"
-      data-hasfiles="0"
+      data-hasfiles="1"
       data-isarraybody="0"
       autocomplete="off"
       onsubmit="event.preventDefault(); executeTryOut('PUTapi-ineed-posts--id-', this);">
@@ -2091,10 +2525,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="Content-Type"                data-endpoint="PUTapi-ineed-posts--id-"
-               value="application/json"
+               value="multipart/form-data"
                data-component="header">
     <br>
-<p>Example: <code>application/json</code></p>
+<p>Example: <code>multipart/form-data</code></p>
             </div>
                                 <div style="padding-left: 28px; clear: unset;">
                 <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
@@ -2114,12 +2548,83 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-ineed-posts--id-"
-               value="aut"
+               value="iusto"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>aut</code></p>
+<p>The ID of the post. Example: <code>iusto</code></p>
             </div>
-                    </form>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_title</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="post_title"                data-endpoint="PUTapi-ineed-posts--id-"
+               value="ltq"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>ltq</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_short_description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="post_short_description"                data-endpoint="PUTapi-ineed-posts--id-"
+               value="rfadm"
+               data-component="body">
+    <br>
+<p>Must not be greater than 255 characters. Example: <code>rfadm</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_image</code></b>&nbsp;&nbsp;
+<small>file</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="file" style="display: none"
+                              name="post_image"                data-endpoint="PUTapi-ineed-posts--id-"
+               value=""
+               data-component="body">
+    <br>
+<p>Must be an image. Must not be greater than 2048 kilobytes. Example: <code>C:\Users\Ahmed Saleh\AppData\Local\Temp\phpF7F0.tmp</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_price</code></b>&nbsp;&nbsp;
+<small>number</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="post_price"                data-endpoint="PUTapi-ineed-posts--id-"
+               value="710509965.74"
+               data-component="body">
+    <br>
+<p>Example: <code>710509965.74</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_price_type</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="post_price_type"                data-endpoint="PUTapi-ineed-posts--id-"
+               value="hourly"
+               data-component="body">
+    <br>
+<p>Example: <code>hourly</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>fixed</code></li> <li><code>hourly</code></li></ul>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>post_status</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+                <input type="text" style="display: none"
+                              name="post_status"                data-endpoint="PUTapi-ineed-posts--id-"
+               value="inactive"
+               data-component="body">
+    <br>
+<p>Example: <code>inactive</code></p>
+Must be one of:
+<ul style="list-style-type: square;"><li><code>active</code></li> <li><code>inactive</code></li></ul>
+        </div>
+        </form>
 
                     <h2 id="endpoints-DELETEapi-ineed-posts--id-">DELETE api/ineed/posts/{id}</h2>
 
@@ -2134,14 +2639,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "https://i-plus.co/backend/api/ineed/posts/voluptatem" \
+    "https://i-plus.co/backend/api/ineed/posts/et" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "https://i-plus.co/backend/api/ineed/posts/voluptatem"
+    "https://i-plus.co/backend/api/ineed/posts/et"
 );
 
 const headers = {
@@ -2234,10 +2739,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-ineed-posts--id-"
-               value="voluptatem"
+               value="et"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>voluptatem</code></p>
+<p>The ID of the post. Example: <code>et</code></p>
             </div>
                     </form>
 
