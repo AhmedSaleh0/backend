@@ -173,13 +173,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: asperiores
+        example: quibusdam
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: asperiores
+      id: quibusdam
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -222,13 +222,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: possimus
+        example: voluptatem
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: possimus
+      id: voluptatem
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -262,13 +262,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: voluptas
+        example: fugit
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: voluptas
+      id: fugit
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -371,13 +371,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: a
+        example: laborum
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: a
+      id: laborum
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -420,13 +420,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: quas
+        example: quibusdam
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: quas
+      id: quibusdam
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -460,13 +460,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: odit
+        example: non
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: odit
+      id: non
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -618,13 +618,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: quia
+        example: aut
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: quia
+      id: aut
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -658,13 +658,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: eos
+        example: voluptatem
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: eos
+      id: voluptatem
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []

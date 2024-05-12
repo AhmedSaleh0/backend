@@ -1,11 +1,11 @@
 openapi: 3.0.3
 info:
-  title: IPLUS
+  title: 'I-plus API documentation'
   description: ''
   version: 1.0.0
 servers:
   -
-    url: 'http://localhost'
+    url: 'https://i-plus.co/backend'
 paths:
   /api/auth/login:
     post:
@@ -121,7 +121,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: asperiores
+        example: quibusdam
         required: true
         schema:
           type: string
@@ -201,7 +201,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: a
+        example: laborum
         required: true
         schema:
           type: string

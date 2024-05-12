@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>IPLUS Documentation</title>
+    <title>I-plus API documentation</title>
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
@@ -26,7 +26,7 @@
             </style>
 
     <script>
-        var tryItOutBaseUrl = "http://localhost";
+        var tryItOutBaseUrl = "https://i-plus.co/backend/";
         var useCsrf = Boolean();
         var csrfUrl = "/sanctum/csrf-cookie";
     </script>
@@ -154,7 +154,7 @@
     <div class="content">
         <h1 id="introduction">Introduction</h1>
 <aside>
-    <strong>Base URL</strong>: <code>http://localhost</code>
+    <strong>Base URL</strong>: <code>https://i-plus.co/backend/</code>
 </aside>
 <p>This documentation aims to provide all the information you need to work with our API.</p>
 <aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
@@ -180,7 +180,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/auth/login" \
+    "https://i-plus.co/backend/api/auth/login" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -192,7 +192,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/auth/login"
+    "https://i-plus.co/backend/api/auth/login"
 );
 
 const headers = {
@@ -322,14 +322,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/auth/logout" \
+    "https://i-plus.co/backend/api/auth/logout" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/auth/logout"
+    "https://i-plus.co/backend/api/auth/logout"
 );
 
 const headers = {
@@ -430,14 +430,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/inspire/posts" \
+    --get "https://i-plus.co/backend/api/inspire/posts" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/inspire/posts"
+    "https://i-plus.co/backend/api/inspire/posts"
 );
 
 const headers = {
@@ -554,14 +554,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/inspire/posts" \
+    "https://i-plus.co/backend/api/inspire/posts" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/inspire/posts"
+    "https://i-plus.co/backend/api/inspire/posts"
 );
 
 const headers = {
@@ -662,14 +662,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/inspire/posts/asperiores" \
+    --get "https://i-plus.co/backend/api/inspire/posts/quibusdam" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/inspire/posts/asperiores"
+    "https://i-plus.co/backend/api/inspire/posts/quibusdam"
 );
 
 const headers = {
@@ -778,10 +778,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-inspire-posts--id-"
-               value="asperiores"
+               value="quibusdam"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>asperiores</code></p>
+<p>The ID of the post. Example: <code>quibusdam</code></p>
             </div>
                     </form>
 
@@ -798,14 +798,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/api/inspire/posts/possimus" \
+    "https://i-plus.co/backend/api/inspire/posts/voluptatem" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/inspire/posts/possimus"
+    "https://i-plus.co/backend/api/inspire/posts/voluptatem"
 );
 
 const headers = {
@@ -898,10 +898,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-inspire-posts--id-"
-               value="possimus"
+               value="voluptatem"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>possimus</code></p>
+<p>The ID of the post. Example: <code>voluptatem</code></p>
             </div>
                     </form>
 
@@ -918,14 +918,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/api/inspire/posts/voluptas" \
+    "https://i-plus.co/backend/api/inspire/posts/fugit" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/inspire/posts/voluptas"
+    "https://i-plus.co/backend/api/inspire/posts/fugit"
 );
 
 const headers = {
@@ -1018,10 +1018,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-inspire-posts--id-"
-               value="voluptas"
+               value="fugit"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>voluptas</code></p>
+<p>The ID of the post. Example: <code>fugit</code></p>
             </div>
                     </form>
 
@@ -1038,14 +1038,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/ican/posts" \
+    --get "https://i-plus.co/backend/api/ican/posts" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/ican/posts"
+    "https://i-plus.co/backend/api/ican/posts"
 );
 
 const headers = {
@@ -1162,14 +1162,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/ican/posts" \
+    "https://i-plus.co/backend/api/ican/posts" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/ican/posts"
+    "https://i-plus.co/backend/api/ican/posts"
 );
 
 const headers = {
@@ -1270,14 +1270,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/ican/posts/a" \
+    --get "https://i-plus.co/backend/api/ican/posts/laborum" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/ican/posts/a"
+    "https://i-plus.co/backend/api/ican/posts/laborum"
 );
 
 const headers = {
@@ -1386,10 +1386,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-ican-posts--id-"
-               value="a"
+               value="laborum"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>a</code></p>
+<p>The ID of the post. Example: <code>laborum</code></p>
             </div>
                     </form>
 
@@ -1406,14 +1406,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/api/ican/posts/quas" \
+    "https://i-plus.co/backend/api/ican/posts/quibusdam" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/ican/posts/quas"
+    "https://i-plus.co/backend/api/ican/posts/quibusdam"
 );
 
 const headers = {
@@ -1506,10 +1506,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-ican-posts--id-"
-               value="quas"
+               value="quibusdam"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>quas</code></p>
+<p>The ID of the post. Example: <code>quibusdam</code></p>
             </div>
                     </form>
 
@@ -1526,14 +1526,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/api/ican/posts/odit" \
+    "https://i-plus.co/backend/api/ican/posts/non" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/ican/posts/odit"
+    "https://i-plus.co/backend/api/ican/posts/non"
 );
 
 const headers = {
@@ -1626,10 +1626,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-ican-posts--id-"
-               value="odit"
+               value="non"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>odit</code></p>
+<p>The ID of the post. Example: <code>non</code></p>
             </div>
                     </form>
 
@@ -1646,14 +1646,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/ineed/posts" \
+    --get "https://i-plus.co/backend/api/ineed/posts" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/ineed/posts"
+    "https://i-plus.co/backend/api/ineed/posts"
 );
 
 const headers = {
@@ -1770,14 +1770,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/ineed/posts" \
+    "https://i-plus.co/backend/api/ineed/posts" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/ineed/posts"
+    "https://i-plus.co/backend/api/ineed/posts"
 );
 
 const headers = {
@@ -1878,14 +1878,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/ineed/posts/qui" \
+    --get "https://i-plus.co/backend/api/ineed/posts/qui" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/ineed/posts/qui"
+    "https://i-plus.co/backend/api/ineed/posts/qui"
 );
 
 const headers = {
@@ -2014,14 +2014,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/api/ineed/posts/quia" \
+    "https://i-plus.co/backend/api/ineed/posts/aut" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/ineed/posts/quia"
+    "https://i-plus.co/backend/api/ineed/posts/aut"
 );
 
 const headers = {
@@ -2114,10 +2114,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-ineed-posts--id-"
-               value="quia"
+               value="aut"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>quia</code></p>
+<p>The ID of the post. Example: <code>aut</code></p>
             </div>
                     </form>
 
@@ -2134,14 +2134,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/api/ineed/posts/eos" \
+    "https://i-plus.co/backend/api/ineed/posts/voluptatem" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/ineed/posts/eos"
+    "https://i-plus.co/backend/api/ineed/posts/voluptatem"
 );
 
 const headers = {
@@ -2234,10 +2234,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-ineed-posts--id-"
-               value="eos"
+               value="voluptatem"
                data-component="url">
     <br>
-<p>The ID of the post. Example: <code>eos</code></p>
+<p>The ID of the post. Example: <code>voluptatem</code></p>
             </div>
                     </form>
 
@@ -2254,14 +2254,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/api/credits" \
+    --get "https://i-plus.co/backend/api/credits" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/credits"
+    "https://i-plus.co/backend/api/credits"
 );
 
 const headers = {
@@ -2378,14 +2378,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/credits/add" \
+    "https://i-plus.co/backend/api/credits/add" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/credits/add"
+    "https://i-plus.co/backend/api/credits/add"
 );
 
 const headers = {
@@ -2486,14 +2486,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/credits/deduct" \
+    "https://i-plus.co/backend/api/credits/deduct" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/credits/deduct"
+    "https://i-plus.co/backend/api/credits/deduct"
 );
 
 const headers = {
@@ -2594,14 +2594,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/api/credits/purchase" \
+    "https://i-plus.co/backend/api/credits/purchase" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/api/credits/purchase"
+    "https://i-plus.co/backend/api/credits/purchase"
 );
 
 const headers = {

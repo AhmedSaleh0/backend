@@ -5,12 +5,12 @@
             "key": "baseUrl",
             "type": "string",
             "name": "string",
-            "value": "http:\/\/localhost"
+            "value": "https:\/\/i-plus.co\/backend\/"
         }
     ],
     "info": {
-        "name": "IPLUS",
-        "_postman_id": "9eb09727-4b2a-4c24-bf1e-581d3232537e",
+        "name": "I-plus API documentation",
+        "_postman_id": "821d005e-d981-450b-9ce4-33b567901601",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -166,7 +166,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "asperiores",
+                                    "value": "quibusdam",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -222,7 +222,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "possimus",
+                                    "value": "voluptatem",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -258,7 +258,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "voluptas",
+                                    "value": "fugit",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -370,7 +370,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "a",
+                                    "value": "laborum",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -426,7 +426,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quas",
+                                    "value": "quibusdam",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -462,7 +462,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "odit",
+                                    "value": "non",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -630,7 +630,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "quia",
+                                    "value": "aut",
                                     "description": "The ID of the post."
                                 }
                             ]
@@ -666,7 +666,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "eos",
+                                    "value": "voluptatem",
                                     "description": "The ID of the post."
                                 }
                             ]
