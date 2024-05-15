@@ -23,11 +23,11 @@ class User extends Authenticatable
         'username',
         'password',
         'first_name',
-        'last_name', 
-        'email', 
-        'phone', 
-        'country', 
-        'birthdate', 
+        'last_name',
+        'email',
+        'phone',
+        'country',
+        'birthdate',
         'bio'
     ];
 
@@ -55,8 +55,11 @@ class User extends Authenticatable
     }
 
     public function images()
-{
-    return $this->hasMany(UserImage::class);
-}
-
+    {
+        return $this->hasMany(UserImage::class);
+    }
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'user_skills');
+    }
 }
