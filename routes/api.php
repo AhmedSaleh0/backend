@@ -19,6 +19,18 @@ Route::prefix('auth')->group(function () {
     Route::post('/change-password', [AuthController::class, 'changePassword']);
 });
 
+// User Images Routes
+Route::prefix('user-images')->middleware('auth:api')->group(function () {
+    Route::get('/', [UserImageController::class, 'index']);
+    Route::post('/', [UserImageController::class, 'store']);
+    Route::get('/{user_image}', [UserImageController::class, 'show']);
+    Route::put('/{user_image}', [UserImageController::class, 'update']);
+    Route::delete('/{user_image}', [UserImageController::class, 'destroy']);
+});
+
+// User Skills Routes
+Route::apiResource('user-skills', UserSkillController::class);
+
 // Inspire Routes
 Route::prefix('inspire')->middleware('auth:api')->group(function () {
     Route::get('/posts', [InspireController::class, 'index']);
@@ -54,19 +66,6 @@ Route::prefix('credits')->middleware('auth:api')->group(function () {
     Route::post('/purchase', [CreditsController::class, 'purchaseCredits']);
 });
 
-// User Images Routes
-Route::prefix('user-images')->middleware('auth:api')->group(function () {
-    Route::get('/', [UserImageController::class, 'index']);
-    Route::post('/', [UserImageController::class, 'store']);
-    Route::get('/{user_image}', [UserImageController::class, 'show']);
-    Route::put('/{user_image}', [UserImageController::class, 'update']);
-    Route::delete('/{user_image}', [UserImageController::class, 'destroy']);
-});
 
 // Skills Routes
 Route::apiResource('skills', SkillController::class)->middleware('auth:api');
-
-// User Skills Routes
-Route::apiResource('user-skills', UserSkillController::class);
-
- 
