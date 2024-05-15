@@ -52,20 +52,23 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|email',
+            'login' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
+        $field = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        if (Auth::attempt([$field => $request->login, 'password' => $request->password])) {
             $user = Auth::user();
             $token = $user->createToken('Personal Access Token')->accessToken;
             return response()->json(['token' => $token], 200);
         }
 
         throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
+            'login' => ['The provided credentials are incorrect.'],
         ]);
     }
+
 
     /**
      * Logout user (Revoke the token).
