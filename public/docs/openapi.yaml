@@ -61,17 +61,22 @@ paths:
             schema:
               type: object
               properties:
-                email:
+                login:
                   type: string
-                  description: 'The email of the user.'
-                  example: john@example.com
+                  description: ''
+                  example: nam
                 password:
                   type: string
                   description: 'The password.'
                   example: pass1234
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: john@example.com
               required:
-                - email
+                - login
                 - password
+                - email
       security: []
   /api/auth/logout:
     post:
@@ -102,7 +107,7 @@ paths:
                 email:
                   type: string
                   description: 'The email of the user who is requesting a password reset.'
-                  example: estelle53@example.com
+                  example: usatterfield@example.org
               required:
                 - email
       security: []
@@ -125,15 +130,15 @@ paths:
                 current_password:
                   type: string
                   description: 'The current password of the user.'
-                  example: odio
+                  example: quis
                 new_password:
                   type: string
                   description: 'The new password to set.'
-                  example: et
+                  example: est
                 new_password_confirmation:
                   type: string
                   description: 'Confirmation of the new password.'
-                  example: id
+                  example: et
               required:
                 - current_password
                 - new_password
@@ -801,23 +806,23 @@ paths:
                 title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: epxpuyugdzcj
+                  example: exesnwytcadlslxttnll
                 content:
                   type: string
                   description: ''
-                  example: voluptate
+                  example: accusamus
                 video_url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://connelly.com/'
+                  example: 'http://volkman.biz/'
                 category:
                   type: string
                   description: ''
-                  example: doloremque
+                  example: iste
                 sub_category:
                   type: string
                   description: ''
-                  example: repellendus
+                  example: id
               required:
                 - title
                 - content
@@ -838,7 +843,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route backend/api/inspire/posts/rem could not be found.'
+                  message: 'The route backend/api/inspire/posts/iste could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -1140,7 +1145,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route backend/api/inspire/posts/rem could not be found.'
+                    example: 'The route backend/api/inspire/posts/iste could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -1486,27 +1491,27 @@ paths:
                 title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ku
+                  example: twxmgxazngldqwi
                 content:
                   type: string
                   description: ''
-                  example: et
+                  example: ducimus
                 video_url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://www.vonrueden.com/earum-asperiores-minima-cupiditate-tempore-minus-accusamus.html'
+                  example: 'http://herman.com/enim-at-sed-qui-sit-praesentium-ut'
                 category:
                   type: string
                   description: ''
-                  example: voluptatibus
+                  example: quasi
                 sub_category:
                   type: string
                   description: ''
-                  example: ipsam
+                  example: vel
                 status:
                   type: string
                   description: ''
-                  example: active
+                  example: inactive
                   enum:
                     - active
                     - inactive
@@ -1525,7 +1530,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: rem
+        example: iste
         required: true
         schema:
           type: string
@@ -2191,11 +2196,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: k
+                  example: bfsr
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: rbwjxlxgn
+                  example: lycmbmlttcubygbrxxrblaw
                 post_image:
                   type: string
                   format: binary
@@ -2203,18 +2208,18 @@ paths:
                 post_price:
                   type: number
                   description: '2MB max size.'
-                  example: 244392.95561
+                  example: 2379.0
                 post_price_type:
                   type: string
                   description: ''
-                  example: hourly
+                  example: fixed
                   enum:
                     - fixed
                     - hourly
                 post_status:
                   type: string
                   description: ''
-                  example: active
+                  example: inactive
                   enum:
                     - active
                     - inactive
@@ -2239,7 +2244,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route backend/api/ican/posts/numquam could not be found.'
+                  message: 'The route backend/api/ican/posts/necessitatibus could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -2541,7 +2546,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route backend/api/ican/posts/numquam could not be found.'
+                    example: 'The route backend/api/ican/posts/necessitatibus could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -2887,11 +2892,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: rdiajrbenywsggmcfpgmtl
+                  example: rucvayjhdfvnrcdk
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: wcybbitdjdvrwlcem
+                  example: kfrmdepgl
                 post_image:
                   type: string
                   format: binary
@@ -2899,7 +2904,7 @@ paths:
                 post_price:
                   type: number
                   description: ''
-                  example: 364387.0
+                  example: 6.655
                 post_price_type:
                   type: string
                   description: ''
@@ -2929,7 +2934,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: numquam
+        example: necessitatibus
         required: true
         schema:
           type: string
@@ -3595,11 +3600,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: vcupjknvryvyg
+                  example: cmfdgheldgmbeaojmdwuoqdyj
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: xwnfbpvcgndcqxdoqj
+                  example: dmrzapou
                 post_image:
                   type: string
                   format: binary
@@ -3607,11 +3612,11 @@ paths:
                 post_price:
                   type: number
                   description: '2MB max size.'
-                  example: 2485140.43
+                  example: 129566420.1
                 post_price_type:
                   type: string
                   description: ''
-                  example: fixed
+                  example: hourly
                   enum:
                     - fixed
                     - hourly
@@ -3643,7 +3648,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route backend/api/ineed/posts/sint could not be found.'
+                  message: 'The route backend/api/ineed/posts/tempore could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -3945,7 +3950,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route backend/api/ineed/posts/sint could not be found.'
+                    example: 'The route backend/api/ineed/posts/tempore could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -4291,11 +4296,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: udkcxgwdurksubinbcqwuci
+                  example: lppa
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: fpekrneladoftanjq
+                  example: sixhixqhl
                 post_image:
                   type: string
                   format: binary
@@ -4303,7 +4308,7 @@ paths:
                 post_price:
                   type: number
                   description: ''
-                  example: 180459915.0
+                  example: 330111659.33442
                 post_price_type:
                   type: string
                   description: ''
@@ -4314,7 +4319,7 @@ paths:
                 post_status:
                   type: string
                   description: ''
-                  example: inactive
+                  example: active
                   enum:
                     - active
                     - inactive
@@ -4333,7 +4338,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: sint
+        example: tempore
         required: true
         schema:
           type: string

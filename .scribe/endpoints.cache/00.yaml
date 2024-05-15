@@ -94,14 +94,14 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      email:
-        name: email
-        description: 'The email of the user.'
+      login:
+        name: login
+        description: ''
         required: true
-        example: john@example.com
+        example: nam
         type: string
         enumValues: []
-        exampleWasSpecified: true
+        exampleWasSpecified: false
         custom: []
       password:
         name: password
@@ -112,9 +112,19 @@ endpoints:
         enumValues: []
         exampleWasSpecified: true
         custom: []
+      email:
+        name: email
+        description: 'The email of the user.'
+        required: true
+        example: john@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
     cleanBodyParameters:
-      email: john@example.com
+      login: nam
       password: pass1234
+      email: john@example.com
     fileParameters: []
     responses: []
     responseFields: []
@@ -178,13 +188,13 @@ endpoints:
         name: email
         description: 'The email of the user who is requesting a password reset.'
         required: true
-        example: estelle53@example.com
+        example: usatterfield@example.org
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      email: estelle53@example.com
+      email: usatterfield@example.org
     fileParameters: []
     responses: []
     responseFields: []
@@ -218,7 +228,7 @@ endpoints:
         name: current_password
         description: 'The current password of the user.'
         required: true
-        example: odio
+        example: quis
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -227,7 +237,7 @@ endpoints:
         name: new_password
         description: 'The new password to set.'
         required: true
-        example: et
+        example: est
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -236,15 +246,15 @@ endpoints:
         name: new_password_confirmation
         description: 'Confirmation of the new password.'
         required: true
-        example: id
+        example: et
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      current_password: odio
-      new_password: et
-      new_password_confirmation: id
+      current_password: quis
+      new_password: est
+      new_password_confirmation: et
     fileParameters: []
     responses: []
     responseFields: []
@@ -667,7 +677,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: epxpuyugdzcj
+        example: exesnwytcadlslxttnll
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -676,7 +686,7 @@ endpoints:
         name: content
         description: ''
         required: true
-        example: voluptate
+        example: accusamus
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -685,7 +695,7 @@ endpoints:
         name: video_url
         description: 'Must be a valid URL.'
         required: false
-        example: 'http://connelly.com/'
+        example: 'http://volkman.biz/'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -694,7 +704,7 @@ endpoints:
         name: category
         description: ''
         required: true
-        example: doloremque
+        example: iste
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -703,17 +713,17 @@ endpoints:
         name: sub_category
         description: ''
         required: true
-        example: repellendus
+        example: id
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: epxpuyugdzcj
-      content: voluptate
-      video_url: 'http://connelly.com/'
-      category: doloremque
-      sub_category: repellendus
+      title: exesnwytcadlslxttnll
+      content: accusamus
+      video_url: 'http://volkman.biz/'
+      category: iste
+      sub_category: id
     fileParameters: []
     responses: []
     responseFields: []
@@ -743,13 +753,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: rem
+        example: iste
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: rem
+      id: iste
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -760,7 +770,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "The route backend/api/inspire/posts/rem could not be found.",
+              "message": "The route backend/api/inspire/posts/iste could not be found.",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\MAMP\\htdocs\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\AbstractRouteCollection.php",
               "line": 44,
@@ -1142,13 +1152,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: et
+        example: perspiciatis
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: et
+      id: perspiciatis
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1156,7 +1166,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: ku
+        example: twxmgxazngldqwi
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1165,7 +1175,7 @@ endpoints:
         name: content
         description: ''
         required: false
-        example: et
+        example: ducimus
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1174,7 +1184,7 @@ endpoints:
         name: video_url
         description: 'Must be a valid URL.'
         required: false
-        example: 'http://www.vonrueden.com/earum-asperiores-minima-cupiditate-tempore-minus-accusamus.html'
+        example: 'http://herman.com/enim-at-sed-qui-sit-praesentium-ut'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1183,7 +1193,7 @@ endpoints:
         name: category
         description: ''
         required: false
-        example: voluptatibus
+        example: quasi
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1192,7 +1202,7 @@ endpoints:
         name: sub_category
         description: ''
         required: false
-        example: ipsam
+        example: vel
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1201,7 +1211,7 @@ endpoints:
         name: status
         description: ''
         required: false
-        example: active
+        example: inactive
         type: string
         enumValues:
           - active
@@ -1209,12 +1219,12 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: ku
-      content: et
-      video_url: 'http://www.vonrueden.com/earum-asperiores-minima-cupiditate-tempore-minus-accusamus.html'
-      category: voluptatibus
-      sub_category: ipsam
-      status: active
+      title: twxmgxazngldqwi
+      content: ducimus
+      video_url: 'http://herman.com/enim-at-sed-qui-sit-praesentium-ut'
+      category: quasi
+      sub_category: vel
+      status: inactive
     fileParameters: []
     responses: []
     responseFields: []
@@ -1244,13 +1254,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: repellendus
+        example: assumenda
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: repellendus
+      id: assumenda
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1677,7 +1687,7 @@ endpoints:
         name: post_title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: k
+        example: bfsr
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1686,7 +1696,7 @@ endpoints:
         name: post_short_description
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: rbwjxlxgn
+        example: lycmbmlttcubygbrxxrblaw
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1704,7 +1714,7 @@ endpoints:
         name: post_price
         description: '2MB max size.'
         required: true
-        example: 244392.95561
+        example: 2379.0
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -1713,7 +1723,7 @@ endpoints:
         name: post_price_type
         description: ''
         required: true
-        example: hourly
+        example: fixed
         type: string
         enumValues:
           - fixed
@@ -1724,7 +1734,7 @@ endpoints:
         name: post_status
         description: ''
         required: true
-        example: active
+        example: inactive
         type: string
         enumValues:
           - active
@@ -1732,11 +1742,11 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      post_title: k
-      post_short_description: rbwjxlxgn
-      post_price: 244392.95561
-      post_price_type: hourly
-      post_status: active
+      post_title: bfsr
+      post_short_description: lycmbmlttcubygbrxxrblaw
+      post_price: 2379.0
+      post_price_type: fixed
+      post_status: inactive
     fileParameters:
       post_image: null
     responses: []
@@ -1767,13 +1777,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: numquam
+        example: necessitatibus
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: numquam
+      id: necessitatibus
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1784,7 +1794,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "The route backend/api/ican/posts/numquam could not be found.",
+              "message": "The route backend/api/ican/posts/necessitatibus could not be found.",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\MAMP\\htdocs\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\AbstractRouteCollection.php",
               "line": 44,
@@ -2166,13 +2176,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: repellat
+        example: hic
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: repellat
+      id: hic
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -2180,7 +2190,7 @@ endpoints:
         name: post_title
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: rdiajrbenywsggmcfpgmtl
+        example: rucvayjhdfvnrcdk
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -2189,7 +2199,7 @@ endpoints:
         name: post_short_description
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: wcybbitdjdvrwlcem
+        example: kfrmdepgl
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -2207,7 +2217,7 @@ endpoints:
         name: post_price
         description: ''
         required: false
-        example: 364387.0
+        example: 6.655
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -2235,9 +2245,9 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      post_title: rdiajrbenywsggmcfpgmtl
-      post_short_description: wcybbitdjdvrwlcem
-      post_price: 364387.0
+      post_title: rucvayjhdfvnrcdk
+      post_short_description: kfrmdepgl
+      post_price: 6.655
       post_price_type: hourly
       post_status: inactive
     fileParameters:
@@ -2270,13 +2280,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: necessitatibus
+        example: nisi
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: necessitatibus
+      id: nisi
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2703,7 +2713,7 @@ endpoints:
         name: post_title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: vcupjknvryvyg
+        example: cmfdgheldgmbeaojmdwuoqdyj
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -2712,7 +2722,7 @@ endpoints:
         name: post_short_description
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: xwnfbpvcgndcqxdoqj
+        example: dmrzapou
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -2730,7 +2740,7 @@ endpoints:
         name: post_price
         description: '2MB max size.'
         required: true
-        example: 2485140.43
+        example: 129566420.1
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -2739,7 +2749,7 @@ endpoints:
         name: post_price_type
         description: ''
         required: true
-        example: fixed
+        example: hourly
         type: string
         enumValues:
           - fixed
@@ -2758,10 +2768,10 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      post_title: vcupjknvryvyg
-      post_short_description: xwnfbpvcgndcqxdoqj
-      post_price: 2485140.43
-      post_price_type: fixed
+      post_title: cmfdgheldgmbeaojmdwuoqdyj
+      post_short_description: dmrzapou
+      post_price: 129566420.1
+      post_price_type: hourly
       post_status: inactive
     fileParameters:
       post_image: null
@@ -2793,13 +2803,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: sint
+        example: tempore
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: sint
+      id: tempore
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2810,7 +2820,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "The route backend/api/ineed/posts/sint could not be found.",
+              "message": "The route backend/api/ineed/posts/tempore could not be found.",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\MAMP\\htdocs\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\AbstractRouteCollection.php",
               "line": 44,
@@ -3192,13 +3202,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: autem
+        example: quia
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: autem
+      id: quia
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -3206,7 +3216,7 @@ endpoints:
         name: post_title
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: udkcxgwdurksubinbcqwuci
+        example: lppa
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -3215,7 +3225,7 @@ endpoints:
         name: post_short_description
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: fpekrneladoftanjq
+        example: sixhixqhl
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -3233,7 +3243,7 @@ endpoints:
         name: post_price
         description: ''
         required: false
-        example: 180459915.0
+        example: 330111659.33442
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -3253,7 +3263,7 @@ endpoints:
         name: post_status
         description: ''
         required: false
-        example: inactive
+        example: active
         type: string
         enumValues:
           - active
@@ -3261,11 +3271,11 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      post_title: udkcxgwdurksubinbcqwuci
-      post_short_description: fpekrneladoftanjq
-      post_price: 180459915.0
+      post_title: lppa
+      post_short_description: sixhixqhl
+      post_price: 330111659.33442
       post_price_type: hourly
-      post_status: inactive
+      post_status: active
     fileParameters:
       post_image: null
     responses: []
@@ -3296,13 +3306,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: aut
+        example: id
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: aut
+      id: id
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
