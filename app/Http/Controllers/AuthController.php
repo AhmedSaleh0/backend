@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -17,23 +18,38 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      *
-     * @bodyParam name string required The user's full name. Example: John Doe
-     * @bodyParam email string required The user's email address. Example: john.doe@example.com
-     * @bodyParam password string required The user's password. Example: secretPassword123
-     * @bodyParam password_confirmation string required The password confirmation. Example: secretPassword123
+     * @bodyParam first_name string required The user's first name.
+     * @bodyParam last_name string required The user's last name.
+     * @bodyParam email string required The user's email address.
+     * @bodyParam password string required The user's password.
+     * @bodyParam password_confirmation string required The password confirmation.
+     * @bodyParam phone string optional The user's phone number.
+     * @bodyParam country string optional The user's country.
+     * @bodyParam birthdate date optional The user's birthdate in format day-month-year.
+     * @bodyParam bio string optional A short bio for the user.
      */
     public function signup(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'phone' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'birthdate' => 'nullable|date_format:d-m-Y',
+            'bio' => 'nullable|string|max:1000',
         ]);
 
         $user = User::create([
-            'name' => $validatedData['name'],
+            'first_name' => $validatedData['first_name'],
+            'last_name' => $validatedData['last_name'],
             'email' => $validatedData['email'],
             'password' => bcrypt($validatedData['password']),
+            'phone' => $validatedData['phone'],
+            'country' => $validatedData['country'],
+            'birthdate' => $validatedData['birthdate'] ? Carbon::createFromFormat('d-m-Y', $validatedData['birthdate'])->toDateString() : null,
+            'bio' => $validatedData['bio'],
         ]);
 
         return response()->json(['message' => 'User successfully registered', 'user' => $user], 201);

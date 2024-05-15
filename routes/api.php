@@ -6,6 +6,9 @@ use App\Http\Controllers\InspireController;
 use App\Http\Controllers\ICanController;
 use App\Http\Controllers\INeedController;
 use App\Http\Controllers\CreditsController;
+use App\Http\Controllers\UserImageController;
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\UserSkillController;
 
 // Authentication Routes
 Route::prefix('auth')->group(function () {
@@ -50,3 +53,20 @@ Route::prefix('credits')->middleware('auth:api')->group(function () {
     Route::post('/deduct', [CreditsController::class, 'deductCredits']);
     Route::post('/purchase', [CreditsController::class, 'purchaseCredits']);
 });
+
+// User Images Routes
+Route::prefix('user-images')->middleware('auth:api')->group(function () {
+    Route::get('/', [UserImageController::class, 'index']);
+    Route::post('/', [UserImageController::class, 'store']);
+    Route::get('/{user_image}', [UserImageController::class, 'show']);
+    Route::put('/{user_image}', [UserImageController::class, 'update']);
+    Route::delete('/{user_image}', [UserImageController::class, 'destroy']);
+});
+
+// Skills Routes
+Route::apiResource('skills', SkillController::class)->middleware('auth:api');
+
+// User Skills Routes
+Route::apiResource('user-skills', UserSkillController::class);
+
+ 
