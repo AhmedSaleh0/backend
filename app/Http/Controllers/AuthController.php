@@ -15,6 +15,8 @@ class AuthController extends Controller
     /**
      * Register a new user.
      *
+     * @unauthenticated
+     * 
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      *
@@ -49,6 +51,8 @@ class AuthController extends Controller
 
     /**
      * Login user and create token.
+     * 
+     * @unauthenticated
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
