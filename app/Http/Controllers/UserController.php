@@ -14,7 +14,6 @@ class UserController extends Controller
      * Update user details.
      *
      * @param Request $request
-     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      *
      * @bodyParam first_name string optional The user's first name.
@@ -25,9 +24,9 @@ class UserController extends Controller
      * @bodyParam birthdate date optional The user's birthdate in format day-month-year.
      * @bodyParam bio string optional A short bio for the user.
      */
-    public function updateUser(Request $request, $id)
+    public function updateUser(Request $request)
     {
-        $user = User::findOrFail($id);
+        $user = Auth::user();
 
         $validatedData = $request->validate([
             'first_name' => 'nullable|string|max:255',
@@ -52,14 +51,13 @@ class UserController extends Controller
      * Update the user's username.
      *
      * @param Request $request
-     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      *
      * @bodyParam username string required The user's username.
      */
-    public function updateUsername(Request $request, $id)
+    public function updateUsername(Request $request)
     {
-        $user = User::findOrFail($id);
+        $user = Auth::user();
 
         $validatedData = $request->validate([
             'username' => 'required|string|max:255|unique:users,username,' . $user->id,
@@ -73,12 +71,11 @@ class UserController extends Controller
     /**
      * Delete a user.
      *
-     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteUser($id)
+    public function deleteUser()
     {
-        $user = User::findOrFail($id);
+        $user = Auth::user();
         $user->delete();
 
         return response()->json(['message' => 'User deleted successfully']);

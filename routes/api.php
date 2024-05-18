@@ -23,11 +23,11 @@ Route::prefix('auth')->group(function () {
     Route::post('/change-password', [AuthController::class, 'changePassword'])->middleware('auth:api');
 });
 
-// User Routes
+// User Routes (Require authentication)
 Route::middleware('auth:api')->group(function () {
-    Route::put('/user/{id}', [UserController::class, 'updateUser']);
-    Route::put('/user/{id}/username', [UserController::class, 'updateUsername']);
-    Route::delete('/user/{id}', [UserController::class, 'deleteUser']);
+    Route::put('/user', [UserController::class, 'updateUser']);
+    Route::put('/user/username', [UserController::class, 'updateUsername']);
+    Route::delete('/user', [UserController::class, 'deleteUser']);
 });
 
 // User Images Routes
