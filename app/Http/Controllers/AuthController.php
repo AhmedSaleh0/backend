@@ -23,10 +23,7 @@ class AuthController extends Controller
      * @bodyParam email string required The user's email address.
      * @bodyParam password string required The user's password.
      * @bodyParam password_confirmation string required The password confirmation.
-     * @bodyParam phone string optional The user's phone number.
-     * @bodyParam country string optional The user's country.
-     * @bodyParam birthdate date optional The user's birthdate in format day-month-year.
-     * @bodyParam bio string optional A short bio for the user.
+     * @bodyParam phone string required The user's phone number.
      */
     public function signup(Request $request)
     {
@@ -35,7 +32,7 @@ class AuthController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'phone' => 'nullable|string|max:255',
+            'phone' => 'required|string|max:255',
         ]);
 
         $user = User::create([

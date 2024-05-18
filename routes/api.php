@@ -22,9 +22,9 @@ Route::prefix('auth')->group(function () {
 
 Route::middleware('auth:api')->group(function () {
     Route::put('/user/{id}', [UserController::class, 'updateUser']);
-    Route::put('/user/{id}/details', [UserController::class, 'updateAdditionalDetails']);
     Route::delete('/user/{id}', [UserController::class, 'deleteUser']);
 });
+
 // User Images Routes
 Route::prefix('user-images')->middleware('auth:api')->group(function () {
     Route::get('/', [UserImageController::class, 'index']);
