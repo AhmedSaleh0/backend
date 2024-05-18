@@ -36,9 +36,6 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:255',
-            'country' => 'nullable|string|max:255',
-            'birthdate' => 'nullable|date_format:d-m-Y',
-            'bio' => 'nullable|string|max:1000',
         ]);
 
         $user = User::create([
@@ -47,9 +44,6 @@ class AuthController extends Controller
             'email' => $validatedData['email'],
             'password' => bcrypt($validatedData['password']),
             'phone' => $validatedData['phone'],
-            'country' => $validatedData['country'],
-            'birthdate' => $validatedData['birthdate'] ? Carbon::createFromFormat('d-m-Y', $validatedData['birthdate'])->toDateString() : null,
-            'bio' => $validatedData['bio'],
         ]);
 
         return response()->json(['message' => 'User successfully registered', 'user' => $user], 201);

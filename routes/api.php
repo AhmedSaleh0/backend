@@ -8,6 +8,7 @@ use App\Http\Controllers\INeedController;
 use App\Http\Controllers\CreditsController;
 use App\Http\Controllers\UserImageController;
 use App\Http\Controllers\SkillController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSkillController;
 
 // Authentication Routes
@@ -19,6 +20,11 @@ Route::prefix('auth')->group(function () {
     Route::post('/change-password', [AuthController::class, 'changePassword']);
 });
 
+Route::middleware('auth:api')->group(function () {
+    Route::put('/user/{id}', [UserController::class, 'updateUser']);
+    Route::put('/user/{id}/details', [UserController::class, 'updateAdditionalDetails']);
+    Route::delete('/user/{id}', [UserController::class, 'deleteUser']);
+});
 // User Images Routes
 Route::prefix('user-images')->middleware('auth:api')->group(function () {
     Route::get('/', [UserImageController::class, 'index']);
