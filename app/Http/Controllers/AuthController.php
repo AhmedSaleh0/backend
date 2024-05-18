@@ -102,6 +102,8 @@ class AuthController extends Controller
     /**
      * Send a password reset link to the given user.
      *
+     * @unauthenticated
+     * 
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      *
