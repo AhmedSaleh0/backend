@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -49,7 +48,6 @@ class AuthController extends Controller
         return response()->json(['message' => 'User successfully registered', 'user' => $user], 201);
     }
 
-
     /**
      * Login user and create token.
      * 
@@ -81,9 +79,10 @@ class AuthController extends Controller
         ]);
     }
 
-
     /**
      * Logout user (Revoke the token).
+     *
+     * @authenticated
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -110,7 +109,7 @@ class AuthController extends Controller
      *
      * @bodyParam email string required The email of the user who is requesting a password reset.
      */
-    public function resetPassword(Request $request)
+    public function sendResetLinkEmail(Request $request)
     {
         $request->validate(['email' => 'required|email']);
 
@@ -118,17 +117,49 @@ class AuthController extends Controller
             $request->only('email')
         );
 
-        if ($status === Password::RESET_LINK_SENT) {
-            return response()->json(['message' => __($status)]);
-        }
+        return $status === Password::RESET_LINK_SENT
+                ? response()->json(['message' => __($status)], 200)
+                : response()->json(['message' => __($status)], 400);
+    }
 
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
+    /**
+     * Reset the user's password.
+     *
+     * @unauthenticated
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @bodyParam token string required The password reset token.
+     * @bodyParam email string required The email of the user.
+     * @bodyParam password string required The new password.
+     * @bodyParam password_confirmation string required Confirmation of the new password.
+     */
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|string|min:8|confirmed',
         ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->save();
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+                ? response()->json(['message' => __($status)], 200)
+                : response()->json(['message' => __($status)], 400);
     }
 
     /**
      * Change the user's password.
+     *
+     * @authenticated
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -138,27 +169,29 @@ class AuthController extends Controller
      * @bodyParam new_password_confirmation string required Confirmation of the new password.
      */
     public function changePassword(Request $request)
-{
-    $request->validate([
-        'current_password' => 'required',
-        'new_password' => 'required|string|min:8|confirmed',
-    ]);
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|string|min:8|confirmed',
+        ]);
 
-    $user = Auth::guard('api')->user();
+        $user = Auth::guard('api')->user();
 
-    if (!$user) {
-        Log::info('No authenticated user found');
-        return response()->json(['message' => 'No authenticated user found'], 401);
+        if (!$user) {
+            Log::info('No authenticated user found');
+            return response()->json(['message' => 'No authenticated user found'], 401);
+        }
+
+        Log::info('Authenticated user', ['user' => $user]);
+
+        if (!Hash::check($request->current_password, $user->password)) {
+            return response()->json(['message' => 'The provided password does not match your current password.'], 400);
+        }
+
+        $user->update(['password' => Hash::make($request->new_password)]);
+
+        return response()->json(['message' => 'Password changed successfully.']);
     }
-
-    Log::info('Authenticated user', ['user' => $user]);
-
-    if (!Hash::check($request->current_password, $user->password)) {
-        return response()->json(['message' => 'The provided password does not match your current password.'], 400);
-    }
-
-    $user->update(['password' => Hash::make($request->new_password)]);
-
-    return response()->json(['message' => 'Password changed successfully.']);
 }
-}
+
+ 

@@ -15,12 +15,16 @@ use App\Http\Controllers\UserSkillController;
 Route::prefix('auth')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup']);
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
+
+    // Password reset routes
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail']);
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
-    Route::post('/change-password', [AuthController::class, 'changePassword']);
+    Route::post('/change-password', [AuthController::class, 'changePassword'])->middleware('auth:api');
 });
 
+// User Routes
 Route::middleware('auth:api')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
     Route::put('/user/{id}', [UserController::class, 'updateUser']);
     Route::put('/user/{id}/username', [UserController::class, 'updateUsername']);
     Route::delete('/user/{id}', [UserController::class, 'deleteUser']);
@@ -36,7 +40,7 @@ Route::prefix('user-images')->middleware('auth:api')->group(function () {
 });
 
 // User Skills Routes
-Route::apiResource('user-skills', UserSkillController::class);
+Route::apiResource('user-skills', UserSkillController::class)->middleware('auth:api');
 
 // Inspire Routes
 Route::prefix('inspire')->middleware('auth:api')->group(function () {
@@ -72,7 +76,6 @@ Route::prefix('credits')->middleware('auth:api')->group(function () {
     Route::post('/deduct', [CreditsController::class, 'deductCredits']);
     Route::post('/purchase', [CreditsController::class, 'purchaseCredits']);
 });
-
 
 // Skills Routes
 Route::apiResource('skills', SkillController::class)->middleware('auth:api');
