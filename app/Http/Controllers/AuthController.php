@@ -145,6 +145,10 @@ class AuthController extends Controller
 
         $user = Auth::user();
 
+        if (!$user) {
+            return response()->json(['message' => 'No authenticated user found'], 401);
+        }
+
         if (!Hash::check($request->current_password, $user->password)) {
             return response()->json(['message' => 'The provided password does not match your current password.'], 400);
         }
