@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -45,6 +46,28 @@ class UserController extends Controller
         $user->update($validatedData);
 
         return response()->json(['message' => 'User details updated successfully', 'user' => $user]);
+    }
+
+    /**
+     * Update the user's username.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @bodyParam username string required The user's username.
+     */
+    public function updateUsername(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+        ]);
+
+        $user->update(['username' => $validatedData['username']]);
+
+        return response()->json(['message' => 'Username updated successfully', 'user' => $user]);
     }
 
     /**
