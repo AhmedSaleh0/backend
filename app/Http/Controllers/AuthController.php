@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -137,24 +138,27 @@ class AuthController extends Controller
      * @bodyParam new_password_confirmation string required Confirmation of the new password.
      */
     public function changePassword(Request $request)
-    {
-        $request->validate([
-            'current_password' => 'required',
-            'new_password' => 'required|string|min:8|confirmed',
-        ]);
+{
+    $request->validate([
+        'current_password' => 'required',
+        'new_password' => 'required|string|min:8|confirmed',
+    ]);
 
-        $user = Auth::user();
+    $user = Auth::guard('api')->user();
 
-        if (!$user) {
-            return response()->json(['message' => 'No authenticated user found'], 401);
-        }
-
-        if (!Hash::check($request->current_password, $user->password)) {
-            return response()->json(['message' => 'The provided password does not match your current password.'], 400);
-        }
-
-        $user->update(['password' => Hash::make($request->new_password)]);
-
-        return response()->json(['message' => 'Password changed successfully.']);
+    if (!$user) {
+        Log::info('No authenticated user found');
+        return response()->json(['message' => 'No authenticated user found'], 401);
     }
+
+    Log::info('Authenticated user', ['user' => $user]);
+
+    if (!Hash::check($request->current_password, $user->password)) {
+        return response()->json(['message' => 'The provided password does not match your current password.'], 400);
+    }
+
+    $user->update(['password' => Hash::make($request->new_password)]);
+
+    return response()->json(['message' => 'Password changed successfully.']);
+}
 }
