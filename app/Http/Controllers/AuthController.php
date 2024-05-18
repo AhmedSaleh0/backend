@@ -53,7 +53,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      *
-     * @bodyParam email string required The email of the user. Example: john@example.com
+     * @bodyParam login string required The login credential (username or email) of the user. Example: john@example.com
      * @bodyParam password string required The password. Example: pass1234
      */
     public function login(Request $request)
