@@ -15,12 +15,12 @@ use App\Http\Controllers\UserSkillController;
 Route::prefix('auth')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup']);
     Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/change-password', [AuthController::class, 'changePassword']);
 });
 
 Route::middleware('auth:api')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::put('/user/{id}', [UserController::class, 'updateUser']);
     Route::put('/user/{id}/username', [UserController::class, 'updateUsername']);
     Route::delete('/user/{id}', [UserController::class, 'deleteUser']);
