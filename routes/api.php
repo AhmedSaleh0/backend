@@ -27,7 +27,6 @@ Route::prefix('auth')->group(function () {
 Route::middleware('auth:api')->group(function () {
     Route::put('/user', [UserController::class, 'updateUser']);
     Route::put('/user/username', [UserController::class, 'updateUsername']);
-    Route::delete('/user/{id}', [UserController::class, 'deleteUser']);
 });
 
 

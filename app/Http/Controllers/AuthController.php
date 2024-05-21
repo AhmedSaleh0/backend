@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -14,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 class AuthController extends Controller
 {
     /**
-     * Register a new user.
+     * Register a new user and auto login.
      *
      * @unauthenticated
      * 
@@ -46,7 +45,14 @@ class AuthController extends Controller
             'phone' => $validatedData['phone'],
         ]);
 
-        return response()->json(['message' => 'User successfully registered', 'user' => $user], 201);
+        // Automatically log in the user
+        $token = $user->createToken('Personal Access Token')->accessToken;
+
+        return response()->json([
+            'message' => 'User successfully registered',
+            'user' => $user,
+            'token' => $token
+        ], 201);
     }
 
     /**
