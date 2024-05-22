@@ -9,8 +9,8 @@ servers:
 paths:
   /api/auth/signup:
     post:
-      summary: 'Register a new user.'
-      operationId: registerANewUser
+      summary: 'Register a new user and auto login.'
+      operationId: registerANewUserAndAutoLogin
       description: ''
       parameters: []
       responses: {  }
@@ -26,27 +26,27 @@ paths:
                 first_name:
                   type: string
                   description: "The user's first name."
-                  example: molestias
+                  example: et
                 last_name:
                   type: string
                   description: "The user's last name."
-                  example: et
+                  example: rerum
                 email:
                   type: string
                   description: "The user's email address."
-                  example: hillary32@example.net
+                  example: jaiden.borer@example.com
                 password:
                   type: string
                   description: "The user's password."
-                  example: 'U~mv6hQ+?XId}8$'
+                  example: '4#ZW/Qh+'
                 phone:
                   type: string
                   description: "The user's phone number."
-                  example: temporibus
+                  example: et
                 password_confirmation:
                   type: string
                   description: 'The password confirmation.'
-                  example: iste
+                  example: qui
               required:
                 - first_name
                 - last_name
@@ -92,8 +92,7 @@ paths:
       responses: {  }
       tags:
         - Endpoints
-      security: []
-  /api/auth/reset-password:
+  /api/auth/forgot-password:
     post:
       summary: 'Send a password reset link to the given user.'
       operationId: sendAPasswordResetLinkToTheGivenUser
@@ -112,9 +111,47 @@ paths:
                 email:
                   type: string
                   description: 'The email of the user who is requesting a password reset.'
-                  example: ima.heaney@example.org
+                  example: bmurray@example.org
               required:
                 - email
+      security: []
+  /api/auth/reset-password:
+    post:
+      summary: "Reset the user's password."
+      operationId: resetTheUsersPassword
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: 'The password reset token.'
+                  example: id
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: nona.mitchell@example.com
+                password:
+                  type: string
+                  description: 'The new password.'
+                  example: "m?']81&"
+                password_confirmation:
+                  type: string
+                  description: 'Confirmation of the new password.'
+                  example: qui
+              required:
+                - token
+                - email
+                - password
+                - password_confirmation
       security: []
   /api/auth/change-password:
     post:
@@ -135,21 +172,20 @@ paths:
                 current_password:
                   type: string
                   description: 'The current password of the user.'
-                  example: voluptate
+                  example: eum
                 new_password:
                   type: string
                   description: 'The new password to set.'
-                  example: voluptas
+                  example: ex
                 new_password_confirmation:
                   type: string
                   description: 'Confirmation of the new password.'
-                  example: provident
+                  example: voluptatibus
               required:
                 - current_password
                 - new_password
                 - new_password_confirmation
-      security: []
-  '/api/user/{id}':
+  /api/user:
     put:
       summary: 'Update user details.'
       operationId: updateUserDetails
@@ -168,51 +204,32 @@ paths:
                 first_name:
                   type: string
                   description: "optional The user's first name."
-                  example: quis
+                  example: debitis
                 last_name:
                   type: string
                   description: "optional The user's last name."
-                  example: non
+                  example: eum
                 email:
                   type: string
                   description: "optional The user's email address."
-                  example: maeve91@example.net
+                  example: raegan02@example.org
                 phone:
                   type: string
                   description: "optional The user's phone number."
-                  example: et
+                  example: minus
                 country:
                   type: string
                   description: "optional The user's country."
-                  example: aut
+                  example: corporis
                 birthdate:
                   type: date
                   description: "optional The user's birthdate in format day-month-year."
-                  example: ratione
+                  example: accusamus
                 bio:
                   type: string
                   description: 'optional A short bio for the user.'
-                  example: voluptatem
-      security: []
-    delete:
-      summary: 'Delete a user.'
-      operationId: deleteAUser
-      description: ''
-      parameters: []
-      responses: {  }
-      tags:
-        - Endpoints
-      security: []
-    parameters:
-      -
-        in: path
-        name: id
-        description: 'The ID of the user.'
-        example: quaerat
-        required: true
-        schema:
-          type: string
-  '/api/user/{id}/username':
+                  example: ipsa
+  /api/user/username:
     put:
       summary: "Update the user's username."
       operationId: updateTheUsersUsername
@@ -231,19 +248,162 @@ paths:
                 username:
                   type: string
                   description: "The user's username."
-                  example: totam
+                  example: et
               required:
                 - username
-      security: []
-    parameters:
-      -
-        in: path
-        name: id
-        description: 'The ID of the user.'
-        example: libero
-        required: true
-        schema:
-          type: string
+  /api/user/profile:
+    post:
+      summary: 'Update user details, upload an image, and assign skills in one go.'
+      operationId: updateUserDetailsUploadAnImageAndAssignSkillsInOneGo
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'User profile updated successfully'
+                  user:
+                    id: 1
+                    first_name: John
+                    last_name: Doe
+                    email: user@example.com
+                    phone: '+1234567890'
+                    country: USA
+                    birthdate: '1990-12-31'
+                    bio: 'Just a developer!'
+                  image:
+                    id: 1
+                    user_id: 1
+                    image_path: user_images/1.jpg
+                  skills:
+                    -
+                      id: 1
+                      name: PHP
+                      category: Backend
+                    -
+                      id: 2
+                      name: JavaScript
+                      category: Frontend
+                properties:
+                  message:
+                    type: string
+                    example: 'User profile updated successfully'
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      first_name:
+                        type: string
+                        example: John
+                      last_name:
+                        type: string
+                        example: Doe
+                      email:
+                        type: string
+                        example: user@example.com
+                      phone:
+                        type: string
+                        example: '+1234567890'
+                      country:
+                        type: string
+                        example: USA
+                      birthdate:
+                        type: string
+                        example: '1990-12-31'
+                      bio:
+                        type: string
+                        example: 'Just a developer!'
+                  image:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      user_id:
+                        type: integer
+                        example: 1
+                      image_path:
+                        type: string
+                        example: user_images/1.jpg
+                  skills:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        name: PHP
+                        category: Backend
+                      -
+                        id: 2
+                        name: JavaScript
+                        category: Frontend
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: PHP
+                        category:
+                          type: string
+                          example: Backend
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: "optional The user's first name."
+                  example: John
+                last_name:
+                  type: string
+                  description: "optional The user's last name."
+                  example: Doe
+                email:
+                  type: string
+                  description: "optional The user's email address, must be unique."
+                  example: user@example.com
+                phone:
+                  type: string
+                  description: "optional The user's phone number."
+                  example: '+1234567890'
+                country:
+                  type: string
+                  description: "optional The user's country."
+                  example: USA
+                birthdate:
+                  type: date
+                  description: "optional The user's birthdate in format day-month-year."
+                  example: 31-12-1990
+                bio:
+                  type: string
+                  description: 'optional A short bio for the user.'
+                  example: 'Just a developer!'
+                image:
+                  type: string
+                  format: binary
+                  description: "optional An image file to be uploaded as user's profile picture."
+                skills:
+                  type: array
+                  description: 'optional An array of skill IDs to assign to the user.'
+                  example:
+                    - 1
+                    - 2
+                    - 3
+                  items:
+                    type: string
   /api/user-images:
     get:
       summary: 'Display a listing of all user images.'
@@ -887,7 +1047,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     post:
       summary: 'Store a newly uploaded image in storage.'
       operationId: storeANewlyUploadedImageInStorage
@@ -906,7 +1065,7 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: quam
+                  example: repellat
                 image:
                   type: string
                   format: binary
@@ -914,7 +1073,6 @@ paths:
               required:
                 - user_id
                 - image
-      security: []
   '/api/user-images/{user_image_id}':
     get:
       summary: 'Display the specified user image.'
@@ -929,7 +1087,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route backend/api/user-images/1 could not be found.'
+                  message: 'The route backend/api/user-images/10 could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -1231,7 +1389,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route backend/api/user-images/1 could not be found.'
+                    example: 'The route backend/api/user-images/10 could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -1558,7 +1716,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     put:
       summary: 'Update the specified image in storage.'
       operationId: updateTheSpecifiedImageInStorage
@@ -1577,14 +1734,13 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: culpa
+                  example: sint
                 image:
                   type: string
                   format: binary
                   description: 'Validate user ID. Must be an image. Must not be greater than 2048 kilobytes.'
               required:
                 - user_id
-      security: []
     delete:
       summary: 'Remove the specified image from storage.'
       operationId: removeTheSpecifiedImageFromStorage
@@ -1593,13 +1749,12 @@ paths:
       responses: {  }
       tags:
         - Endpoints
-      security: []
     parameters:
       -
         in: path
         name: user_image_id
         description: 'The ID of the user image.'
-        example: 1
+        example: 10
         required: true
         schema:
           type: integer
@@ -2246,7 +2401,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     post:
       summary: ''
       operationId: postApiUserSkills
@@ -2265,15 +2419,14 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: ipsam
+                  example: animi
                 skill_id:
                   type: string
                   description: ''
-                  example: itaque
+                  example: qui
               required:
                 - user_id
                 - skill_id
-      security: []
   '/api/user-skills/{id}':
     get:
       summary: ''
@@ -2917,7 +3070,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     put:
       summary: ''
       operationId: putApiUserSkillsId
@@ -2936,15 +3088,14 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: dolorum
+                  example: quia
                 skill_id:
                   type: string
                   description: ''
-                  example: vel
+                  example: harum
               required:
                 - user_id
                 - skill_id
-      security: []
     delete:
       summary: ''
       operationId: deleteApiUserSkillsId
@@ -2953,7 +3104,6 @@ paths:
       responses: {  }
       tags:
         - Endpoints
-      security: []
     parameters:
       -
         in: path
@@ -3606,7 +3756,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     post:
       summary: 'Store a newly created Inspire post in storage.'
       operationId: storeANewlyCreatedInspirePostInStorage
@@ -3625,29 +3774,28 @@ paths:
                 title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ryvjs
+                  example: f
                 content:
                   type: string
                   description: ''
-                  example: repellendus
+                  example: eveniet
                 video_url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://www.romaguera.com/'
+                  example: 'http://jacobi.org/officia-quis-et-et-et-animi-impedit'
                 category:
                   type: string
                   description: ''
-                  example: provident
+                  example: ab
                 sub_category:
                   type: string
                   description: ''
-                  example: non
+                  example: sapiente
               required:
                 - title
                 - content
                 - category
                 - sub_category
-      security: []
   '/api/inspire/posts/{id}':
     get:
       summary: 'Display the specified Inspire post.'
@@ -4291,7 +4439,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     put:
       summary: 'Update the specified Inspire post in storage.'
       operationId: updateTheSpecifiedInspirePostInStorage
@@ -4310,31 +4457,30 @@ paths:
                 title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: imudbkvl
+                  example: akvijiiibkbghtojjujafbzzk
                 content:
                   type: string
                   description: ''
-                  example: odit
+                  example: qui
                 video_url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://ritchie.org/'
+                  example: 'http://www.greenfelder.net/itaque-suscipit-sit-et-earum-cupiditate-voluptatem-ullam'
                 category:
                   type: string
                   description: ''
-                  example: maxime
+                  example: consequuntur
                 sub_category:
                   type: string
                   description: ''
-                  example: et
+                  example: ducimus
                 status:
                   type: string
                   description: ''
-                  example: inactive
+                  example: active
                   enum:
                     - active
                     - inactive
-      security: []
     delete:
       summary: 'Remove the specified Inspire post from storage.'
       operationId: removeTheSpecifiedInspirePostFromStorage
@@ -4343,7 +4489,6 @@ paths:
       responses: {  }
       tags:
         - Endpoints
-      security: []
     parameters:
       -
         in: path
@@ -4996,7 +5141,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     post:
       summary: ''
       operationId: postApiIcanPosts
@@ -5015,11 +5159,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: kwthgfeb
+                  example: zxfob
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ilncumul
+                  example: vzxpukmwi
                 post_image:
                   type: string
                   format: binary
@@ -5027,7 +5171,7 @@ paths:
                 post_price:
                   type: number
                   description: '2MB max size.'
-                  example: 17924.466796784
+                  example: 14.912
                 post_price_type:
                   type: string
                   description: ''
@@ -5048,7 +5192,6 @@ paths:
                 - post_price
                 - post_price_type
                 - post_status
-      security: []
   '/api/ican/posts/{id}':
     get:
       summary: ''
@@ -5063,7 +5206,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route backend/api/ican/posts/non could not be found.'
+                  message: 'The route backend/api/ican/posts/vero could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -5365,7 +5508,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route backend/api/ican/posts/non could not be found.'
+                    example: 'The route backend/api/ican/posts/vero could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -5692,7 +5835,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     put:
       summary: ''
       operationId: putApiIcanPostsId
@@ -5711,11 +5853,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: oifwlgieaqzx
+                  example: lrvg
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: bavqpjnxmgxdplhckveolp
+                  example: xooiouecljlpqizfjxgrgd
                 post_image:
                   type: string
                   format: binary
@@ -5723,22 +5865,21 @@ paths:
                 post_price:
                   type: number
                   description: ''
-                  example: 3649.0
+                  example: 3131156.4863495
                 post_price_type:
                   type: string
                   description: ''
-                  example: fixed
+                  example: hourly
                   enum:
                     - fixed
                     - hourly
                 post_status:
                   type: string
                   description: ''
-                  example: inactive
+                  example: active
                   enum:
                     - active
                     - inactive
-      security: []
     delete:
       summary: ''
       operationId: deleteApiIcanPostsId
@@ -5747,13 +5888,12 @@ paths:
       responses: {  }
       tags:
         - Endpoints
-      security: []
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the post.'
-        example: non
+        example: vero
         required: true
         schema:
           type: string
@@ -6400,7 +6540,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     post:
       summary: ''
       operationId: postApiIneedPosts
@@ -6419,11 +6558,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: tqklbplflqegduzmlixmtvh
+                  example: esykapaqxjjtuqib
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: rlbxkxhxvtwikmomavycliolm
+                  example: xgqvyncqtbwg
                 post_image:
                   type: string
                   format: binary
@@ -6431,7 +6570,7 @@ paths:
                 post_price:
                   type: number
                   description: '2MB max size.'
-                  example: 126249624.63169
+                  example: 2284406.96047
                 post_price_type:
                   type: string
                   description: ''
@@ -6452,7 +6591,6 @@ paths:
                 - post_price
                 - post_price_type
                 - post_status
-      security: []
   '/api/ineed/posts/{id}':
     get:
       summary: ''
@@ -6467,7 +6605,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route backend/api/ineed/posts/mollitia could not be found.'
+                  message: 'The route backend/api/ineed/posts/harum could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -6769,7 +6907,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route backend/api/ineed/posts/mollitia could not be found.'
+                    example: 'The route backend/api/ineed/posts/harum could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -7096,7 +7234,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     put:
       summary: ''
       operationId: putApiIneedPostsId
@@ -7115,11 +7252,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: hipfaqdggucyfbcqmzldd
+                  example: om
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: rksfoupddfoo
+                  example: mskbnebjkxvcknzvsbxblsdsu
                 post_image:
                   type: string
                   format: binary
@@ -7127,7 +7264,7 @@ paths:
                 post_price:
                   type: number
                   description: ''
-                  example: 6777371.6432
+                  example: 720206236.453
                 post_price_type:
                   type: string
                   description: ''
@@ -7142,7 +7279,6 @@ paths:
                   enum:
                     - active
                     - inactive
-      security: []
     delete:
       summary: ''
       operationId: deleteApiIneedPostsId
@@ -7151,13 +7287,12 @@ paths:
       responses: {  }
       tags:
         - Endpoints
-      security: []
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the post.'
-        example: mollitia
+        example: harum
         required: true
         schema:
           type: string
@@ -7804,7 +7939,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
   /api/credits/add:
     post:
       summary: ''
@@ -7814,7 +7948,6 @@ paths:
       responses: {  }
       tags:
         - Endpoints
-      security: []
   /api/credits/deduct:
     post:
       summary: ''
@@ -7824,7 +7957,6 @@ paths:
       responses: {  }
       tags:
         - Endpoints
-      security: []
   /api/credits/purchase:
     post:
       summary: ''
@@ -7834,7 +7966,6 @@ paths:
       responses: {  }
       tags:
         - Endpoints
-      security: []
   /api/skills:
     get:
       summary: ''
@@ -8478,7 +8609,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     post:
       summary: ''
       operationId: postApiSkills
@@ -8497,19 +8627,18 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: rxsorzkpppwiuljqqhlkz
+                  example: cwazedaszim
                 category:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: lobavxfpq
+                  example: ixaulyynvdsbyfbxffxrict
                 sub_category:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: enojexliekufhrwbnwzzgy
+                  example: wemkkosi
               required:
                 - name
                 - category
-      security: []
   '/api/skills/{id}':
     get:
       summary: ''
@@ -8524,7 +8653,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route backend/api/skills/12 could not be found.'
+                  message: 'The route backend/api/skills/17 could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -8826,7 +8955,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route backend/api/skills/12 could not be found.'
+                    example: 'The route backend/api/skills/17 could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -9153,7 +9282,6 @@ paths:
                           example: '->'
       tags:
         - Endpoints
-      security: []
     put:
       summary: ''
       operationId: putApiSkillsId
@@ -9172,19 +9300,18 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: gsxhiyywiur
+                  example: jykhmhzwjrhtslcjyrurilzu
                 category:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: ckapuxmcuwtvbtguybyiagzb
+                  example: qiwyqcfwci
                 sub_category:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: nco
+                  example: g
               required:
                 - name
                 - category
-      security: []
     delete:
       summary: ''
       operationId: deleteApiSkillsId
@@ -9193,13 +9320,12 @@ paths:
       responses: {  }
       tags:
         - Endpoints
-      security: []
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the skill.'
-        example: 12
+        example: 17
         required: true
         schema:
           type: integer

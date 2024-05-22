@@ -29,6 +29,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/user/username', [UserController::class, 'updateUsername']);
 });
 
+Route::post('/user/profile', [UserController::class, 'updateUserProfile'])->middleware('auth:api');
 
 // User Images Routes
 Route::prefix('user-images')->middleware('auth:api')->group(function () {

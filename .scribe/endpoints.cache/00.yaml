@@ -12,7 +12,7 @@ endpoints:
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Register a new user.'
+      title: 'Register a new user and auto login.'
       description: ''
       authenticated: false
       custom: []
@@ -28,7 +28,7 @@ endpoints:
         name: first_name
         description: "The user's first name."
         required: true
-        example: molestias
+        example: et
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -37,7 +37,7 @@ endpoints:
         name: last_name
         description: "The user's last name."
         required: true
-        example: et
+        example: rerum
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -46,7 +46,7 @@ endpoints:
         name: email
         description: "The user's email address."
         required: true
-        example: hillary32@example.net
+        example: jaiden.borer@example.com
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -55,7 +55,7 @@ endpoints:
         name: password
         description: "The user's password."
         required: true
-        example: 'U~mv6hQ+?XId}8$'
+        example: '4#ZW/Qh+'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -64,7 +64,7 @@ endpoints:
         name: phone
         description: "The user's phone number."
         required: true
-        example: temporibus
+        example: et
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -73,18 +73,18 @@ endpoints:
         name: password_confirmation
         description: 'The password confirmation.'
         required: true
-        example: iste
+        example: qui
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      first_name: molestias
-      last_name: et
-      email: hillary32@example.net
-      password: 'U~mv6hQ+?XId}8$'
-      phone: temporibus
-      password_confirmation: iste
+      first_name: et
+      last_name: rerum
+      email: jaiden.borer@example.com
+      password: '4#ZW/Qh+'
+      phone: et
+      password_confirmation: qui
     fileParameters: []
     responses: []
     responseFields: []
@@ -154,9 +154,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Logout user (Revoke the token).'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -168,7 +169,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6dkveDVfa45cEZh31a68Pbg'
     controller: null
     method: null
     route: null
@@ -176,7 +180,7 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: api/auth/reset-password
+    uri: api/auth/forgot-password
     metadata:
       groupName: Endpoints
       groupDescription: ''
@@ -198,13 +202,83 @@ endpoints:
         name: email
         description: 'The email of the user who is requesting a password reset.'
         required: true
-        example: ima.heaney@example.org
+        example: bmurray@example.org
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      email: ima.heaney@example.org
+      email: bmurray@example.org
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/auth/reset-password
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: "Reset the user's password."
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      token:
+        name: token
+        description: 'The password reset token.'
+        required: true
+        example: id
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      email:
+        name: email
+        description: 'The email of the user.'
+        required: true
+        example: nona.mitchell@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password:
+        name: password
+        description: 'The new password.'
+        required: true
+        example: "m?']81&"
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: 'Confirmation of the new password.'
+        required: true
+        example: qui
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      token: id
+      email: nona.mitchell@example.com
+      password: "m?']81&"
+      password_confirmation: qui
     fileParameters: []
     responses: []
     responseFields: []
@@ -224,9 +298,10 @@ endpoints:
       subgroupDescription: ''
       title: "Change the user's password."
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -238,7 +313,7 @@ endpoints:
         name: current_password
         description: 'The current password of the user.'
         required: true
-        example: voluptate
+        example: eum
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -247,7 +322,7 @@ endpoints:
         name: new_password
         description: 'The new password to set.'
         required: true
-        example: voluptas
+        example: ex
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -256,19 +331,22 @@ endpoints:
         name: new_password_confirmation
         description: 'Confirmation of the new password.'
         required: true
-        example: provident
+        example: voluptatibus
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      current_password: voluptate
-      new_password: voluptas
-      new_password_confirmation: provident
+      current_password: eum
+      new_password: ex
+      new_password_confirmation: voluptatibus
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer g61aVZahce4dfb8v53kD6PE'
     controller: null
     method: null
     route: null
@@ -276,7 +354,7 @@ endpoints:
   -
     httpMethods:
       - PUT
-    uri: 'api/user/{id}'
+    uri: api/user
     metadata:
       groupName: Endpoints
       groupDescription: ''
@@ -284,23 +362,14 @@ endpoints:
       subgroupDescription: ''
       title: 'Update user details.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the user.'
-        required: true
-        example: quaerat
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: quaerat
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -308,7 +377,7 @@ endpoints:
         name: first_name
         description: "optional The user's first name."
         required: false
-        example: quis
+        example: debitis
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -317,7 +386,7 @@ endpoints:
         name: last_name
         description: "optional The user's last name."
         required: false
-        example: non
+        example: eum
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -326,7 +395,7 @@ endpoints:
         name: email
         description: "optional The user's email address."
         required: false
-        example: maeve91@example.net
+        example: raegan02@example.org
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -335,7 +404,7 @@ endpoints:
         name: phone
         description: "optional The user's phone number."
         required: false
-        example: et
+        example: minus
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -344,7 +413,7 @@ endpoints:
         name: country
         description: "optional The user's country."
         required: false
-        example: aut
+        example: corporis
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -353,7 +422,7 @@ endpoints:
         name: birthdate
         description: "optional The user's birthdate in format day-month-year."
         required: false
-        example: ratione
+        example: accusamus
         type: date
         enumValues: []
         exampleWasSpecified: false
@@ -362,23 +431,26 @@ endpoints:
         name: bio
         description: 'optional A short bio for the user.'
         required: false
-        example: voluptatem
+        example: ipsa
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      first_name: quis
-      last_name: non
-      email: maeve91@example.net
-      phone: et
-      country: aut
-      birthdate: ratione
-      bio: voluptatem
+      first_name: debitis
+      last_name: eum
+      email: raegan02@example.org
+      phone: minus
+      country: corporis
+      birthdate: accusamus
+      bio: ipsa
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer v8ka66hbfVaedc5EPZ3Dg41'
     controller: null
     method: null
     route: null
@@ -386,7 +458,7 @@ endpoints:
   -
     httpMethods:
       - PUT
-    uri: 'api/user/{id}/username'
+    uri: api/user/username
     metadata:
       groupName: Endpoints
       groupDescription: ''
@@ -394,23 +466,14 @@ endpoints:
       subgroupDescription: ''
       title: "Update the user's username."
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the user.'
-        required: true
-        example: libero
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: libero
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -418,57 +481,178 @@ endpoints:
         name: username
         description: "The user's username."
         required: true
-        example: totam
+        example: et
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      username: totam
+      username: et
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer cdV1E5gZD3a64av6k8fhePb'
     controller: null
     method: null
     route: null
     custom: []
   -
     httpMethods:
-      - DELETE
-    uri: 'api/user/{id}'
+      - POST
+    uri: api/user/profile
     metadata:
       groupName: Endpoints
       groupDescription: ''
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete a user.'
+      title: 'Update user details, upload an image, and assign skills in one go.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
-      Content-Type: application/json
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
+      Content-Type: multipart/form-data
       Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the user.'
-        required: true
-        example: nihil
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      first_name:
+        name: first_name
+        description: "optional The user's first name."
+        required: false
+        example: John
         type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      last_name:
+        name: last_name
+        description: "optional The user's last name."
+        required: false
+        example: Doe
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      email:
+        name: email
+        description: "optional The user's email address, must be unique."
+        required: false
+        example: user@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      phone:
+        name: phone
+        description: "optional The user's phone number."
+        required: false
+        example: '+1234567890'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      country:
+        name: country
+        description: "optional The user's country."
+        required: false
+        example: USA
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      birthdate:
+        name: birthdate
+        description: "optional The user's birthdate in format day-month-year."
+        required: false
+        example: 31-12-1990
+        type: date
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      bio:
+        name: bio
+        description: 'optional A short bio for the user.'
+        required: false
+        example: 'Just a developer!'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+      image:
+        name: image
+        description: "optional An image file to be uploaded as user's profile picture."
+        required: false
+        example: null
+        type: file
         enumValues: []
         exampleWasSpecified: false
         custom: []
-    cleanUrlParameters:
-      id: nihil
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
+      skills:
+        name: skills
+        description: 'optional An array of skill IDs to assign to the user.'
+        required: false
+        example:
+          - 1
+          - 2
+          - 3
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: true
+        custom: []
+    cleanBodyParameters:
+      first_name: John
+      last_name: Doe
+      email: user@example.com
+      phone: '+1234567890'
+      country: USA
+      birthdate: 31-12-1990
+      bio: 'Just a developer!'
+      skills:
+        - 1
+        - 2
+        - 3
+    fileParameters:
+      image: null
+    responses:
+      -
+        status: 200
+        content: |-
+          {
+           "message": "User profile updated successfully",
+           "user": {
+               "id": 1,
+               "first_name": "John",
+               "last_name": "Doe",
+               "email": "user@example.com",
+               "phone": "+1234567890",
+               "country": "USA",
+               "birthdate": "1990-12-31",
+               "bio": "Just a developer!"
+           },
+           "image": {
+               "id": 1,
+               "user_id": 1,
+               "image_path": "user_images/1.jpg"
+           },
+           "skills": [
+               {"id": 1, "name": "PHP", "category": "Backend"},
+               {"id": 2, "name": "JavaScript", "category": "Frontend"}
+           ]
+          }
+        headers: []
+        description: ''
+        custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer Vf6D6vh4g3ZaE5d18ackbPe'
     controller: null
     method: null
     route: null
@@ -484,9 +668,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Display a listing of all user images.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -857,7 +1042,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 6dgebav41akVEcP8D53fhZ6'
     controller: null
     method: null
     route: null
@@ -873,9 +1061,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Store a newly uploaded image in storage.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
@@ -887,7 +1076,7 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: quam
+        example: repellat
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -902,12 +1091,15 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: quam
+      user_id: repellat
     fileParameters:
       image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 4VZDPa8g35afd66vbEkche1'
     controller: null
     method: null
     route: null
@@ -923,9 +1115,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Display the specified user image.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -933,13 +1126,13 @@ endpoints:
         name: user_image_id
         description: 'The ID of the user image.'
         required: true
-        example: 1
+        example: 10
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      user_image_id: 1
+      user_image_id: 10
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -950,7 +1143,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "The route backend/api/user-images/1 could not be found.",
+              "message": "The route backend/api/user-images/10 could not be found.",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\MAMP\\htdocs\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\AbstractRouteCollection.php",
               "line": 44,
@@ -1306,7 +1499,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer aa34EdZh1Vk6ePfD6c5bv8g'
     controller: null
     method: null
     route: null
@@ -1322,9 +1518,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update the specified image in storage.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
@@ -1332,13 +1529,13 @@ endpoints:
         name: user_image_id
         description: 'The ID of the user image.'
         required: true
-        example: 7
+        example: 15
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      user_image_id: 7
+      user_image_id: 15
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -1346,7 +1543,7 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: culpa
+        example: sint
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1361,12 +1558,15 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: culpa
+      user_id: sint
     fileParameters:
       image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 8gd1hkaVbE3DveZ4af6cP65'
     controller: null
     method: null
     route: null
@@ -1382,9 +1582,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Remove the specified image from storage.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -1392,13 +1593,13 @@ endpoints:
         name: user_image_id
         description: 'The ID of the user image.'
         required: true
-        example: 3
+        example: 5
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      user_image_id: 3
+      user_image_id: 5
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -1406,7 +1607,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 18aaE6vh4Pdcbg5Zefk3D6V'
     controller: null
     method: null
     route: null
@@ -1422,9 +1626,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1795,7 +2000,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 8d6akevbEZV6faD345chPg1'
     controller: null
     method: null
     route: null
@@ -1811,9 +2019,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -1825,7 +2034,7 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: ipsam
+        example: animi
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -1834,18 +2043,21 @@ endpoints:
         name: skill_id
         description: ''
         required: true
-        example: itaque
+        example: qui
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: ipsam
-      skill_id: itaque
+      user_id: animi
+      skill_id: qui
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer Dah8v3466eg15VaEkPZcbfd'
     controller: null
     method: null
     route: null
@@ -1861,9 +2073,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2244,7 +2457,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 56ekdVa4ag61EfPvZ38chbD'
     controller: null
     method: null
     route: null
@@ -2261,9 +2477,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2271,13 +2488,13 @@ endpoints:
         name: id
         description: 'The ID of the user skill.'
         required: true
-        example: 8
+        example: 4
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 8
+      id: 4
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -2285,7 +2502,7 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: dolorum
+        example: quia
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -2294,18 +2511,21 @@ endpoints:
         name: skill_id
         description: ''
         required: true
-        example: vel
+        example: harum
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: dolorum
-      skill_id: vel
+      user_id: quia
+      skill_id: harum
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer eE3fV64Zh1gabPa8kdDc65v'
     controller: null
     method: null
     route: null
@@ -2321,9 +2541,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -2331,13 +2552,13 @@ endpoints:
         name: id
         description: 'The ID of the user skill.'
         required: true
-        example: 19
+        example: 13
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 19
+      id: 13
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -2345,7 +2566,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer ba5aeVcfPkE6DgZ6481dv3h'
     controller: null
     method: null
     route: null
@@ -2361,9 +2585,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Display a listing of Inspire posts.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -2734,7 +2959,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer E1V458aZd3e6hbafP6gvckD'
     controller: null
     method: null
     route: null
@@ -2750,9 +2978,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Store a newly created Inspire post in storage.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -2764,7 +2993,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: ryvjs
+        example: f
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -2773,7 +3002,7 @@ endpoints:
         name: content
         description: ''
         required: true
-        example: repellendus
+        example: eveniet
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -2782,7 +3011,7 @@ endpoints:
         name: video_url
         description: 'Must be a valid URL.'
         required: false
-        example: 'http://www.romaguera.com/'
+        example: 'http://jacobi.org/officia-quis-et-et-et-animi-impedit'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -2791,7 +3020,7 @@ endpoints:
         name: category
         description: ''
         required: true
-        example: provident
+        example: ab
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -2800,21 +3029,24 @@ endpoints:
         name: sub_category
         description: ''
         required: true
-        example: non
+        example: sapiente
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: ryvjs
-      content: repellendus
-      video_url: 'http://www.romaguera.com/'
-      category: provident
-      sub_category: non
+      title: f
+      content: eveniet
+      video_url: 'http://jacobi.org/officia-quis-et-et-et-animi-impedit'
+      category: ab
+      sub_category: sapiente
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer h8vcZfE16Da4gka6d5bPV3e'
     controller: null
     method: null
     route: null
@@ -2830,9 +3062,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Display the specified Inspire post.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3213,7 +3446,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3Z5v6akdbPVEfe8ahg41cD6'
     controller: null
     method: null
     route: null
@@ -3229,9 +3465,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Update the specified Inspire post in storage.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3239,13 +3476,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: facilis
+        example: deleniti
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: facilis
+      id: deleniti
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -3253,7 +3490,7 @@ endpoints:
         name: title
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: imudbkvl
+        example: akvijiiibkbghtojjujafbzzk
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -3262,7 +3499,7 @@ endpoints:
         name: content
         description: ''
         required: false
-        example: odit
+        example: qui
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -3271,7 +3508,7 @@ endpoints:
         name: video_url
         description: 'Must be a valid URL.'
         required: false
-        example: 'http://ritchie.org/'
+        example: 'http://www.greenfelder.net/itaque-suscipit-sit-et-earum-cupiditate-voluptatem-ullam'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -3280,7 +3517,7 @@ endpoints:
         name: category
         description: ''
         required: false
-        example: maxime
+        example: consequuntur
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -3289,7 +3526,7 @@ endpoints:
         name: sub_category
         description: ''
         required: false
-        example: et
+        example: ducimus
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -3298,7 +3535,7 @@ endpoints:
         name: status
         description: ''
         required: false
-        example: inactive
+        example: active
         type: string
         enumValues:
           - active
@@ -3306,16 +3543,19 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      title: imudbkvl
-      content: odit
-      video_url: 'http://ritchie.org/'
-      category: maxime
-      sub_category: et
-      status: inactive
+      title: akvijiiibkbghtojjujafbzzk
+      content: qui
+      video_url: 'http://www.greenfelder.net/itaque-suscipit-sit-et-earum-cupiditate-voluptatem-ullam'
+      category: consequuntur
+      sub_category: ducimus
+      status: active
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer kVdPaD1g46a836v5bEZcfeh'
     controller: null
     method: null
     route: null
@@ -3331,9 +3571,10 @@ endpoints:
       subgroupDescription: ''
       title: 'Remove the specified Inspire post from storage.'
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3341,13 +3582,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: nulla
+        example: nisi
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: nulla
+      id: nisi
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -3355,7 +3596,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer Ea46cfkP58eh3dav6bZVDg1'
     controller: null
     method: null
     route: null
@@ -3371,9 +3615,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -3744,7 +3989,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 3cDe5vbk4P6a1adh8fZE6Vg'
     controller: null
     method: null
     route: null
@@ -3760,9 +4008,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
@@ -3774,7 +4023,7 @@ endpoints:
         name: post_title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: kwthgfeb
+        example: zxfob
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -3783,7 +4032,7 @@ endpoints:
         name: post_short_description
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: ilncumul
+        example: vzxpukmwi
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -3801,7 +4050,7 @@ endpoints:
         name: post_price
         description: '2MB max size.'
         required: true
-        example: 17924.466796784
+        example: 14.912
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -3829,16 +4078,19 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      post_title: kwthgfeb
-      post_short_description: ilncumul
-      post_price: 17924.466796784
+      post_title: zxfob
+      post_short_description: vzxpukmwi
+      post_price: 14.912
       post_price_type: fixed
       post_status: inactive
     fileParameters:
       post_image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer g8abPEkDh3646d1eVaZcvf5'
     controller: null
     method: null
     route: null
@@ -3854,9 +4106,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -3864,13 +4117,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: non
+        example: vero
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: non
+      id: vero
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -3881,7 +4134,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "The route backend/api/ican/posts/non could not be found.",
+              "message": "The route backend/api/ican/posts/vero could not be found.",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\MAMP\\htdocs\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\AbstractRouteCollection.php",
               "line": 44,
@@ -4237,7 +4490,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 5eVb64dEh1vDf386aPkgacZ'
     controller: null
     method: null
     route: null
@@ -4253,9 +4509,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
@@ -4263,13 +4520,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: id
+        example: nihil
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: id
+      id: nihil
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -4277,7 +4534,7 @@ endpoints:
         name: post_title
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: oifwlgieaqzx
+        example: lrvg
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -4286,7 +4543,7 @@ endpoints:
         name: post_short_description
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: bavqpjnxmgxdplhckveolp
+        example: xooiouecljlpqizfjxgrgd
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -4304,7 +4561,7 @@ endpoints:
         name: post_price
         description: ''
         required: false
-        example: 3649.0
+        example: 3131156.4863495
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -4313,7 +4570,7 @@ endpoints:
         name: post_price_type
         description: ''
         required: false
-        example: fixed
+        example: hourly
         type: string
         enumValues:
           - fixed
@@ -4324,7 +4581,7 @@ endpoints:
         name: post_status
         description: ''
         required: false
-        example: inactive
+        example: active
         type: string
         enumValues:
           - active
@@ -4332,16 +4589,19 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      post_title: oifwlgieaqzx
-      post_short_description: bavqpjnxmgxdplhckveolp
-      post_price: 3649.0
-      post_price_type: fixed
-      post_status: inactive
+      post_title: lrvg
+      post_short_description: xooiouecljlpqizfjxgrgd
+      post_price: 3131156.4863495
+      post_price_type: hourly
+      post_status: active
     fileParameters:
       post_image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 13bDvkEedc8fZPh4aaV5g66'
     controller: null
     method: null
     route: null
@@ -4357,9 +4617,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -4367,13 +4628,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: est
+        example: perspiciatis
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: est
+      id: perspiciatis
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -4381,7 +4642,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 5akZ4dg63E6h8bPaecDVvf1'
     controller: null
     method: null
     route: null
@@ -4397,9 +4661,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -4770,7 +5035,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer dh6kE8b6gvZPVfa3Dc4ae15'
     controller: null
     method: null
     route: null
@@ -4786,9 +5054,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters: []
@@ -4800,7 +5069,7 @@ endpoints:
         name: post_title
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: tqklbplflqegduzmlixmtvh
+        example: esykapaqxjjtuqib
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -4809,7 +5078,7 @@ endpoints:
         name: post_short_description
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: rlbxkxhxvtwikmomavycliolm
+        example: xgqvyncqtbwg
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -4827,7 +5096,7 @@ endpoints:
         name: post_price
         description: '2MB max size.'
         required: true
-        example: 126249624.63169
+        example: 2284406.96047
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -4855,16 +5124,19 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      post_title: tqklbplflqegduzmlixmtvh
-      post_short_description: rlbxkxhxvtwikmomavycliolm
-      post_price: 126249624.63169
+      post_title: esykapaqxjjtuqib
+      post_short_description: xgqvyncqtbwg
+      post_price: 2284406.96047
       post_price_type: hourly
       post_status: active
     fileParameters:
       post_image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer E6aPcbevafh83615DgVZ4kd'
     controller: null
     method: null
     route: null
@@ -4880,9 +5152,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -4890,13 +5163,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: mollitia
+        example: harum
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: mollitia
+      id: harum
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -4907,7 +5180,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "The route backend/api/ineed/posts/mollitia could not be found.",
+              "message": "The route backend/api/ineed/posts/harum could not be found.",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\MAMP\\htdocs\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\AbstractRouteCollection.php",
               "line": 44,
@@ -5263,7 +5536,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer kc5P1EZ3ehb8avg4ad6V6fD'
     controller: null
     method: null
     route: null
@@ -5279,9 +5555,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
@@ -5289,13 +5566,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: nihil
+        example: accusantium
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: nihil
+      id: accusantium
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -5303,7 +5580,7 @@ endpoints:
         name: post_title
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: hipfaqdggucyfbcqmzldd
+        example: om
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -5312,7 +5589,7 @@ endpoints:
         name: post_short_description
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: rksfoupddfoo
+        example: mskbnebjkxvcknzvsbxblsdsu
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -5330,7 +5607,7 @@ endpoints:
         name: post_price
         description: ''
         required: false
-        example: 6777371.6432
+        example: 720206236.453
         type: number
         enumValues: []
         exampleWasSpecified: false
@@ -5358,16 +5635,19 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      post_title: hipfaqdggucyfbcqmzldd
-      post_short_description: rksfoupddfoo
-      post_price: 6777371.6432
+      post_title: om
+      post_short_description: mskbnebjkxvcknzvsbxblsdsu
+      post_price: 720206236.453
       post_price_type: fixed
       post_status: inactive
     fileParameters:
       post_image: null
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer haf45P6bVaDc6kdZ1veE83g'
     controller: null
     method: null
     route: null
@@ -5383,9 +5663,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -5393,13 +5674,13 @@ endpoints:
         name: id
         description: 'The ID of the post.'
         required: true
-        example: quidem
+        example: sequi
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: quidem
+      id: sequi
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -5407,7 +5688,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer gv1eDfPa686bk54EaZ3Vhdc'
     controller: null
     method: null
     route: null
@@ -5423,9 +5707,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -5796,7 +6081,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer aDakg581fbv6ZVh6de3EP4c'
     controller: null
     method: null
     route: null
@@ -5812,9 +6100,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -5826,7 +6115,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 8eh35kag1EvD6dZbcf4PV6a'
     controller: null
     method: null
     route: null
@@ -5842,9 +6134,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -5856,7 +6149,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 854abvd6PcgaEek1Z3fVh6D'
     controller: null
     method: null
     route: null
@@ -5872,9 +6168,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -5886,7 +6183,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer edf1cgZvakaPb465VhD68E3'
     controller: null
     method: null
     route: null
@@ -5902,9 +6202,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -6275,7 +6576,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer de3VZbcaaP8h16E6fDgk5v4'
     controller: null
     method: null
     route: null
@@ -6291,9 +6595,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters: []
@@ -6305,7 +6610,7 @@ endpoints:
         name: name
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: rxsorzkpppwiuljqqhlkz
+        example: cwazedaszim
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -6314,7 +6619,7 @@ endpoints:
         name: category
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: lobavxfpq
+        example: ixaulyynvdsbyfbxffxrict
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -6323,19 +6628,22 @@ endpoints:
         name: sub_category
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: enojexliekufhrwbnwzzgy
+        example: wemkkosi
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: rxsorzkpppwiuljqqhlkz
-      category: lobavxfpq
-      sub_category: enojexliekufhrwbnwzzgy
+      name: cwazedaszim
+      category: ixaulyynvdsbyfbxffxrict
+      sub_category: wemkkosi
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 1vkefZ65c6DE8Phbg34daVa'
     controller: null
     method: null
     route: null
@@ -6351,9 +6659,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -6361,13 +6670,13 @@ endpoints:
         name: id
         description: 'The ID of the skill.'
         required: true
-        example: 12
+        example: 17
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 12
+      id: 17
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -6378,7 +6687,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "The route backend/api/skills/12 could not be found.",
+              "message": "The route backend/api/skills/17 could not be found.",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\MAMP\\htdocs\\backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\AbstractRouteCollection.php",
               "line": 44,
@@ -6734,7 +7043,10 @@ endpoints:
         description: null
         custom: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 5he66bfa41E8agvDcZd3PVk'
     controller: null
     method: null
     route: null
@@ -6751,9 +7063,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -6761,13 +7074,13 @@ endpoints:
         name: id
         description: 'The ID of the skill.'
         required: true
-        example: 8
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 8
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -6775,7 +7088,7 @@ endpoints:
         name: name
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: gsxhiyywiur
+        example: jykhmhzwjrhtslcjyrurilzu
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -6784,7 +7097,7 @@ endpoints:
         name: category
         description: 'Must not be greater than 255 characters.'
         required: true
-        example: ckapuxmcuwtvbtguybyiagzb
+        example: qiwyqcfwci
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -6793,19 +7106,22 @@ endpoints:
         name: sub_category
         description: 'Must not be greater than 255 characters.'
         required: false
-        example: nco
+        example: g
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: gsxhiyywiur
-      category: ckapuxmcuwtvbtguybyiagzb
-      sub_category: nco
+      name: jykhmhzwjrhtslcjyrurilzu
+      category: qiwyqcfwci
+      sub_category: g
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer VZ5abEfg8hcev4aP366d1Dk'
     controller: null
     method: null
     route: null
@@ -6821,9 +7137,10 @@ endpoints:
       subgroupDescription: ''
       title: ''
       description: ''
-      authenticated: false
+      authenticated: true
       custom: []
     headers:
+      Authorization: 'Bearer {YOUR_TOKEN_HERE}'
       Content-Type: application/json
       Accept: application/json
     urlParameters:
@@ -6831,13 +7148,13 @@ endpoints:
         name: id
         description: 'The ID of the skill.'
         required: true
-        example: 8
+        example: 1
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 8
+      id: 1
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -6845,7 +7162,10 @@ endpoints:
     fileParameters: []
     responses: []
     responseFields: []
-    auth: []
+    auth:
+      - headers
+      - Authorization
+      - 'Bearer 5dZ63fEhavgc46e1a8PkbDV'
     controller: null
     method: null
     route: null
