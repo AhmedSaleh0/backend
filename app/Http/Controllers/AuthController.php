@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,9 +11,12 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
+    const OTP_EXPIRATION_MINUTES = 15; // Set the OTP expiration time
+
     /**
      * Register a new user and auto login.
      *
@@ -130,39 +134,6 @@ class AuthController extends Controller
             : response()->json(['message' => __($status)], 400);
     }
 
-    /**
-     * Reset the user's password.
-     *
-     * @unauthenticated
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     *
-     * @bodyParam token string required The password reset token.
-     * @bodyParam email string required The email of the user.
-     * @bodyParam password string required The new password.
-     * @bodyParam password_confirmation string required Confirmation of the new password.
-     */
-    public function resetPassword(Request $request)
-    {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->password = Hash::make($password);
-                $user->save();
-            }
-        );
-
-        return $status === Password::PASSWORD_RESET
-            ? response()->json(['message' => __($status)], 200)
-            : response()->json(['message' => __($status)], 400);
-    }
 
     /**
      * Change the user's password.
@@ -199,5 +170,90 @@ class AuthController extends Controller
         $user->update(['password' => Hash::make($request->new_password)]);
 
         return response()->json(['message' => 'Password changed successfully.']);
+    }
+
+    public function sendResetOtp(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Email not found.'], 404);
+        }
+
+        $otp = rand(1000, 9999); // Generate a 4-digit OTP
+
+        PasswordReset::updateOrCreate(
+            ['email' => $request->email],
+            ['token' => $otp, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]
+        );
+
+        // Send OTP to user's email
+        Mail::send('emails.password_reset_otp', ['otp' => $otp], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject('Your Password Reset OTP');
+        });
+
+        return response()->json(['message' => 'OTP sent successfully.'], 200);
+    }
+
+    public function verifyResetOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required|string',
+        ]);
+
+        $resetRecord = PasswordReset::where('email', $request->email)
+            ->where('token', $request->otp)
+            ->first();
+
+        if (!$resetRecord) {
+            return response()->json(['message' => 'Invalid OTP.'], 400);
+        }
+
+        // Check if the OTP is expired
+        if (Carbon::parse($resetRecord->created_at)->addMinutes(self::OTP_EXPIRATION_MINUTES)->isPast()) {
+            return response()->json(['message' => 'OTP has expired.'], 400);
+        }
+
+        return response()->json(['message' => 'OTP verified successfully.'], 200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'otp' => 'required|string',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $resetRecord = PasswordReset::where('email', $request->email)
+            ->where('token', $request->otp)
+            ->first();
+
+        if (!$resetRecord) {
+            return response()->json(['message' => 'Invalid OTP.'], 400);
+        }
+
+        // Check if the OTP is expired
+        if (Carbon::parse($resetRecord->created_at)->addMinutes(self::OTP_EXPIRATION_MINUTES)->isPast()) {
+            return response()->json(['message' => 'OTP has expired.'], 400);
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // Delete the reset record
+        $resetRecord->delete();
+
+        return response()->json(['message' => 'Password reset successfully.'], 200);
     }
 }

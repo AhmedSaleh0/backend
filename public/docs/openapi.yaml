@@ -26,27 +26,27 @@ paths:
                 first_name:
                   type: string
                   description: "The user's first name."
-                  example: facilis
+                  example: occaecati
                 last_name:
                   type: string
                   description: "The user's last name."
-                  example: maxime
+                  example: et
                 email:
                   type: string
                   description: "The user's email address."
-                  example: hosea70@example.com
+                  example: anahi25@example.com
                 password:
                   type: string
                   description: "The user's password."
-                  example: '=?gH2{qR'
+                  example: '<V_EO&>#'
                 phone:
                   type: string
                   description: "The user's phone number."
-                  example: porro
+                  example: maiores
                 password_confirmation:
                   type: string
                   description: 'The password confirmation.'
-                  example: consectetur
+                  example: sint
               required:
                 - first_name
                 - last_name
@@ -94,8 +94,8 @@ paths:
         - Endpoints
   /api/auth/forgot-password:
     post:
-      summary: 'Send a password reset link to the given user.'
-      operationId: sendAPasswordResetLinkToTheGivenUser
+      summary: 'Send a password reset OTP to the given user.'
+      operationId: sendAPasswordResetOTPToTheGivenUser
       description: ''
       parameters: []
       responses: {  }
@@ -111,651 +111,17 @@ paths:
                 email:
                   type: string
                   description: 'The email of the user who is requesting a password reset.'
-                  example: linnie13@example.com
+                  example: muriel.bayer@example.com
               required:
                 - email
       security: []
-  /api/auth/reset-password:
-    get:
-      summary: "Reset the user's password."
-      operationId: resetTheUsersPassword
+  /api/auth/verify-otp:
+    post:
+      summary: 'Verify the password reset OTP.'
+      operationId: verifyThePasswordResetOTP
       description: ''
       parameters: []
-      responses:
-        404:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  message: 'The route i-plus/backend/public/api/auth/reset-password could not be found.'
-                  exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-                  file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
-                  line: 44
-                  trace:
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\CompiledRouteCollection.php'
-                      line: 144
-                      function: handleMatchedRoute
-                      class: Illuminate\Routing\AbstractRouteCollection
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
-                      line: 761
-                      function: match
-                      class: Illuminate\Routing\CompiledRouteCollection
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
-                      line: 748
-                      function: findRoute
-                      class: Illuminate\Routing\Router
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
-                      line: 737
-                      function: dispatchToRoute
-                      class: Illuminate\Routing\Router
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
-                      line: 200
-                      function: dispatch
-                      class: Illuminate\Routing\Router
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                      line: 144
-                      function: 'Illuminate\Foundation\Http\{closure}'
-                      class: Illuminate\Foundation\Http\Kernel
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php'
-                      line: 21
-                      function: 'Illuminate\Pipeline\{closure}'
-                      class: Illuminate\Pipeline\Pipeline
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php'
-                      line: 31
-                      function: handle
-                      class: Illuminate\Foundation\Http\Middleware\TransformsRequest
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                      line: 183
-                      function: handle
-                      class: Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php'
-                      line: 21
-                      function: 'Illuminate\Pipeline\{closure}'
-                      class: Illuminate\Pipeline\Pipeline
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php'
-                      line: 51
-                      function: handle
-                      class: Illuminate\Foundation\Http\Middleware\TransformsRequest
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                      line: 183
-                      function: handle
-                      class: Illuminate\Foundation\Http\Middleware\TrimStrings
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePostSize.php'
-                      line: 27
-                      function: 'Illuminate\Pipeline\{closure}'
-                      class: Illuminate\Pipeline\Pipeline
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                      line: 183
-                      function: handle
-                      class: Illuminate\Http\Middleware\ValidatePostSize
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance.php'
-                      line: 110
-                      function: 'Illuminate\Pipeline\{closure}'
-                      class: Illuminate\Pipeline\Pipeline
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                      line: 183
-                      function: handle
-                      class: Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php'
-                      line: 49
-                      function: 'Illuminate\Pipeline\{closure}'
-                      class: Illuminate\Pipeline\Pipeline
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                      line: 183
-                      function: handle
-                      class: Illuminate\Http\Middleware\HandleCors
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php'
-                      line: 57
-                      function: 'Illuminate\Pipeline\{closure}'
-                      class: Illuminate\Pipeline\Pipeline
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                      line: 183
-                      function: handle
-                      class: Illuminate\Http\Middleware\TrustProxies
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                      line: 119
-                      function: 'Illuminate\Pipeline\{closure}'
-                      class: Illuminate\Pipeline\Pipeline
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
-                      line: 175
-                      function: then
-                      class: Illuminate\Pipeline\Pipeline
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
-                      line: 144
-                      function: sendRequestThroughRouter
-                      class: Illuminate\Foundation\Http\Kernel
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
-                      line: 300
-                      function: handle
-                      class: Illuminate\Foundation\Http\Kernel
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
-                      line: 288
-                      function: callLaravelOrLumenRoute
-                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
-                      line: 91
-                      function: makeApiCall
-                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
-                      line: 44
-                      function: makeResponseCall
-                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
-                      line: 35
-                      function: makeResponseCallIfConditionsPass
-                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
-                      line: 236
-                      function: __invoke
-                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
-                      line: 163
-                      function: iterateThroughStrategies
-                      class: Knuckles\Scribe\Extracting\Extractor
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
-                      line: 95
-                      function: fetchResponses
-                      class: Knuckles\Scribe\Extracting\Extractor
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
-                      line: 125
-                      function: processRoute
-                      class: Knuckles\Scribe\Extracting\Extractor
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
-                      line: 72
-                      function: extractEndpointsInfoFromLaravelApp
-                      class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
-                      line: 50
-                      function: extractEndpointsInfoAndWriteToDisk
-                      class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Commands\GenerateDocumentation.php'
-                      line: 53
-                      function: get
-                      class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
-                      line: 36
-                      function: handle
-                      class: Knuckles\Scribe\Commands\GenerateDocumentation
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Container\Util.php'
-                      line: 41
-                      function: 'Illuminate\Container\{closure}'
-                      class: Illuminate\Container\BoundMethod
-                      type: '::'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
-                      line: 93
-                      function: unwrapIfClosure
-                      class: Illuminate\Container\Util
-                      type: '::'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
-                      line: 35
-                      function: callBoundMethod
-                      class: Illuminate\Container\BoundMethod
-                      type: '::'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Container\Container.php'
-                      line: 662
-                      function: call
-                      class: Illuminate\Container\BoundMethod
-                      type: '::'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Console\Command.php'
-                      line: 212
-                      function: call
-                      class: Illuminate\Container\Container
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\symfony\console\Command\Command.php'
-                      line: 279
-                      function: execute
-                      class: Illuminate\Console\Command
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Console\Command.php'
-                      line: 181
-                      function: run
-                      class: Symfony\Component\Console\Command\Command
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\symfony\console\Application.php'
-                      line: 1049
-                      function: run
-                      class: Illuminate\Console\Command
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\symfony\console\Application.php'
-                      line: 318
-                      function: doRunCommand
-                      class: Symfony\Component\Console\Application
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\symfony\console\Application.php'
-                      line: 169
-                      function: doRun
-                      class: Symfony\Component\Console\Application
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php'
-                      line: 196
-                      function: run
-                      class: Symfony\Component\Console\Application
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Application.php'
-                      line: 1187
-                      function: handle
-                      class: Illuminate\Foundation\Console\Kernel
-                      type: '->'
-                    -
-                      file: 'C:\MAMP\htdocs\i-plus\backend\artisan'
-                      line: 13
-                      function: handleCommand
-                      class: Illuminate\Foundation\Application
-                      type: '->'
-                properties:
-                  message:
-                    type: string
-                    example: 'The route i-plus/backend/public/api/auth/reset-password could not be found.'
-                  exception:
-                    type: string
-                    example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-                  file:
-                    type: string
-                    example: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
-                  line:
-                    type: integer
-                    example: 44
-                  trace:
-                    type: array
-                    example:
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\CompiledRouteCollection.php'
-                        line: 144
-                        function: handleMatchedRoute
-                        class: Illuminate\Routing\AbstractRouteCollection
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
-                        line: 761
-                        function: match
-                        class: Illuminate\Routing\CompiledRouteCollection
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
-                        line: 748
-                        function: findRoute
-                        class: Illuminate\Routing\Router
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\Router.php'
-                        line: 737
-                        function: dispatchToRoute
-                        class: Illuminate\Routing\Router
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
-                        line: 200
-                        function: dispatch
-                        class: Illuminate\Routing\Router
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                        line: 144
-                        function: 'Illuminate\Foundation\Http\{closure}'
-                        class: Illuminate\Foundation\Http\Kernel
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php'
-                        line: 21
-                        function: 'Illuminate\Pipeline\{closure}'
-                        class: Illuminate\Pipeline\Pipeline
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull.php'
-                        line: 31
-                        function: handle
-                        class: Illuminate\Foundation\Http\Middleware\TransformsRequest
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                        line: 183
-                        function: handle
-                        class: Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TransformsRequest.php'
-                        line: 21
-                        function: 'Illuminate\Pipeline\{closure}'
-                        class: Illuminate\Pipeline\Pipeline
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\TrimStrings.php'
-                        line: 51
-                        function: handle
-                        class: Illuminate\Foundation\Http\Middleware\TransformsRequest
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                        line: 183
-                        function: handle
-                        class: Illuminate\Foundation\Http\Middleware\TrimStrings
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Http\Middleware\ValidatePostSize.php'
-                        line: 27
-                        function: 'Illuminate\Pipeline\{closure}'
-                        class: Illuminate\Pipeline\Pipeline
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                        line: 183
-                        function: handle
-                        class: Illuminate\Http\Middleware\ValidatePostSize
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance.php'
-                        line: 110
-                        function: 'Illuminate\Pipeline\{closure}'
-                        class: Illuminate\Pipeline\Pipeline
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                        line: 183
-                        function: handle
-                        class: Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Http\Middleware\HandleCors.php'
-                        line: 49
-                        function: 'Illuminate\Pipeline\{closure}'
-                        class: Illuminate\Pipeline\Pipeline
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                        line: 183
-                        function: handle
-                        class: Illuminate\Http\Middleware\HandleCors
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Http\Middleware\TrustProxies.php'
-                        line: 57
-                        function: 'Illuminate\Pipeline\{closure}'
-                        class: Illuminate\Pipeline\Pipeline
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                        line: 183
-                        function: handle
-                        class: Illuminate\Http\Middleware\TrustProxies
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Pipeline\Pipeline.php'
-                        line: 119
-                        function: 'Illuminate\Pipeline\{closure}'
-                        class: Illuminate\Pipeline\Pipeline
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
-                        line: 175
-                        function: then
-                        class: Illuminate\Pipeline\Pipeline
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Http\Kernel.php'
-                        line: 144
-                        function: sendRequestThroughRouter
-                        class: Illuminate\Foundation\Http\Kernel
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
-                        line: 300
-                        function: handle
-                        class: Illuminate\Foundation\Http\Kernel
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
-                        line: 288
-                        function: callLaravelOrLumenRoute
-                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
-                        line: 91
-                        function: makeApiCall
-                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
-                        line: 44
-                        function: makeResponseCall
-                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Strategies\Responses\ResponseCalls.php'
-                        line: 35
-                        function: makeResponseCallIfConditionsPass
-                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
-                        line: 236
-                        function: __invoke
-                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
-                        line: 163
-                        function: iterateThroughStrategies
-                        class: Knuckles\Scribe\Extracting\Extractor
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Extracting\Extractor.php'
-                        line: 95
-                        function: fetchResponses
-                        class: Knuckles\Scribe\Extracting\Extractor
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
-                        line: 125
-                        function: processRoute
-                        class: Knuckles\Scribe\Extracting\Extractor
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
-                        line: 72
-                        function: extractEndpointsInfoFromLaravelApp
-                        class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\GroupedEndpoints\GroupedEndpointsFromApp.php'
-                        line: 50
-                        function: extractEndpointsInfoAndWriteToDisk
-                        class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\knuckleswtf\scribe\src\Commands\GenerateDocumentation.php'
-                        line: 53
-                        function: get
-                        class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
-                        line: 36
-                        function: handle
-                        class: Knuckles\Scribe\Commands\GenerateDocumentation
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Container\Util.php'
-                        line: 41
-                        function: 'Illuminate\Container\{closure}'
-                        class: Illuminate\Container\BoundMethod
-                        type: '::'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
-                        line: 93
-                        function: unwrapIfClosure
-                        class: Illuminate\Container\Util
-                        type: '::'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Container\BoundMethod.php'
-                        line: 35
-                        function: callBoundMethod
-                        class: Illuminate\Container\BoundMethod
-                        type: '::'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Container\Container.php'
-                        line: 662
-                        function: call
-                        class: Illuminate\Container\BoundMethod
-                        type: '::'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Console\Command.php'
-                        line: 212
-                        function: call
-                        class: Illuminate\Container\Container
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\symfony\console\Command\Command.php'
-                        line: 279
-                        function: execute
-                        class: Illuminate\Console\Command
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Console\Command.php'
-                        line: 181
-                        function: run
-                        class: Symfony\Component\Console\Command\Command
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\symfony\console\Application.php'
-                        line: 1049
-                        function: run
-                        class: Illuminate\Console\Command
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\symfony\console\Application.php'
-                        line: 318
-                        function: doRunCommand
-                        class: Symfony\Component\Console\Application
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\symfony\console\Application.php'
-                        line: 169
-                        function: doRun
-                        class: Symfony\Component\Console\Application
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Console\Kernel.php'
-                        line: 196
-                        function: run
-                        class: Symfony\Component\Console\Application
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Foundation\Application.php'
-                        line: 1187
-                        function: handle
-                        class: Illuminate\Foundation\Console\Kernel
-                        type: '->'
-                      -
-                        file: 'C:\MAMP\htdocs\i-plus\backend\artisan'
-                        line: 13
-                        function: handleCommand
-                        class: Illuminate\Foundation\Application
-                        type: '->'
-                    items:
-                      type: object
-                      properties:
-                        file:
-                          type: string
-                          example: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\CompiledRouteCollection.php'
-                        line:
-                          type: integer
-                          example: 144
-                        function:
-                          type: string
-                          example: handleMatchedRoute
-                        class:
-                          type: string
-                          example: Illuminate\Routing\AbstractRouteCollection
-                        type:
-                          type: string
-                          example: '->'
+      responses: {  }
       tags:
         - Endpoints
       requestBody:
@@ -765,27 +131,50 @@ paths:
             schema:
               type: object
               properties:
-                token:
-                  type: string
-                  description: 'The password reset token.'
-                  example: similique
                 email:
                   type: string
-                  description: 'The email of the user.'
-                  example: baumbach.ellis@example.net
+                  description: 'The email of the user who is verifying the OTP.'
+                  example: wdooley@example.net
+                otp:
+                  type: string
+                  description: 'The OTP to verify.'
+                  example: ab
+              required:
+                - email
+                - otp
+      security: []
+  /api/auth/reset-password:
+    post:
+      summary: 'Reset the password using the verified OTP.'
+      operationId: resetThePasswordUsingTheVerifiedOTP
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'The email of the user who is resetting the password.'
+                  example: marlee.donnelly@example.com
+                otp:
+                  type: string
+                  description: 'The verified OTP.'
+                  example: illum
                 password:
                   type: string
                   description: 'The new password.'
-                  example: 'qgVzpB&Uz&JJe'
-                password_confirmation:
-                  type: string
-                  description: 'Confirmation of the new password.'
-                  example: voluptate
+                  example: 'iHLjtMv|prZmVSDBY}iA'
               required:
-                - token
                 - email
+                - otp
                 - password
-                - password_confirmation
       security: []
   /api/auth/change-password:
     post:
@@ -806,15 +195,15 @@ paths:
                 current_password:
                   type: string
                   description: 'The current password of the user.'
-                  example: sed
+                  example: ipsam
                 new_password:
                   type: string
                   description: 'The new password to set.'
-                  example: harum
+                  example: quam
                 new_password_confirmation:
                   type: string
                   description: 'Confirmation of the new password.'
-                  example: sunt
+                  example: ipsa
               required:
                 - current_password
                 - new_password
@@ -838,31 +227,31 @@ paths:
                 first_name:
                   type: string
                   description: "optional The user's first name."
-                  example: est
+                  example: ad
                 last_name:
                   type: string
                   description: "optional The user's last name."
-                  example: optio
+                  example: reiciendis
                 email:
                   type: string
                   description: "optional The user's email address."
-                  example: ppollich@example.org
+                  example: gvon@example.com
                 phone:
                   type: string
                   description: "optional The user's phone number."
-                  example: in
+                  example: dolorem
                 country:
                   type: string
                   description: "optional The user's country."
-                  example: corporis
+                  example: aut
                 birthdate:
                   type: date
                   description: "optional The user's birthdate in format day-month-year."
-                  example: id
+                  example: porro
                 bio:
                   type: string
                   description: 'optional A short bio for the user.'
-                  example: cum
+                  example: aut
   /api/user/username:
     put:
       summary: "Update the user's username."
@@ -882,7 +271,7 @@ paths:
                 username:
                   type: string
                   description: "The user's username."
-                  example: provident
+                  example: sed
               required:
                 - username
   /api/user/profile:
@@ -1699,7 +1088,7 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: unde
+                  example: fugiat
                 image:
                   type: string
                   format: binary
@@ -1721,7 +1110,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route i-plus/backend/public/api/user-images/3 could not be found.'
+                  message: 'The route i-plus/backend/public/api/user-images/14 could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -2023,7 +1412,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route i-plus/backend/public/api/user-images/3 could not be found.'
+                    example: 'The route i-plus/backend/public/api/user-images/14 could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -2368,7 +1757,7 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: est
+                  example: sed
                 image:
                   type: string
                   format: binary
@@ -2388,7 +1777,7 @@ paths:
         in: path
         name: user_image_id
         description: 'The ID of the user image.'
-        example: 3
+        example: 14
         required: true
         schema:
           type: integer
@@ -3053,11 +2442,11 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: quo
+                  example: quas
                 skill_id:
                   type: string
                   description: ''
-                  example: numquam
+                  example: quo
               required:
                 - user_id
                 - skill_id
@@ -3075,7 +2464,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route i-plus/backend/public/api/user-skills/3 could not be found.'
+                  message: 'The route i-plus/backend/public/api/user-skills/4 could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -3377,7 +2766,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route i-plus/backend/public/api/user-skills/3 could not be found.'
+                    example: 'The route i-plus/backend/public/api/user-skills/4 could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -3722,11 +3111,11 @@ paths:
                 user_id:
                   type: string
                   description: ''
-                  example: tempore
+                  example: corporis
                 skill_id:
                   type: string
                   description: ''
-                  example: sapiente
+                  example: quia
               required:
                 - user_id
                 - skill_id
@@ -3743,7 +3132,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the user skill.'
-        example: 3
+        example: 4
         required: true
         schema:
           type: integer
@@ -4408,23 +3797,23 @@ paths:
                 title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: fmkav
+                  example: ufiimd
                 content:
                   type: string
                   description: ''
-                  example: officia
+                  example: laboriosam
                 video_url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://schuster.com/'
+                  example: 'http://balistreri.com/'
                 category:
                   type: string
                   description: ''
-                  example: natus
+                  example: cumque
                 sub_category:
                   type: string
                   description: ''
-                  example: itaque
+                  example: unde
               required:
                 - title
                 - content
@@ -4444,7 +3833,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route i-plus/backend/public/api/inspire/posts/voluptas could not be found.'
+                  message: 'The route i-plus/backend/public/api/inspire/posts/sapiente could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -4746,7 +4135,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route i-plus/backend/public/api/inspire/posts/voluptas could not be found.'
+                    example: 'The route i-plus/backend/public/api/inspire/posts/sapiente could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -5091,23 +4480,23 @@ paths:
                 title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: cpjhydtqfl
+                  example: tqfskkuazdfnxdedmqxx
                 content:
                   type: string
                   description: ''
-                  example: ex
+                  example: deleniti
                 video_url:
                   type: string
                   description: 'Must be a valid URL.'
-                  example: 'http://www.williamson.biz/harum-consequatur-fugiat-architecto-explicabo-ut-totam-fugiat.html'
+                  example: 'http://www.bartoletti.com/ut-autem-cumque-quia-quo-non'
                 category:
                   type: string
                   description: ''
-                  example: et
+                  example: eligendi
                 sub_category:
                   type: string
                   description: ''
-                  example: saepe
+                  example: quia
                 status:
                   type: string
                   description: ''
@@ -5128,7 +4517,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: voluptas
+        example: sapiente
         required: true
         schema:
           type: string
@@ -5793,11 +5182,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: sxiembmxnrgemkdmwrepf
+                  example: syzm
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: pxzlqwnfwvj
+                  example: j
                 post_image:
                   type: string
                   format: binary
@@ -5805,18 +5194,18 @@ paths:
                 post_price:
                   type: number
                   description: '2MB max size.'
-                  example: 5.0
+                  example: 2745958.162778
                 post_price_type:
                   type: string
                   description: ''
-                  example: fixed
+                  example: hourly
                   enum:
                     - fixed
                     - hourly
                 post_status:
                   type: string
                   description: ''
-                  example: inactive
+                  example: active
                   enum:
                     - active
                     - inactive
@@ -5840,7 +5229,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route i-plus/backend/public/api/ican/posts/et could not be found.'
+                  message: 'The route i-plus/backend/public/api/ican/posts/molestias could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -6142,7 +5531,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route i-plus/backend/public/api/ican/posts/et could not be found.'
+                    example: 'The route i-plus/backend/public/api/ican/posts/molestias could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -6487,11 +5876,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: tqsy
+                  example: jo
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: kapvnukaimsxgboarlbmxyx
+                  example: bvdrnuxx
                 post_image:
                   type: string
                   format: binary
@@ -6499,7 +5888,7 @@ paths:
                 post_price:
                   type: number
                   description: ''
-                  example: 183885.69
+                  example: 182.67695
                 post_price_type:
                   type: string
                   description: ''
@@ -6510,7 +5899,7 @@ paths:
                 post_status:
                   type: string
                   description: ''
-                  example: inactive
+                  example: active
                   enum:
                     - active
                     - inactive
@@ -6527,7 +5916,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: et
+        example: molestias
         required: true
         schema:
           type: string
@@ -7192,11 +6581,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: e
+                  example: cr
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: yzw
+                  example: gmwd
                 post_image:
                   type: string
                   format: binary
@@ -7204,7 +6593,7 @@ paths:
                 post_price:
                   type: number
                   description: '2MB max size.'
-                  example: 2.0876
+                  example: 0.0
                 post_price_type:
                   type: string
                   description: ''
@@ -7215,7 +6604,7 @@ paths:
                 post_status:
                   type: string
                   description: ''
-                  example: inactive
+                  example: active
                   enum:
                     - active
                     - inactive
@@ -7239,7 +6628,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route i-plus/backend/public/api/ineed/posts/in could not be found.'
+                  message: 'The route i-plus/backend/public/api/ineed/posts/voluptas could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -7541,7 +6930,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route i-plus/backend/public/api/ineed/posts/in could not be found.'
+                    example: 'The route i-plus/backend/public/api/ineed/posts/voluptas could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -7886,11 +7275,11 @@ paths:
                 post_title:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: teqywambpcbgrb
+                  example: pnlccjacnvzangh
                 post_short_description:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: enk
+                  example: sq
                 post_image:
                   type: string
                   format: binary
@@ -7898,7 +7287,7 @@ paths:
                 post_price:
                   type: number
                   description: ''
-                  example: 15.0909
+                  example: 5785.838
                 post_price_type:
                   type: string
                   description: ''
@@ -7909,7 +7298,7 @@ paths:
                 post_status:
                   type: string
                   description: ''
-                  example: active
+                  example: inactive
                   enum:
                     - active
                     - inactive
@@ -7926,7 +7315,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the post.'
-        example: in
+        example: voluptas
         required: true
         schema:
           type: string
@@ -9261,15 +8650,15 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: tpdbj
+                  example: yebuwswmbaljrvzbrzzthm
                 category:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: bwj
+                  example: hdxcqircbdcymgaullsy
                 sub_category:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: gsjic
+                  example: ljtxjrykdztbcxbjghycsbvl
               required:
                 - name
                 - category
@@ -9287,7 +8676,7 @@ paths:
               schema:
                 type: object
                 example:
-                  message: 'The route i-plus/backend/public/api/skills/2 could not be found.'
+                  message: 'The route i-plus/backend/public/api/skills/8 could not be found.'
                   exception: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
                   file: 'C:\MAMP\htdocs\i-plus\backend\vendor\laravel\framework\src\Illuminate\Routing\AbstractRouteCollection.php'
                   line: 44
@@ -9589,7 +8978,7 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: 'The route i-plus/backend/public/api/skills/2 could not be found.'
+                    example: 'The route i-plus/backend/public/api/skills/8 could not be found.'
                   exception:
                     type: string
                     example: Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -9934,15 +9323,15 @@ paths:
                 name:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: b
+                  example: epwqyghwbsplm
                 category:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: owppfniffoeagvrndsg
+                  example: mtpvcru
                 sub_category:
                   type: string
                   description: 'Must not be greater than 255 characters.'
-                  example: mcmswhlqnqfoqcadvhubird
+                  example: rnf
               required:
                 - name
                 - category
@@ -9959,10 +9348,91 @@ paths:
         in: path
         name: id
         description: 'The ID of the skill.'
-        example: 2
+        example: 8
         required: true
         schema:
           type: integer
+  /api/newsletter/subscribe:
+    post:
+      summary: ''
+      operationId: postApiNewsletterSubscribe
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: ferry.emmett@example.net
+                list:
+                  type: string
+                  description: ''
+                  example: dicta
+              required:
+                - email
+                - list
+  /api/newsletter/unsubscribe:
+    post:
+      summary: ''
+      operationId: postApiNewsletterUnsubscribe
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: horace.kris@example.net
+              required:
+                - email
+  /api/contact/send:
+    post:
+      summary: ''
+      operationId: postApiContactSend
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: azefsahmnbwdoggswrbedhc
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: maymie19@example.net
+                message:
+                  type: string
+                  description: ''
+                  example: cupiditate
+              required:
+                - name
+                - email
+                - message
 tags:
   -
     name: Endpoints

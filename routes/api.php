@@ -13,6 +13,7 @@ use App\Http\Controllers\SkillController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSkillController;
 
+
 // Authentication Routes
 Route::prefix('auth')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup']);
@@ -20,10 +21,12 @@ Route::prefix('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
     // Password reset routes
-    Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail']);
-    Route::get('/reset-password', [AuthController::class, 'resetPassword'])->name('password.reset');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetOtp']); // Updated to send OTP
+    Route::post('/verify-otp', [AuthController::class, 'verifyResetOtp']); // New route to verify OTP
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']); // Updated to reset password using OTP
     Route::post('/change-password', [AuthController::class, 'changePassword'])->middleware('auth:api');
 });
+
 
 // User Routes (Require authentication)
 Route::middleware('auth:api')->group(function () {
