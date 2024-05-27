@@ -84,8 +84,13 @@ Route::prefix('credits')->middleware('auth:api')->group(function () {
 });
 
 // Skills Routes
-Route::apiResource('skills', SkillController::class)->middleware('auth:api');
-
+Route::prefix('skills')->middleware('auth:api')->group(function () {
+    Route::get('/', [SkillController::class, 'index']);
+    Route::post('/', [SkillController::class, 'store']);
+    Route::get('/{id}', [SkillController::class, 'show']);
+    Route::put('/{id}', [SkillController::class, 'update']);
+    Route::delete('/{id}', [SkillController::class, 'destroy']);
+});
 // Newsletter Routes
 Route::prefix('newsletter')->middleware('api')->group(function () {
     Route::post('/subscribe', [NewsletterController::class, 'subscribe']);
