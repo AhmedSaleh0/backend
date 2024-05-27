@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\InspireController;
 use App\Http\Controllers\ICanController;
 use App\Http\Controllers\INeedController;
 use App\Http\Controllers\CreditsController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\UserImageController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\UserController;
@@ -80,3 +82,14 @@ Route::prefix('credits')->middleware('auth:api')->group(function () {
 
 // Skills Routes
 Route::apiResource('skills', SkillController::class)->middleware('auth:api');
+
+// Newsletter Routes
+Route::prefix('newsletter')->middleware('api')->group(function () {
+    Route::post('/subscribe', [NewsletterController::class, 'subscribe']);
+    Route::post('/unsubscribe', [NewsletterController::class, 'unsubscribe']);
+});
+
+// Contact Routes
+Route::prefix('contact')->middleware('api')->group(function () {
+    Route::post('/send', [ContactController::class, 'send'])->name('contact.send');
+});

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -125,8 +126,8 @@ class AuthController extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-                ? response()->json(['message' => __($status)], 200)
-                : response()->json(['message' => __($status)], 400);
+            ? response()->json(['message' => __($status)], 200)
+            : response()->json(['message' => __($status)], 400);
     }
 
     /**
@@ -159,8 +160,8 @@ class AuthController extends Controller
         );
 
         return $status === Password::PASSWORD_RESET
-                ? response()->json(['message' => __($status)], 200)
-                : response()->json(['message' => __($status)], 400);
+            ? response()->json(['message' => __($status)], 200)
+            : response()->json(['message' => __($status)], 400);
     }
 
     /**
@@ -200,5 +201,3 @@ class AuthController extends Controller
         return response()->json(['message' => 'Password changed successfully.']);
     }
 }
-
- 
