@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+namespace App\Http\Controllers;
 
 use App\Models\PasswordReset;
 use App\Models\User;
@@ -134,7 +135,6 @@ class AuthController extends Controller
             : response()->json(['message' => __($status)], 400);
     }
 
-
     /**
      * Change the user's password.
      *
@@ -172,6 +172,16 @@ class AuthController extends Controller
         return response()->json(['message' => 'Password changed successfully.']);
     }
 
+    /**
+     * Send a password reset OTP to the given user.
+     *
+     * @unauthenticated
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @bodyParam email string required The email of the user who is requesting a password reset.
+     */
     public function sendResetOtp(Request $request)
     {
         $request->validate(['email' => 'required|email']);
@@ -198,6 +208,17 @@ class AuthController extends Controller
         return response()->json(['message' => 'OTP sent successfully.'], 200);
     }
 
+    /**
+     * Verify the password reset OTP.
+     *
+     * @unauthenticated
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @bodyParam email string required The email of the user who is verifying the OTP.
+     * @bodyParam otp string required The OTP to verify.
+     */
     public function verifyResetOtp(Request $request)
     {
         $request->validate([
@@ -221,6 +242,19 @@ class AuthController extends Controller
         return response()->json(['message' => 'OTP verified successfully.'], 200);
     }
 
+    /**
+     * Reset the password using the verified OTP.
+     *
+     * @unauthenticated
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @bodyParam email string required The email of the user who is resetting the password.
+     * @bodyParam otp string required The verified OTP.
+     * @bodyParam password string required The new password.
+     * @bodyParam password_confirmation string required Confirmation of the new password.
+     */
     public function resetPassword(Request $request)
     {
         $request->validate([
