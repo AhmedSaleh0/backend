@@ -136,7 +136,7 @@ class UserController extends Controller
             // Handle Image Upload
             if ($request->hasFile('image')) {
                 $request->validate([
-                    'image' => 'required|image|max:2048',  // Max 2MB file
+                    'image' => 'required|image|max:25600',  // Max 25MB file
                 ]);
 
                 $path = $request->file('image')->store('user_images', 'public');

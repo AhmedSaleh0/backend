@@ -26,7 +26,7 @@ class UserImageController extends Controller
     {
         $request->validate([
             'user_id' => 'required|exists:users,id', // Ensure the user ID exists
-            'image' => 'required|image|max:2048',  // Max 2MB file
+            'image' => 'required|image|max:25600',  // Max 25MB file
         ]);
 
         $path = $request->file('image')->store('user_images', 'public');
@@ -62,7 +62,7 @@ class UserImageController extends Controller
     {
         $request->validate([
             'user_id' => 'required|exists:users,id', // Validate user ID
-            'image' => 'image|max:2048',  // Optional, Max 2MB file
+            'image' => 'image|max:25600',  // Optional, Max 25MB file
         ]);
 
         if ($request->user_id != $userImage->user_id) {
