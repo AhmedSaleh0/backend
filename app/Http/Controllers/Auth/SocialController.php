@@ -62,7 +62,7 @@ class SocialController extends Controller
         $data = $this->parseSignedRequest($signed_request);
 
         if (!$data) {
-            return response()->json(['error' => 'Invalid signed request'], 400);
+            return response()->json(['error' => 'Invalid signed request'], 200);
         }
 
         $user_id = $data['user_id'];
