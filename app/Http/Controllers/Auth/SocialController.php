@@ -122,4 +122,46 @@ class SocialController extends Controller
     {
         return base64_decode(strtr($input, '-_', '+/'));
     }
+
+    /**
+     * Redirect the user to the Google authentication page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Google.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+        } catch (\Exception $e) {
+            return redirect('/login')->with('error', 'Failed to login with Google.');
+        }
+
+        // Check if the user already exists
+        $user = User::where('google_id', $googleUser->id)->first();
+
+        if (!$user) {
+            // Create a new user if it doesn't exist
+            $user = User::create([
+                'name' => $googleUser->name,
+                'email' => $googleUser->email,
+                'google_id' => $googleUser->id,
+                'password' => bcrypt(Str::random(24)), // Use Str::random to generate a random password
+            ]);
+        }
+
+        // Log the user in
+        Auth::login($user, true);
+
+        return redirect('/'); // Redirect to your desired route
+    }
 }

@@ -30,6 +30,9 @@ Route::prefix('auth')->group(function () {
     Route::get('/facebook', [SocialController::class, 'redirectToFacebook']);
     Route::get('/facebook/callback', [SocialController::class, 'handleFacebookCallback']);
     Route::post('/facebook/data-deletion', [SocialController::class, 'dataDeletionRequest']);
+
+    Route::get('/google', [SocialController::class, 'redirectToGoogle']);
+    Route::get('/google/callback', [SocialController::class, 'handleGoogleCallback']);
 });
 
 // User Routes (Require authentication)
