@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\SocialController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
@@ -25,8 +26,11 @@ Route::prefix('auth')->group(function () {
     Route::post('/verify-otp', [AuthController::class, 'verifyResetOtp']); // New route to verify OTP
     Route::post('/reset-password', [AuthController::class, 'resetPassword']); // Updated to reset password using OTP
     Route::post('/change-password', [AuthController::class, 'changePassword'])->middleware('auth:api');
-});
 
+    Route::get('/facebook', [SocialController::class, 'redirectToFacebook']);
+    Route::get('/facebook/callback', [SocialController::class, 'handleFacebookCallback']);
+    Route::post('/facebook/data-deletion', [SocialController::class, 'dataDeletionRequest']);
+});
 
 // User Routes (Require authentication)
 Route::middleware('auth:api')->group(function () {
