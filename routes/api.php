@@ -8,6 +8,9 @@ use App\Http\Controllers\InspireController;
 use App\Http\Controllers\ICanController;
 use App\Http\Controllers\INeedController;
 use App\Http\Controllers\CreditsController;
+use App\Http\Controllers\InspireCommentController;
+use App\Http\Controllers\InspireReactionController;
+use App\Http\Controllers\InspireUserSaveController;
 use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\UserImageController;
 use App\Http\Controllers\SkillController;
@@ -62,7 +65,27 @@ Route::prefix('inspire')->middleware('api')->group(function () {
     Route::get('/posts/{id}', [InspireController::class, 'show']);
     Route::put('/posts/{id}', [InspireController::class, 'update']);
     Route::delete('/posts/{id}', [InspireController::class, 'destroy']);
+
+    // Comments routes
+    Route::get('/posts/{inspire_id}/comments', [InspireCommentController::class, 'index']);
+    Route::post('/posts/{inspire_id}/comments', [InspireCommentController::class, 'store']);
+    Route::get('/comments/{id}', [InspireCommentController::class, 'show']);
+    Route::put('/comments/{id}', [InspireCommentController::class, 'update']);
+    Route::delete('/comments/{id}', [InspireCommentController::class, 'destroy']);
+
+     // Reactions routes
+     Route::get('/posts/{inspire_id}/reactions', [InspireReactionController::class, 'index']);
+     Route::post('/posts/{inspire_id}/reactions', [InspireReactionController::class, 'store']);
+     Route::get('/reactions/{id}', [InspireReactionController::class, 'show']);
+     Route::put('/reactions/{id}', [InspireReactionController::class, 'update']);
+     Route::delete('/reactions/{id}', [InspireReactionController::class, 'destroy']);
+
+     // User saves routes
+    Route::get('/user/saves', [InspireUserSaveController::class, 'index']);
+    Route::post('/posts/{inspire_id}/save', [InspireUserSaveController::class, 'store']);
+    Route::delete('/saves/{id}', [InspireUserSaveController::class, 'destroy']);
 });
+
 
 // I-Can Routes
 Route::prefix('ican')->middleware('auth:api')->group(function () {
