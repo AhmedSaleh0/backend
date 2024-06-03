@@ -11,6 +11,8 @@ class InspireCommentController extends Controller
     /**
      * Display a listing of comments for a specific Inspire post.
      *
+     * @unauthenticated
+     * 
      * @group Inspire Comments
      * @param int $inspire_id
      * @return \Illuminate\Http\Response

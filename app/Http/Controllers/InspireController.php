@@ -11,6 +11,8 @@ class InspireController extends Controller
     /**
      * Display a listing of Inspire posts.
      *
+     * @unauthenticated
+     * 
      * @group Inspire Posts
      * @return \Illuminate\Http\Response
      */
