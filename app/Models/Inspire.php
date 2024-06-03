@@ -9,10 +9,12 @@ class Inspire extends Model
 {
     use HasFactory;
 
+    protected $table ="inspire";
     protected $fillable = [
+        'type', 
         'title', 
         'content', 
-        'video_url', 
+        'media_url', 
         'user_id', 
         'status', 
         'views', 
