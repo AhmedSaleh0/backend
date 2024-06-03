@@ -27,11 +27,13 @@ class Inspire extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Optionally, you might have relationships with Category or SubCategory models if those are separate entities
-    // public function category() {
-    //     return $this->belongsTo(Category::class);
-    // }
-    // public function subCategory() {
-    //     return $this->belongsTo(SubCategory::class);
-    // }
+    public function category()
+    {
+        return $this->belongsTo(SkillsCategory::class, 'category');
+    }
+
+    public function subCategory()
+    {
+        return $this->belongsTo(SkillsSubCategory::class, 'sub_category');
+    }
 }
