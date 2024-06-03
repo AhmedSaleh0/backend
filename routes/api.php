@@ -56,7 +56,7 @@ Route::prefix('user-images')->middleware('auth:api')->group(function () {
 Route::apiResource('user-skills', UserSkillController::class)->middleware('auth:api');
 
 // Inspire Routes
-Route::prefix('inspire')->middleware('auth:api')->group(function () {
+Route::prefix('inspire')->middleware('api')->group(function () {
     Route::get('/posts', [InspireController::class, 'index']);
     Route::post('/posts', [InspireController::class, 'store']);
     Route::get('/posts/{id}', [InspireController::class, 'show']);
