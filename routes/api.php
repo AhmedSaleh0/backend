@@ -59,31 +59,36 @@ Route::prefix('user-images')->middleware('auth:api')->group(function () {
 Route::apiResource('user-skills', UserSkillController::class)->middleware('auth:api');
 
 // Inspire Routes
-Route::prefix('inspire')->middleware('api')->group(function () {
+Route::prefix('inspire')->group(function () {
+    // Public routes
     Route::get('/posts', [InspireController::class, 'index']);
-    Route::post('/posts', [InspireController::class, 'store']);
-    Route::get('/posts/{id}', [InspireController::class, 'show']);
-    Route::put('/posts/{id}', [InspireController::class, 'update']);
-    Route::delete('/posts/{id}', [InspireController::class, 'destroy']);
-
-    // Comments routes
     Route::get('/posts/{inspire_id}/comments', [InspireCommentController::class, 'index']);
-    Route::post('/posts/{inspire_id}/comments', [InspireCommentController::class, 'store']);
-    Route::get('/comments/{id}', [InspireCommentController::class, 'show']);
-    Route::put('/comments/{id}', [InspireCommentController::class, 'update']);
-    Route::delete('/comments/{id}', [InspireCommentController::class, 'destroy']);
+    Route::get('/posts/{inspire_id}/reactions', [InspireReactionController::class, 'index']);
 
-     // Reactions routes
-     Route::get('/posts/{inspire_id}/reactions', [InspireReactionController::class, 'index']);
-     Route::post('/posts/{inspire_id}/reactions', [InspireReactionController::class, 'store']);
-     Route::get('/reactions/{id}', [InspireReactionController::class, 'show']);
-     Route::put('/reactions/{id}', [InspireReactionController::class, 'update']);
-     Route::delete('/reactions/{id}', [InspireReactionController::class, 'destroy']);
+    // Routes requiring authentication
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/posts', [InspireController::class, 'store']);
+        Route::get('/posts/{id}', [InspireController::class, 'show']);
+        Route::put('/posts/{id}', [InspireController::class, 'update']);
+        Route::delete('/posts/{id}', [InspireController::class, 'destroy']);
 
-     // User saves routes
-    Route::get('/user/saves', [InspireUserSaveController::class, 'index']);
-    Route::post('/posts/{inspire_id}/save', [InspireUserSaveController::class, 'store']);
-    Route::delete('/saves/{id}', [InspireUserSaveController::class, 'destroy']);
+        // Comments routes
+        Route::post('/posts/{inspire_id}/comments', [InspireCommentController::class, 'store']);
+        Route::get('/comments/{id}', [InspireCommentController::class, 'show']);
+        Route::put('/comments/{id}', [InspireCommentController::class, 'update']);
+        Route::delete('/comments/{id}', [InspireCommentController::class, 'destroy']);
+
+        // Reactions routes
+        Route::post('/posts/{inspire_id}/reactions', [InspireReactionController::class, 'store']);
+        Route::get('/reactions/{id}', [InspireReactionController::class, 'show']);
+        Route::put('/reactions/{id}', [InspireReactionController::class, 'update']);
+        Route::delete('/reactions/{id}', [InspireReactionController::class, 'destroy']);
+
+        // User saves routes
+        Route::get('/user/saves', [InspireUserSaveController::class, 'index']);
+        Route::post('/posts/{inspire_id}/save', [InspireUserSaveController::class, 'store']);
+        Route::delete('/saves/{id}', [InspireUserSaveController::class, 'destroy']);
+    });
 });
 
 
