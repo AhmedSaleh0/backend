@@ -12,6 +12,24 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
+
+    // Other methods...
+
+    /**
+     * Get authenticated user details.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUserDetails()
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            return response()->json(['user' => $user, 'user_images' => $user->images], 200);
+        } else {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
+    }
     /**
      * Update user details.
      *
