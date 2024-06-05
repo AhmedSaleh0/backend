@@ -34,14 +34,16 @@ class AuthController extends Controller
      */
     public function signup(Request $request)
     {
+        // Validate the request data, including making the phone number unique
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|string|max:255|unique:users',
         ]);
 
+        // Create a new user with the validated data
         $user = User::create([
             'first_name' => $validatedData['first_name'],
             'last_name' => $validatedData['last_name'],
@@ -50,9 +52,10 @@ class AuthController extends Controller
             'phone' => $validatedData['phone'],
         ]);
 
-        // Automatically log in the user
+        // Automatically log in the user and create a token
         $token = $user->createToken('Personal Access Token')->accessToken;
 
+        // Return a success response with the user and token data
         return response()->json([
             'message' => 'User successfully registered',
             'user' => $user,
@@ -73,16 +76,21 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+        // Validate the login credentials
         $request->validate([
             'login' => 'required|string',
             'password' => 'required|string',
         ]);
 
+        // Determine if the login is an email or username
         $field = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
+        // Attempt to authenticate the user
         if (Auth::attempt([$field => $request->login, 'password' => $request->password])) {
             $user = Auth::user();
             $token = $user->createToken('Personal Access Token')->accessToken;
+
+            // Return a success response with the token and user data
             return response()->json([
                 'token' => $token,
                 'user' => $user,
@@ -90,6 +98,7 @@ class AuthController extends Controller
             ], 200);
         }
 
+        // If authentication fails, throw a validation exception
         throw ValidationException::withMessages([
             'login' => ['The provided credentials are incorrect.'],
         ]);
@@ -106,6 +115,7 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         if ($user) {
+            // Revoke all tokens for the authenticated user
             $user->tokens->each(function ($token, $key) {
                 $token->delete();
             });
@@ -127,12 +137,15 @@ class AuthController extends Controller
      */
     public function sendResetLinkEmail(Request $request)
     {
+        // Validate the request email
         $request->validate(['email' => 'required|email']);
 
+        // Send the password reset link
         $status = Password::sendResetLink(
             $request->only('email')
         );
 
+        // Return the appropriate response based on the status
         return $status === Password::RESET_LINK_SENT
             ? response()->json(['message' => __($status)], 200)
             : response()->json(['message' => __($status)], 400);
@@ -152,6 +165,7 @@ class AuthController extends Controller
      */
     public function changePassword(Request $request)
     {
+        // Validate the password change request
         $request->validate([
             'current_password' => 'required',
             'new_password' => 'required|string|min:8|confirmed',
@@ -166,10 +180,12 @@ class AuthController extends Controller
 
         Log::info('Authenticated user', ['user' => $user]);
 
+        // Check if the current password is correct
         if (!Hash::check($request->current_password, $user->password)) {
             return response()->json(['message' => 'The provided password does not match your current password.'], 400);
         }
 
+        // Update the user's password
         $user->update(['password' => Hash::make($request->new_password)]);
 
         return response()->json(['message' => 'Password changed successfully.']);
@@ -187,6 +203,7 @@ class AuthController extends Controller
      */
     public function sendResetOtp(Request $request)
     {
+        // Validate the request email
         $request->validate(['email' => 'required|email']);
 
         $user = User::where('email', $request->email)->first();
@@ -197,6 +214,7 @@ class AuthController extends Controller
 
         $otp = rand(1000, 9999); // Generate a 4-digit OTP
 
+        // Save or update the OTP in the password_resets table
         PasswordReset::updateOrCreate(
             ['email' => $request->email],
             ['token' => $otp, 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()]
@@ -224,11 +242,13 @@ class AuthController extends Controller
      */
     public function verifyResetOtp(Request $request)
     {
+        // Validate the OTP verification request
         $request->validate([
             'email' => 'required|email',
             'otp' => 'required|string',
         ]);
 
+        // Find the password reset record
         $resetRecord = PasswordReset::where('email', $request->email)
             ->where('token', $request->otp)
             ->first();
@@ -260,12 +280,14 @@ class AuthController extends Controller
      */
     public function resetPassword(Request $request)
     {
+        // Validate the password reset request
         $request->validate([
             'email' => 'required|email',
             'otp' => 'required|string',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
+        // Find the password reset record
         $resetRecord = PasswordReset::where('email', $request->email)
             ->where('token', $request->otp)
             ->first();
@@ -279,12 +301,14 @@ class AuthController extends Controller
             return response()->json(['message' => 'OTP has expired.'], 400);
         }
 
+        // Find the user by email
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
             return response()->json(['message' => 'User not found.'], 404);
         }
 
+        // Update the user's password
         $user->password = Hash::make($request->password);
         $user->save();
 
