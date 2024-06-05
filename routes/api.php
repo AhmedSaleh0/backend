@@ -40,6 +40,7 @@ Route::prefix('auth')->group(function () {
 
 // User Routes (Require authentication)
 Route::middleware('auth:api')->group(function () {
+    Route::get('/user/details', [UserController::class, 'getUserDetails']);
     Route::put('/user', [UserController::class, 'updateUser']);
     Route::put('/user/username', [UserController::class, 'updateUsername']);
 });
