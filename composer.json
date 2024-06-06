@@ -6,12 +6,13 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "aws/aws-sdk-php": "^3.310",
+        "aws/aws-sdk-php": "^3.311",
         "knuckleswtf/scribe": "^4.35",
         "laravel/framework": "^11.0",
         "laravel/passport": "^12.0",
         "laravel/socialite": "^5.14",
-        "laravel/tinker": "^2.9"
+        "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "~3.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
