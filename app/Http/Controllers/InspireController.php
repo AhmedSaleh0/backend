@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inspire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class InspireController extends Controller
 {
@@ -29,7 +30,7 @@ class InspireController extends Controller
      * @param Request $request
      * @bodyParam title string required The title of the post. Example: My New Post
      * @bodyParam content string required The content of the post. Example: This is the content of my post.
-     * @bodyParam media_url string nullable The URL of the media associated with the post. Example: http://example.com/media.mp4
+     * @bodyParam media file required The media file associated with the post.
      * @bodyParam type string required The type of the media (video or image). Example: video
      * @bodyParam category integer required The ID of the category. Example: 1
      * @bodyParam sub_category integer required The ID of the sub-category. Example: 2
@@ -40,17 +41,20 @@ class InspireController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'media_url' => 'nullable|url',
+            'media' => 'required|file|mimetypes:image/jpeg,image/png,video/mp4,video/x-msvideo,video/x-matroska|max:25600',  // Max 25MB file
             'type' => 'required|in:video,image',
             'category' => 'required|integer|exists:skills_categories,id',
             'sub_category' => 'required|integer|exists:skills_sub_categories,id',
         ]);
 
+        // Store the media file in the 'inspire' folder in S3
+        $path = $request->file('media')->store('inspire', 's3');
+
         $post = Inspire::create([
             'type' => $request->type,
             'title' => $request->title,
             'content' => $request->content,
-            'media_url' => $request->media_url,
+            'media_url' => Storage::disk('s3')->url($path),
             'user_id' => Auth::id(),
             'category' => $request->category,
             'sub_category' => $request->sub_category,
@@ -86,7 +90,7 @@ class InspireController extends Controller
      * @param int $id
      * @bodyParam title string The title of the post. Example: My Updated Post
      * @bodyParam content string The content of the post. Example: This is the updated content of my post.
-     * @bodyParam media_url string The URL of the media associated with the post. Example: http://example.com/media.mp4
+     * @bodyParam media file The media file associated with the post.
      * @bodyParam type string The type of the media (video or image). Example: image
      * @bodyParam category integer The ID of the category. Example: 1
      * @bodyParam sub_category integer The ID of the sub-category. Example: 2
@@ -100,14 +104,31 @@ class InspireController extends Controller
             'title' => 'sometimes|string|max:255',
             'type' => 'sometimes|in:video,image',
             'content' => 'sometimes|string',
-            'media_url' => 'nullable|url',
+            'media' => 'nullable|file|mimetypes:image/jpeg,image/png,video/mp4,video/x-msvideo,video/x-matroska|max:25600',
             'category' => 'sometimes|integer|exists:skills_categories,id',
             'sub_category' => 'sometimes|integer|exists:skills_sub_categories,id',
             'status' => 'sometimes|in:active,inactive',
         ]);
 
         $post = Inspire::findOrFail($id);
-        $post->update($request->all());
+
+        // Check if the user is authorized to update the post
+        if ($post->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized to update this post.'], 403);
+        }
+
+        if ($request->hasFile('media')) {
+            // Delete the old media from S3
+            Storage::disk('s3')->delete(parse_url($post->media_url, PHP_URL_PATH));
+            
+            // Store the new media
+            $path = $request->file('media')->store('inspire', 's3');
+            $post->update([
+                'media_url' => Storage::disk('s3')->url($path)
+            ]);
+        }
+
+        $post->update($request->except(['media', 'user_id']));
 
         return response()->json([
             'message' => 'Post updated successfully',
@@ -125,6 +146,16 @@ class InspireController extends Controller
     public function destroy($id)
     {
         $post = Inspire::findOrFail($id);
+
+        // Check if the user is authorized to delete the post
+        if ($post->user_id !== Auth::id()) {
+            return response()->json(['message' => 'Unauthorized to delete this post.'], 403);
+        }
+
+        // Delete the media from S3
+        Storage::disk('s3')->delete(parse_url($post->media_url, PHP_URL_PATH));
+
+        // Delete the record from the database
         $post->delete();
 
         return response()->json(['message' => 'Post deleted successfully']);

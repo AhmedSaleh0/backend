@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\UserImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserImageController extends Controller
 {
@@ -29,11 +30,12 @@ class UserImageController extends Controller
             'image' => 'required|image|max:25600',  // Max 25MB file
         ]);
 
-        $path = $request->file('image')->store('user_images', 'public');
+        $userId = $request->user_id;
+        $path = $request->file('image')->store("users/{$userId}", 's3');
 
         $image = new UserImage([
             'user_id' => $request->user_id,
-            'image_path' => $path
+            'image_path' => Storage::disk('s3')->url($path) // Store the full URL
         ]);
         $image->save();
 
@@ -70,9 +72,14 @@ class UserImageController extends Controller
         }
 
         if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('user_images', 'public');
+            // Delete the old image from S3
+            Storage::disk('s3')->delete(parse_url($userImage->image_path, PHP_URL_PATH));
+            
+            // Store the new image
+            $userId = $request->user_id;
+            $path = $request->file('image')->store("users/{$userId}", 's3');
             $userImage->update([
-                'image_path' => $path
+                'image_path' => Storage::disk('s3')->url($path) // Store the full URL
             ]);
         }
 
@@ -87,7 +94,12 @@ class UserImageController extends Controller
      */
     public function destroy(UserImage $userImage)
     {
+        // Delete the image from S3
+        Storage::disk('s3')->delete(parse_url($userImage->image_path, PHP_URL_PATH));
+
+        // Delete the record from the database
         $userImage->delete();
+        
         return response()->json(['message' => 'Image deleted successfully']);
     }
 }
