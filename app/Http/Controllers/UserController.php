@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
 
-    // Other methods...
 
     /**
      * Get authenticated user details.
@@ -30,11 +29,14 @@ class UserController extends Controller
      *      "phone": "+1234567890",
      *      "country": "USA",
      *      "birthdate": "1990-12-31",
-     *      "bio": "Just a developer!"
+     *      "bio": "Just a developer!",
+     *      "username": "johndoe",
+     *      "created_at": "2024-06-08T12:52:12.000000Z",
+     *      "updated_at": "2024-06-08T12:52:12.000000Z",
+     *      "facebook_id": null,
+     *      "google_id": null
      *  },
-     *  "user_images": [
-     *      {"id": 1, "user_id": 1, "image_path": "user_images/1.jpg"}
-     *  ]
+     *  "user_image": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1.jpg"
      * }
      * @response 401 {
      *  "message": "User not authenticated"
@@ -46,7 +48,10 @@ class UserController extends Controller
         $user = Auth::user();
 
         if ($user) {
-            return response()->json(['user' => $user, 'user_image' => $user->image], 200);
+            return response()->json([
+                'user' => $user,
+                'user_image' => $user->image ? $user->image->image_path : null,
+            ], 200);
         } else {
             return response()->json(['message' => 'User not authenticated'], 401);
         }
