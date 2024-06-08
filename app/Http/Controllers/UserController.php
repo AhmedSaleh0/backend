@@ -46,7 +46,7 @@ class UserController extends Controller
         $user = Auth::user();
 
         if ($user) {
-            return response()->json(['user' => $user, 'user_images' => $user->images], 200);
+            return response()->json(['user' => $user, 'user_image' => $user->image], 200);
         } else {
             return response()->json(['message' => 'User not authenticated'], 401);
         }
@@ -205,13 +205,28 @@ class UserController extends Controller
                     'image' => 'required|image|max:25600',  // Max 25MB file
                 ]);
 
-                $path = $request->file('image')->store("user_images/{$user->id}", 's3');
+                // Check if the user already has an image
+                $existingImage = UserImage::where('user_id', $user->id)->first();
 
-                $userImage = new UserImage([
-                    'user_id' => $user->id,
-                    'image_path' => Storage::disk('s3')->url($path)
-                ]);
-                $userImage->save();
+                if ($existingImage) {
+                    // Delete the old image from S3
+                    Storage::disk('s3')->delete(parse_url($existingImage->image_path, PHP_URL_PATH));
+
+                    // Update the existing image record
+                    $path = $request->file('image')->store("user_images/{$user->id}", 's3');
+                    $existingImage->update([
+                        'image_path' => Storage::disk('s3')->url($path)
+                    ]);
+                    $userImage = $existingImage;
+                } else {
+                    // Create a new image record
+                    $path = $request->file('image')->store("user_images/{$user->id}", 's3');
+                    $userImage = new UserImage([
+                        'user_id' => $user->id,
+                        'image_path' => Storage::disk('s3')->url($path)
+                    ]);
+                    $userImage->save();
+                }
             }
 
             // Assign Skills

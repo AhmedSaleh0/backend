@@ -10,6 +10,9 @@ class UserImageController extends Controller
 {
     /**
      * Display a listing of all user images.
+     *
+     * @group User Images
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -18,33 +21,68 @@ class UserImageController extends Controller
     }
 
     /**
-     * Store a newly uploaded image in storage.
+     * Store or update a user's image.
      *
+     * @group User Images
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     *
+     * @bodyParam user_id int required The ID of the user. Example: 1
+     * @bodyParam image file required An image file to be uploaded as the user's profile picture.
+     * @response 201 {
+     *  "message": "Image uploaded successfully",
+     *  "image": {
+     *      "id": 1,
+     *      "user_id": 1,
+     *      "image_path": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1.jpg"
+     *  }
+     * }
      */
     public function store(Request $request)
     {
         $request->validate([
-            'user_id' => 'required|exists:users,id', // Ensure the user ID exists
-            'image' => 'required|image|max:25600',  // Max 25MB file
+            'user_id' => 'required|exists:users,id',
+            'image' => 'required|image|max:25600', // Max 25MB file
         ]);
 
         $userId = $request->user_id;
-        $path = $request->file('image')->store("users/{$userId}", 's3');
 
-        $image = new UserImage([
-            'user_id' => $request->user_id,
-            'image_path' => Storage::disk('s3')->url($path) // Store the full URL
-        ]);
-        $image->save();
+        // Check if the user already has an image
+        $existingImage = UserImage::where('user_id', $userId)->first();
 
-        return response()->json($image, 201);
+        if ($existingImage) {
+            // Delete the old image from S3
+            Storage::disk('s3')->delete(parse_url($existingImage->image_path, PHP_URL_PATH));
+
+            // Update the existing image record
+            $path = $request->file('image')->store("user_images/{$userId}", 's3');
+            $existingImage->update([
+                'image_path' => Storage::disk('s3')->url($path)
+            ]);
+            $userImage = $existingImage;
+        } else {
+            // Create a new image record
+            $path = $request->file('image')->store("user_images/{$userId}", 's3');
+            $userImage = new UserImage([
+                'user_id' => $userId,
+                'image_path' => Storage::disk('s3')->url($path)
+            ]);
+            $userImage->save();
+        }
+
+        return response()->json(['message' => 'Image uploaded successfully', 'image' => $userImage], 201);
     }
 
     /**
      * Display the specified user image.
      *
+     * @group User Images
+     * @urlParam id int required The ID of the image. Example: 1
+     * @response 200 {
+     *  "id": 1,
+     *  "user_id": 1,
+     *  "image_path": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1.jpg"
+     * }
      * @param UserImage $userImage
      * @return \Illuminate\Http\JsonResponse
      */
@@ -54,41 +92,13 @@ class UserImageController extends Controller
     }
 
     /**
-     * Update the specified image in storage.
+     * Remove the specified user image from storage.
      *
-     * @param Request $request
-     * @param UserImage $userImage
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function update(Request $request, UserImage $userImage)
-    {
-        $request->validate([
-            'user_id' => 'required|exists:users,id', // Validate user ID
-            'image' => 'image|max:25600',  // Optional, Max 25MB file
-        ]);
-
-        if ($request->user_id != $userImage->user_id) {
-            return response()->json(['message' => 'Unauthorized to update this image.'], 403);
-        }
-
-        if ($request->hasFile('image')) {
-            // Delete the old image from S3
-            Storage::disk('s3')->delete(parse_url($userImage->image_path, PHP_URL_PATH));
-            
-            // Store the new image
-            $userId = $request->user_id;
-            $path = $request->file('image')->store("users/{$userId}", 's3');
-            $userImage->update([
-                'image_path' => Storage::disk('s3')->url($path) // Store the full URL
-            ]);
-        }
-
-        return response()->json($userImage);
-    }
-
-    /**
-     * Remove the specified image from storage.
-     *
+     * @group User Images
+     * @urlParam id int required The ID of the image. Example: 1
+     * @response 200 {
+     *  "message": "Image deleted successfully"
+     * }
      * @param UserImage $userImage
      * @return \Illuminate\Http\JsonResponse
      */
@@ -99,7 +109,7 @@ class UserImageController extends Controller
 
         // Delete the record from the database
         $userImage->delete();
-        
+
         return response()->json(['message' => 'Image deleted successfully']);
     }
 }

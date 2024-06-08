@@ -47,9 +47,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function images()
+    public function image()
     {
-        return $this->hasMany(UserImage::class);
+        return $this->hasOne(UserImage::class);
     }
     public function skills()
     {
