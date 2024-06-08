@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -18,6 +19,26 @@ class UserController extends Controller
     /**
      * Get authenticated user details.
      *
+     * @group User
+     * @authenticated
+     * @response 200 {
+     *  "user": {
+     *      "id": 1,
+     *      "first_name": "John",
+     *      "last_name": "Doe",
+     *      "email": "user@example.com",
+     *      "phone": "+1234567890",
+     *      "country": "USA",
+     *      "birthdate": "1990-12-31",
+     *      "bio": "Just a developer!"
+     *  },
+     *  "user_images": [
+     *      {"id": 1, "user_id": 1, "image_path": "user_images/1.jpg"}
+     *  ]
+     * }
+     * @response 401 {
+     *  "message": "User not authenticated"
+     * }
      * @return \Illuminate\Http\JsonResponse
      */
     public function getUserDetails()
@@ -30,19 +51,35 @@ class UserController extends Controller
             return response()->json(['message' => 'User not authenticated'], 401);
         }
     }
+
     /**
      * Update user details.
      *
+     * @group User
+     * @authenticated
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      *
-     * @bodyParam first_name string optional The user's first name.
-     * @bodyParam last_name string optional The user's last name.
-     * @bodyParam email string optional The user's email address.
-     * @bodyParam phone string optional The user's phone number.
-     * @bodyParam country string optional The user's country.
-     * @bodyParam birthdate date optional The user's birthdate in format day-month-year.
-     * @bodyParam bio string optional A short bio for the user.
+     * @bodyParam first_name string optional The user's first name. Example: John
+     * @bodyParam last_name string optional The user's last name. Example: Doe
+     * @bodyParam email string optional The user's email address, must be unique. Example: user@example.com
+     * @bodyParam phone string optional The user's phone number. Example: +1234567890
+     * @bodyParam country string optional The user's country. Example: USA
+     * @bodyParam birthdate date optional The user's birthdate in format day-month-year. Example: 31-12-1990
+     * @bodyParam bio string optional A short bio for the user. Example: Just a developer!
+     * @response 200 {
+     *  "message": "User details updated successfully",
+     *  "user": {
+     *      "id": 1,
+     *      "first_name": "John",
+     *      "last_name": "Doe",
+     *      "email": "user@example.com",
+     *      "phone": "+1234567890",
+     *      "country": "USA",
+     *      "birthdate": "1990-12-31",
+     *      "bio": "Just a developer!"
+     *  }
+     * }
      */
     public function updateUser(Request $request)
     {
@@ -70,10 +107,19 @@ class UserController extends Controller
     /**
      * Update the user's username.
      *
+     * @group User
+     * @authenticated
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      *
-     * @bodyParam username string required The user's username.
+     * @bodyParam username string required The user's username. Example: johndoe
+     * @response 200 {
+     *  "message": "Username updated successfully",
+     *  "user": {
+     *      "id": 1,
+     *      "username": "johndoe"
+     *  }
+     * }
      */
     public function updateUsername(Request $request)
     {
@@ -91,6 +137,7 @@ class UserController extends Controller
     /**
      * Update user details, upload an image, and assign skills in one go.
      *
+     * @group User
      * @authenticated
      *
      * @param Request $request
@@ -106,7 +153,7 @@ class UserController extends Controller
      * @bodyParam image file optional An image file to be uploaded as user's profile picture.
      * @bodyParam skills array optional An array of skill IDs to assign to the user. Example: [1, 2, 3]
      *
-     * @response {
+     * @response 200 {
      *  "message": "User profile updated successfully",
      *  "user": {
      *      "id": 1,
@@ -121,14 +168,15 @@ class UserController extends Controller
      *  "image": {
      *      "id": 1,
      *      "user_id": 1,
-     *      "image_path": "user_images/1.jpg"
+     *      "image_path": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1.jpg"
      *  },
      *  "skills": [
      *      {"id": 1, "name": "PHP", "category": "Backend"},
      *      {"id": 2, "name": "JavaScript", "category": "Frontend"}
      *  ]
      * }
-     */    public function updateUserProfile(Request $request)
+     */
+    public function updateUserProfile(Request $request)
     {
         // Start a transaction to ensure data integrity
         DB::beginTransaction();
@@ -157,11 +205,11 @@ class UserController extends Controller
                     'image' => 'required|image|max:25600',  // Max 25MB file
                 ]);
 
-                $path = $request->file('image')->store('user_images', 'public');
+                $path = $request->file('image')->store("user_images/{$user->id}", 's3');
 
                 $userImage = new UserImage([
                     'user_id' => $user->id,
-                    'image_path' => $path
+                    'image_path' => Storage::disk('s3')->url($path)
                 ]);
                 $userImage->save();
             }
