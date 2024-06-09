@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Models\ICan\ICanRequest;
 use App\Models\INeed\INeed;
 use App\Models\INeed\INeedRequest;
 use App\Models\Skill\Skill;
@@ -23,7 +24,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'phone', 'username', 'country', 'birthdate', 'bio', 'facebook_id','google_id'
+        'first_name', 'last_name', 'email', 'password', 'phone', 'username', 'country', 'birthdate', 'bio', 'facebook_id', 'google_id'
 
     ];
 
@@ -64,12 +65,21 @@ class User extends Authenticatable
         $this->notify(new CustomResetPasswordNotification($token));
     }
 
+    public function ican()
+    {
+        return $this->hasMany(ICanRequest::class);
+    }
+
     public function ineed()
     {
         return $this->hasMany(INeed::class);
     }
 
 
+    public function icanRequests()
+    {
+        return $this->hasMany(INeedRequest::class);
+    }
     public function ineedRequests()
     {
         return $this->hasMany(INeedRequest::class);

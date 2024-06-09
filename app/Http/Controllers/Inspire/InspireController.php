@@ -73,12 +73,12 @@ class InspireController extends Controller
      * Display the specified Inspire post.
      *
      * @group Inspire Posts
-     * @urlParam id int required The ID of the post. Example: 1
+     * @urlParam inspire_id int required The ID of the post. Example: 1
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($inspire_id)
     {
-        $post = Inspire::findOrFail($id);
+        $post = Inspire::findOrFail($inspire_id);
         $post->increment('views');  // Increment view count upon retrieval
         return response()->json($post);
     }
@@ -88,7 +88,7 @@ class InspireController extends Controller
      *
      * @group Inspire Posts
      * @param Request $request
-     * @param int $id
+     * @param int $inspire_id
      * @bodyParam title string The title of the post. Example: My Updated Post
      * @bodyParam content string The content of the post. Example: This is the updated content of my post.
      * @bodyParam media file The media file associated with the post.
@@ -96,10 +96,10 @@ class InspireController extends Controller
      * @bodyParam category integer The ID of the category. Example: 1
      * @bodyParam sub_category integer The ID of the sub-category. Example: 2
      * @bodyParam status string The status of the post (active or inactive). Example: active
-     * @urlParam id int required The ID of the post. Example: 1
+     * @urlParam inspire_id int required The ID of the post. Example: 1
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $inspire_id)
     {
         $request->validate([
             'title' => 'sometimes|string|max:255',
@@ -111,7 +111,7 @@ class InspireController extends Controller
             'status' => 'sometimes|in:active,inactive',
         ]);
 
-        $post = Inspire::findOrFail($id);
+        $post = Inspire::findOrFail($inspire_id);
 
         // Check if the user is authorized to update the post
         if ($post->user_id !== Auth::id()) {
@@ -141,12 +141,12 @@ class InspireController extends Controller
      * Remove the specified Inspire post from storage.
      *
      * @group Inspire Posts
-     * @urlParam id int required The ID of the post. Example: 1
+     * @urlParam inspire_id int required The ID of the post. Example: 1
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($inspire_id)
     {
-        $post = Inspire::findOrFail($id);
+        $post = Inspire::findOrFail($inspire_id);
 
         // Check if the user is authorized to delete the post
         if ($post->user_id !== Auth::id()) {

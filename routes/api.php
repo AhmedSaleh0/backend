@@ -21,7 +21,7 @@ use App\Http\Controllers\Credits\CreditsController;
 use App\Http\Controllers\ICan\ICanReactionController;
 use App\Http\Controllers\ICan\ICanRequestController;
 use App\Http\Controllers\Skill\SkillController;
-
+use App\Http\Controllers\Skill\SkillQueryController;
 
 // Authentication Routes
 Route::prefix('auth')->group(function () {
@@ -43,56 +43,60 @@ Route::prefix('auth')->group(function () {
     Route::get('/google/callback', [SocialController::class, 'handleGoogleCallback']);
 });
 
-// User Routes (Require authentication)
-Route::middleware('auth:api')->group(function () {
-    Route::get('/user/details', [UserController::class, 'getUserDetails']);
-    Route::put('/user', [UserController::class, 'updateUser']);
-    Route::put('/user/username', [UserController::class, 'updateUsername']);
+Route::prefix('user')->middleware('auth:api')->group(function () {
+    Route::get('/details', [UserController::class, 'getUserDetails']);
+    Route::put('/', [UserController::class, 'updateUser']);
+    Route::put('/username', [UserController::class, 'updateUsername']);
+    Route::post('/profile', [UserController::class, 'updateUserProfile']);
+
+    // User Images Routes
+    Route::prefix('images')->group(function () {
+        Route::get('/', [UserImageController::class, 'index']);
+        Route::post('/', [UserImageController::class, 'store']);
+        Route::get('/{user_image}', [UserImageController::class, 'show']);
+        Route::put('/{user_image}', [UserImageController::class, 'update']);
+        Route::delete('/{user_image}', [UserImageController::class, 'destroy']);
+    });
+
+    // User Skills Routes
+    Route::prefix('skills')->group(function () {
+        Route::get('/', [UserSkillController::class, 'index'])->name('user-skills.index');
+        Route::post('/', [UserSkillController::class, 'store'])->name('user-skills.store');
+        Route::get('/{user_skill}', [UserSkillController::class, 'show'])->name('user-skills.show');
+        Route::put('/{user_skill}', [UserSkillController::class, 'update'])->name('user-skills.update');
+        Route::delete('/{user_skill}', [UserSkillController::class, 'destroy'])->name('user-skills.destroy');
+    });
 });
-
-Route::post('/user/profile', [UserController::class, 'updateUserProfile'])->middleware('auth:api');
-
-// User Images Routes
-Route::prefix('user-images')->middleware('auth:api')->group(function () {
-    Route::get('/', [UserImageController::class, 'index']);
-    Route::post('/', [UserImageController::class, 'store']);
-    Route::get('/{user_image}', [UserImageController::class, 'show']);
-    Route::put('/{user_image}', [UserImageController::class, 'update']);
-    Route::delete('/{user_image}', [UserImageController::class, 'destroy']);
-});
-
-// User Skills Routes
-Route::apiResource('user-skills', UserSkillController::class)->middleware('auth:api');
 
 // Inspire Routes
 Route::prefix('inspire')->group(function () {
     // Public routes
-    Route::get('/posts', [InspireController::class, 'index']);
-    Route::get('/posts/{inspire_id}/comments', [InspireCommentController::class, 'index']);
-    Route::get('/posts/{inspire_id}/reactions', [InspireReactionController::class, 'index']);
+    Route::get('/', [InspireController::class, 'index']);
+    Route::get('/{inspire_id}', [InspireController::class, 'show']);
+    Route::get('/{inspire_id}/comments', [InspireCommentController::class, 'index']);
+    Route::get('/{inspire_id}/comments/{comment_id}', [InspireCommentController::class, 'show']);
+    Route::get('/{inspire_id}/reactions', [InspireReactionController::class, 'index']);
+    Route::get('/{inspire_id}/reactions/{reaction_id}', [InspireReactionController::class, 'show']);
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {
-        Route::post('/posts', [InspireController::class, 'store']);
-        Route::get('/posts/{id}', [InspireController::class, 'show']);
-        Route::put('/posts/{id}', [InspireController::class, 'update']);
-        Route::delete('/posts/{id}', [InspireController::class, 'destroy']);
+        Route::post('/', [InspireController::class, 'store']);
+        Route::put('/{inspire_id}', [InspireController::class, 'update']);
+        Route::delete('/{inspire_id}', [InspireController::class, 'destroy']);
 
         // Comments routes
-        Route::post('/posts/{inspire_id}/comments', [InspireCommentController::class, 'store']);
-        Route::get('/comments/{id}', [InspireCommentController::class, 'show']);
-        Route::put('/comments/{id}', [InspireCommentController::class, 'update']);
-        Route::delete('/comments/{id}', [InspireCommentController::class, 'destroy']);
+        Route::post('/{inspire_id}/comments', [InspireCommentController::class, 'store']);
+        Route::put('/{inspire_id}/comments/{comment_id}', [InspireCommentController::class, 'update']);
+        Route::delete('/{inspire_id}/comments/{comment_id}', [InspireCommentController::class, 'destroy']);
 
         // Reactions routes
-        Route::post('/posts/{inspire_id}/reactions', [InspireReactionController::class, 'store']);
-        Route::get('/reactions/{id}', [InspireReactionController::class, 'show']);
-        Route::put('/reactions/{id}', [InspireReactionController::class, 'update']);
-        Route::delete('/reactions/{id}', [InspireReactionController::class, 'destroy']);
+        Route::post('/{inspire_id}/reactions', [InspireReactionController::class, 'store']);
+        Route::put('/{inspire_id}/reactions/{reaction_id}', [InspireReactionController::class, 'update']);
+        Route::delete('/{inspire_id}/reactions/{reaction_id}', [InspireReactionController::class, 'destroy']);
 
         // User saves routes
         Route::get('/user/saves', [InspireUserSaveController::class, 'index']);
-        Route::post('/posts/{inspire_id}/save', [InspireUserSaveController::class, 'store']);
+        Route::post('/{inspire_id}/save', [InspireUserSaveController::class, 'store']);
         Route::delete('/saves/{id}', [InspireUserSaveController::class, 'destroy']);
     });
 });
@@ -100,41 +104,46 @@ Route::prefix('inspire')->group(function () {
 
 // I-Can Routes
 Route::prefix('ican')->group(function () {
-    Route::get('/posts', [ICanController::class, 'index']);
-    Route::post('/posts', [ICanController::class, 'store']);
-    Route::get('/posts/{id}', [ICanController::class, 'show']);
-    Route::put('/posts/{id}', [ICanController::class, 'update']);
-    Route::delete('/posts/{id}', [ICanController::class, 'destroy']);
 
-    Route::prefix('requests')->middleware('auth:api')->group(function () {
-        Route::get('/', [ICanRequestController::class, 'index'])->name('ican-requests.index');
-        Route::post('/apply', [ICanRequestController::class, 'apply'])->name('ican-requests.apply');
-        Route::post('/{request_id}/accept', [ICanRequestController::class, 'accept'])->name('ican-requests.accept');
-        Route::post('/{request_id}/reject', [ICanRequestController::class, 'reject'])->name('ican-requests.reject');
-        Route::get('/{request_id}', [ICanRequestController::class, 'show'])->name('ican-requests.show');
-        Route::delete('/{request_id}', [ICanRequestController::class, 'destroy'])->name('ican-requests.destroy');
-    });
+    Route::get('/', [ICanController::class, 'index']);
+    Route::get('/{ican_id}', [ICanController::class, 'show']);
 
-    Route::prefix('reactions')->group(function () {
-        Route::get('/{ican_id}', [ICanReactionController::class, 'index']);
-        Route::post('/{ican_id}', [ICanReactionController::class, 'store'])->middleware('auth:api');
-        Route::get('/{id}', [ICanReactionController::class, 'show']);
-        Route::put('/{id}', [ICanReactionController::class, 'update'])->middleware('auth:api');
-        Route::delete('/{id}', [ICanReactionController::class, 'destroy'])->middleware('auth:api');
+    // Routes requiring authentication
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/', [ICanController::class, 'store']);
+        Route::put('/{ican_id}', [ICanController::class, 'update']);
+        Route::delete('/{ican_id}', [ICanController::class, 'destroy']);
+
+        Route::prefix('requests')->group(function () {
+            Route::get('/', [ICanRequestController::class, 'index'])->name('ican-requests.index');
+            Route::post('/apply', [ICanRequestController::class, 'apply'])->name('ican-requests.apply');
+            Route::post('/{request_id}/accept', [ICanRequestController::class, 'accept'])->name('ican-requests.accept');
+            Route::post('/{request_id}/reject', [ICanRequestController::class, 'reject'])->name('ican-requests.reject');
+            Route::get('/{request_id}', [ICanRequestController::class, 'show'])->name('ican-requests.show');
+            Route::delete('/{request_id}', [ICanRequestController::class, 'destroy'])->name('ican-requests.destroy');
+        });
+
+        Route::prefix('reactions')->group(function () {
+            Route::get('/{ican_id}', [ICanReactionController::class, 'index']);
+            Route::post('/{ican_id}', [ICanReactionController::class, 'store']);
+            Route::get('/{id}', [ICanReactionController::class, 'show']);
+            Route::put('/{id}', [ICanReactionController::class, 'update']);
+            Route::delete('/{id}', [ICanReactionController::class, 'destroy']);
+        });
     });
 });
 
 // I-Need Routes
 Route::prefix('ineed')->group(function () {
     // Public routes
-    Route::get('/posts', [INeedController::class, 'index']);
-    Route::get('/posts/{id}', [INeedController::class, 'show']);
+    Route::get('/', [INeedController::class, 'index']);
+    Route::get('/{ineed_id}', [INeedController::class, 'show']);
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {
-        Route::post('/posts', [INeedController::class, 'store']);
-        Route::put('/posts/{id}', [INeedController::class, 'update']);
-        Route::delete('/posts/{id}', [INeedController::class, 'destroy']);
+        Route::post('/', [INeedController::class, 'store']);
+        Route::put('/{ineed_id}', [INeedController::class, 'update']);
+        Route::delete('/{ineed_id}', [INeedController::class, 'destroy']);
 
         Route::prefix('requests')->group(function () {
             // INeedRequest routes
@@ -151,13 +160,9 @@ Route::prefix('ineed')->group(function () {
     Route::prefix('reactions')->group(function () {
         Route::get('/{ineed_id}', [INeedReactionController::class, 'index']);
         Route::get('/{id}', [INeedReactionController::class, 'show']);
-
-        // Routes requiring authentication
-        Route::middleware('auth:api')->group(function () {
-            Route::post('/{ineed_id}', [INeedReactionController::class, 'store']);
-            Route::put('/{id}', [INeedReactionController::class, 'update']);
-            Route::delete('/{id}', [INeedReactionController::class, 'destroy']);
-        });
+        Route::post('/{ineed_id}', [INeedReactionController::class, 'store']);
+        Route::put('/{id}', [INeedReactionController::class, 'update']);
+        Route::delete('/{id}', [INeedReactionController::class, 'destroy']);
     });
 });
 
@@ -176,7 +181,11 @@ Route::prefix('skills')->middleware('auth:api')->group(function () {
     Route::get('/{id}', [SkillController::class, 'show']);
     Route::put('/{id}', [SkillController::class, 'update']);
     Route::delete('/{id}', [SkillController::class, 'destroy']);
+    Route::get('/category/{categoryId}/sub-categories', [SkillQueryController::class, 'subCategories']);
+    Route::get('/sub-category/{subCategoryId}/skills', [SkillQueryController::class, 'skillsBySubCategory']);
+    Route::get('/category/{categoryId}/skills', [SkillQueryController::class, 'skillsByCategory']);
 });
+
 // Newsletter Routes
 Route::prefix('newsletter')->middleware('api')->group(function () {
     Route::post('/subscribe', [NewsletterController::class, 'subscribe']);

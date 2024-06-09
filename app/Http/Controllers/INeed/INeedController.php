@@ -80,7 +80,7 @@ class INeedController extends Controller
      * Display the specified INeed post.
      *
      * @group INeed Posts
-     * @urlParam id int required The ID of the post. Example: 1
+     * @urlParam ineed_id int required The ID of the post. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "title": "My New Request",
@@ -94,12 +94,12 @@ class INeedController extends Controller
      *   "created_at": "2024-06-05T12:00:00.000000Z",
      *   "updated_at": "2024-06-05T12:00:00.000000Z"
      * }
-     * @param int $id
+     * @param int $ineed_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show($ineed_id)
     {
-        $post = INeed::findOrFail($id);
+        $post = INeed::findOrFail($ineed_id);
         return response()->json($post);
     }
 
@@ -107,7 +107,7 @@ class INeedController extends Controller
      * Update the specified INeed post in storage.
      *
      * @group INeed Posts
-     * @urlParam id int required The ID of the post. Example: 1
+     * @urlParam ineed_id int required The ID of the post. Example: 1
      * @bodyParam title string The title of the post. Example: My Updated Request
      * @bodyParam short_description string A short description of the post. Example: This is an updated short description of my request.
      * @bodyParam image file An image associated with the post (max 25MB).
@@ -133,10 +133,10 @@ class INeedController extends Controller
      *   }
      * }
      * @param Request $request
-     * @param int $id
+     * @param int $ineed_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $ineed_id)
     {
         $request->validate([
             'title' => 'sometimes|string|max:255',
@@ -149,7 +149,7 @@ class INeedController extends Controller
             'experience' => 'nullable|string|max:255'
         ]);
 
-        $post = INeed::findOrFail($id);
+        $post = INeed::findOrFail($ineed_id);
         $post->update($request->except('image'));
 
         if ($request->hasFile('image')) {
@@ -171,16 +171,16 @@ class INeedController extends Controller
      * Remove the specified INeed post from storage.
      *
      * @group INeed Posts
-     * @urlParam id int required The ID of the post. Example: 1
+     * @urlParam ineed_id int required The ID of the post. Example: 1
      * @response 200 {
      *   "message": "Post deleted successfully"
      * }
-     * @param int $id
+     * @param int $ineed_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($ineed_id)
     {
-        $post = INeed::findOrFail($id);
+        $post = INeed::findOrFail($ineed_id);
 
         // Delete the image from S3
         if ($post->image) {

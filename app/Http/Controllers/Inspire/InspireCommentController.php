@@ -55,12 +55,12 @@ class InspireCommentController extends Controller
      * Display the specified comment.
      *
      * @group Inspire Comments
-     * @urlParam id int required The ID of the comment. Example: 1
+     * @urlParam comment_id int required The ID of the comment. Example: 1
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($comment_id)
     {
-        $comment = InspireComment::with(['user', 'user.image'])->findOrFail($id);
+        $comment = InspireComment::with(['user', 'user.image'])->findOrFail($comment_id);
         return response()->json($comment);
     }
 
@@ -69,18 +69,18 @@ class InspireCommentController extends Controller
      *
      * @group Inspire Comments
      * @param Request $request
-     * @param int $id
+     * @param int $comment_id
      * @bodyParam comment string required The comment text. Example: This is an updated comment!
-     * @urlParam id int required The ID of the comment. Example: 1
+     * @urlParam comment_id int required The ID of the comment. Example: 1
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $comment_id)
     {
         $request->validate([
             'comment' => 'required|string',
         ]);
 
-        $comment = InspireComment::findOrFail($id);
+        $comment = InspireComment::findOrFail($comment_id);
         $comment->update($request->all());
 
         return response()->json([
@@ -93,12 +93,12 @@ class InspireCommentController extends Controller
      * Remove the specified comment from storage.
      *
      * @group Inspire Comments
-     * @urlParam id int required The ID of the comment. Example: 1
+     * @urlParam comment_id int required The ID of the comment. Example: 1
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($comment_id)
     {
-        $comment = InspireComment::findOrFail($id);
+        $comment = InspireComment::findOrFail($comment_id);
         $comment->delete();
 
         return response()->json(['message' => 'Comment deleted successfully']);
