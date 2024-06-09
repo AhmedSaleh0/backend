@@ -31,7 +31,7 @@ class AuthController extends Controller
  * @bodyParam email string required The user's email address.
  * @bodyParam password string required The user's password.
  * @bodyParam password_confirmation string required The password confirmation.
- * @bodyParam phone string required The user's phone number. Example: +1234567890
+ * @bodyParam phone string required The user's phone number. Example: 507742230
  * @bodyParam country_code string required The user's country code. Example: +1
  */
 public function signup(Request $request)
@@ -56,12 +56,14 @@ public function signup(Request $request)
         'phone' => $validatedData['phone'],
     ]);
 
+    $user->sendEmailVerificationNotification();
+
     // Automatically log in the user and create a token
     $token = $user->createToken('Personal Access Token')->accessToken;
 
     // Return a success response with the user and token data
     return response()->json([
-        'message' => 'User successfully registered',
+        'message' => 'User successfully registered. Please check your email to verify your account.',
         'user' => $user,
         'token' => $token
     ], 201);

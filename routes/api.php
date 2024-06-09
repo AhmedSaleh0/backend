@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\Auth\AuthController;
@@ -23,6 +25,7 @@ use App\Http\Controllers\ICan\ICanRequestController;
 use App\Http\Controllers\Skill\SkillController;
 use App\Http\Controllers\Skill\SkillQueryController;
 
+
 // Authentication Routes
 Route::prefix('auth')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup']);
@@ -41,6 +44,22 @@ Route::prefix('auth')->group(function () {
 
     Route::get('/google', [SocialController::class, 'redirectToGoogle']);
     Route::get('/google/callback', [SocialController::class, 'handleGoogleCallback']);
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::get('/email/verify', function (Request $request) {
+        return response()->json(['message' => 'Email verification link sent.']);
+    })->middleware('throttle:6,1')->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return response()->json(['message' => 'Email verified successfully.']);
+    })->middleware(['auth:api', 'signed'])->name('verification.verify');
+
+    Route::post('/email/resend', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return response()->json(['message' => 'Email verification link resent.']);
+    })->middleware('throttle:6,1')->name('verification.resend');
 });
 
 Route::prefix('user')->middleware('auth:api')->group(function () {
