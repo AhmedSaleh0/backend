@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\EmailVerificationController;
 use App\Http\Controllers\INeed\INeedController;
 use App\Http\Controllers\INeed\INeedRequestController;
 use App\Http\Controllers\INeed\INeedReactionController;
@@ -47,19 +48,17 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('/email/verify', function (Request $request) {
-        return response()->json(['message' => 'Email verification link sent.']);
-    })->middleware('throttle:6,1')->name('verification.notice');
+    Route::get('/email/verify', [EmailVerificationController::class, 'notice'])
+        ->middleware('throttle:6,1')
+        ->name('verification.notice');
 
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return response()->json(['message' => 'Email verified successfully.']);
-    })->middleware(['auth:api', 'signed'])->name('verification.verify');
+    Route::get('/email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+        ->middleware(['auth:api', 'signed'])
+        ->name('verification.verify');
 
-    Route::post('/email/resend', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-        return response()->json(['message' => 'Email verification link resent.']);
-    })->middleware('throttle:6,1')->name('verification.resend');
+    Route::post('/email/resend', [EmailVerificationController::class, 'resend'])
+        ->middleware('throttle:6,1')
+        ->name('verification.resend');
 });
 
 Route::prefix('user')->middleware('auth:api')->group(function () {
