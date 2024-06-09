@@ -19,7 +19,7 @@ class InspireCommentController extends Controller
      */
     public function index($inspire_id)
     {
-        $comments = InspireComment::with(['user', 'user.images'])->where('inspire_id', $inspire_id)->get();
+        $comments = InspireComment::with(['user', 'user.image'])->where('inspire_id', $inspire_id)->get();
         return response()->json($comments);
     }
 
@@ -59,7 +59,7 @@ class InspireCommentController extends Controller
      */
     public function show($id)
     {
-        $comment = InspireComment::with(['user', 'user.images'])->findOrFail($id);
+        $comment = InspireComment::with(['user', 'user.image'])->findOrFail($id);
         return response()->json($comment);
     }
 

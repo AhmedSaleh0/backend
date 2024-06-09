@@ -17,7 +17,7 @@ class InspireReactionController extends Controller
      */
     public function index($inspire_id)
     {
-        $reactions = InspireReaction::with(['user', 'user.images'])->where('inspire_id', $inspire_id)->get();
+        $reactions = InspireReaction::with(['user', 'user.image'])->where('inspire_id', $inspire_id)->get();
         return response()->json($reactions);
     }
 
@@ -57,7 +57,7 @@ class InspireReactionController extends Controller
      */
     public function show($id)
     {
-        $reaction = InspireReaction::with(['user', 'user.images'])->findOrFail($id);
+        $reaction = InspireReaction::with(['user', 'user.image'])->findOrFail($id);
         return response()->json($reaction);
     }
 

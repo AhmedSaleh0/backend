@@ -16,7 +16,7 @@ class InspireUserSaveController extends Controller
      */
     public function index()
     {
-        $saves = InspireUserSave::with(['user', 'user.images'])->where('user_id', Auth::id())->get();
+        $saves = InspireUserSave::with(['user', 'user.image'])->where('user_id', Auth::id())->get();
         return response()->json($saves);
     }
 
