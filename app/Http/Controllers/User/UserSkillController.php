@@ -28,31 +28,6 @@ class UserSkillController extends Controller
         return response()->json($userSkill, 201);
     }
 
-    public function show(UserSkill $userSkill)
-    {
-        // Ensure the skill belongs to the authenticated user
-        if ($userSkill->user_id !== Auth::id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        return response()->json($userSkill);
-    }
-
-    public function update(Request $request, UserSkill $userSkill)
-    {
-        // Ensure the skill belongs to the authenticated user
-        if ($userSkill->user_id !== Auth::id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
-
-        $validated = $request->validate([
-            'skill_id' => 'required|exists:skills,id',
-        ]);
-
-        $userSkill->update($validated);
-        return response()->json($userSkill);
-    }
-
     public function destroy(UserSkill $userSkill)
     {
         // Ensure the skill belongs to the authenticated user

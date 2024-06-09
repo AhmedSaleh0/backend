@@ -80,8 +80,6 @@ Route::prefix('user')->middleware('auth:api')->group(function () {
     Route::prefix('skills')->group(function () {
         Route::get('/', [UserSkillController::class, 'index'])->name('user-skills.index');
         Route::post('/', [UserSkillController::class, 'store'])->name('user-skills.store');
-        Route::get('/{user_skill}', [UserSkillController::class, 'show'])->name('user-skills.show');
-        Route::put('/{user_skill}', [UserSkillController::class, 'update'])->name('user-skills.update');
         Route::delete('/{user_skill}', [UserSkillController::class, 'destroy'])->name('user-skills.destroy');
     });
 });
