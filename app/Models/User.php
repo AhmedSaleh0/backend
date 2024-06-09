@@ -60,4 +60,9 @@ class User extends Authenticatable
     {
         $this->notify(new CustomResetPasswordNotification($token));
     }
+
+    public function ineed()
+    {
+        return $this->hasMany(INeed::class);
+    }
 }

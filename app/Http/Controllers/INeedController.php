@@ -24,22 +24,26 @@ class INeedController extends Controller
      * Store a newly created INeed post in storage.
      *
      * @group INeed Posts
-     * @bodyParam post_title string required The title of the post. Example: My New Request
-     * @bodyParam post_short_description string required A short description of the post. Example: This is a short description of my request.
-     * @bodyParam post_image file nullable An image associated with the post (max 25MB).
-     * @bodyParam post_price numeric required The price of the request. Example: 99.99
-     * @bodyParam post_price_type string required The type of pricing (fixed or hourly). Example: fixed
-     * @bodyParam post_status string required The status of the post (active or inactive). Example: active
+     * @bodyParam title string required The title of the post. Example: My New Request
+     * @bodyParam short_description string required A short description of the post. Example: This is a short description of my request.
+     * @bodyParam image file nullable An image associated with the post (max 25MB).
+     * @bodyParam price numeric required The price of the request. Example: 99.99
+     * @bodyParam price_type string required The type of pricing (fixed or hourly). Example: fixed
+     * @bodyParam status string required The status of the post (active or inactive). Example: active
+     * @bodyParam location string nullable The location of the post. Example: New York
+     * @bodyParam experience string nullable The experience required for the post. Example: 5 years
      * @response 201 {
      *   "message": "Post created successfully",
      *   "post": {
      *     "id": 1,
-     *     "post_title": "My New Request",
-     *     "post_short_description": "This is a short description of my request.",
-     *     "post_image": "https://your-bucket.s3.your-region.amazonaws.com/ineed/1/image.jpg",
-     *     "post_price": 99.99,
-     *     "post_price_type": "fixed",
-     *     "post_status": "active",
+     *     "title": "My New Request",
+     *     "short_description": "This is a short description of my request.",
+     *     "image": "https://your-bucket.s3.your-region.amazonaws.com/ineed/1/image.jpg",
+     *     "price": 99.99,
+     *     "price_type": "fixed",
+     *     "status": "active",
+     *     "location": "New York",
+     *     "experience": "5 years",
      *     "created_at": "2024-06-05T12:00:00.000000Z",
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
@@ -50,19 +54,21 @@ class INeedController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'post_title' => 'required|string|max:255',
-            'post_short_description' => 'required|string|max:255',
-            'post_image' => 'nullable|image|max:25600', // 25MB max size
-            'post_price' => 'required|numeric',
-            'post_price_type' => 'required|in:fixed,hourly',
-            'post_status' => 'required|in:active,inactive'
+            'title' => 'required|string|max:255',
+            'short_description' => 'required|string|max:255',
+            'image' => 'nullable|image|max:25600', // 25MB max size
+            'price' => 'required|numeric',
+            'price_type' => 'required|in:fixed,hourly',
+            'status' => 'required|in:active,inactive',
+            'location' => 'nullable|string|max:255',
+            'experience' => 'nullable|string|max:255'
         ]);
 
-        $post = INeed::create($request->except('post_image'));
+        $post = INeed::create($request->except('image'));
 
-        if ($request->hasFile('post_image')) {
-            $path = $request->file('post_image')->store("ineed/{$post->id}", 's3');
-            $post->post_image = Storage::disk('s3')->url($path);
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store("ineed/{$post->id}", 's3');
+            $post->image = Storage::disk('s3')->url($path);
             $post->save();
         }
 
@@ -76,12 +82,14 @@ class INeedController extends Controller
      * @urlParam id int required The ID of the post. Example: 1
      * @response 200 {
      *   "id": 1,
-     *   "post_title": "My New Request",
-     *   "post_short_description": "This is a short description of my request.",
-     *   "post_image": "https://your-bucket.s3.your-region.amazonaws.com/ineed/1/image.jpg",
-     *   "post_price": 99.99,
-     *   "post_price_type": "fixed",
-     *   "post_status": "active",
+     *   "title": "My New Request",
+     *   "short_description": "This is a short description of my request.",
+     *   "image": "https://your-bucket.s3.your-region.amazonaws.com/ineed/1/image.jpg",
+     *   "price": 99.99,
+     *   "price_type": "fixed",
+     *   "status": "active",
+     *   "location": "New York",
+     *   "experience": "5 years",
      *   "created_at": "2024-06-05T12:00:00.000000Z",
      *   "updated_at": "2024-06-05T12:00:00.000000Z"
      * }
@@ -99,22 +107,26 @@ class INeedController extends Controller
      *
      * @group INeed Posts
      * @urlParam id int required The ID of the post. Example: 1
-     * @bodyParam post_title string The title of the post. Example: My Updated Request
-     * @bodyParam post_short_description string A short description of the post. Example: This is an updated short description of my request.
-     * @bodyParam post_image file An image associated with the post (max 25MB).
-     * @bodyParam post_price numeric The price of the request. Example: 99.99
-     * @bodyParam post_price_type string The type of pricing (fixed or hourly). Example: fixed
-     * @bodyParam post_status string The status of the post (active or inactive). Example: active
+     * @bodyParam title string The title of the post. Example: My Updated Request
+     * @bodyParam short_description string A short description of the post. Example: This is an updated short description of my request.
+     * @bodyParam image file An image associated with the post (max 25MB).
+     * @bodyParam price numeric The price of the request. Example: 99.99
+     * @bodyParam price_type string The type of pricing (fixed or hourly). Example: fixed
+     * @bodyParam status string The status of the post (active or inactive). Example: active
+     * @bodyParam location string nullable The location of the post. Example: New York
+     * @bodyParam experience string nullable The experience required for the post. Example: 5 years
      * @response 200 {
      *   "message": "Post updated successfully",
      *   "post": {
      *     "id": 1,
-     *     "post_title": "My Updated Request",
-     *     "post_short_description": "This is an updated short description of my request.",
-     *     "post_image": "https://your-bucket.s3.your-region.amazonaws.com/ineed/1/image.jpg",
-     *     "post_price": 99.99,
-     *     "post_price_type": "fixed",
-     *     "post_status": "active",
+     *     "title": "My Updated Request",
+     *     "short_description": "This is an updated short description of my request.",
+     *     "image": "https://your-bucket.s3.your-region.amazonaws.com/ineed/1/image.jpg",
+     *     "price": 99.99,
+     *     "price_type": "fixed",
+     *     "status": "active",
+     *     "location": "New York",
+     *     "experience": "5 years",
      *     "created_at": "2024-06-05T12:00:00.000000Z",
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
@@ -126,26 +138,28 @@ class INeedController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'post_title' => 'sometimes|string|max:255',
-            'post_short_description' => 'sometimes|string|max:255',
-            'post_image' => 'nullable|image|max:25600', // 25MB max size
-            'post_price' => 'sometimes|numeric',
-            'post_price_type' => 'sometimes|in:fixed,hourly',
-            'post_status' => 'sometimes|in:active,inactive'
+            'title' => 'sometimes|string|max:255',
+            'short_description' => 'sometimes|string|max:255',
+            'image' => 'nullable|image|max:25600', // 25MB max size
+            'price' => 'sometimes|numeric',
+            'price_type' => 'sometimes|in:fixed,hourly',
+            'status' => 'sometimes|in:active,inactive',
+            'location' => 'nullable|string|max:255',
+            'experience' => 'nullable|string|max:255'
         ]);
 
         $post = INeed::findOrFail($id);
-        $post->update($request->except('post_image'));
+        $post->update($request->except('image'));
 
-        if ($request->hasFile('post_image')) {
+        if ($request->hasFile('image')) {
             // Delete the old image from S3
-            if ($post->post_image) {
-                Storage::disk('s3')->delete(parse_url($post->post_image, PHP_URL_PATH));
+            if ($post->image) {
+                Storage::disk('s3')->delete(parse_url($post->image, PHP_URL_PATH));
             }
 
             // Store the new image
-            $path = $request->file('post_image')->store("ineed/{$post->id}", 's3');
-            $post->post_image = Storage::disk('s3')->url($path);
+            $path = $request->file('image')->store("ineed/{$post->id}", 's3');
+            $post->image = Storage::disk('s3')->url($path);
             $post->save();
         }
 
@@ -168,8 +182,8 @@ class INeedController extends Controller
         $post = INeed::findOrFail($id);
 
         // Delete the image from S3
-        if ($post->post_image) {
-            Storage::disk('s3')->delete(parse_url($post->post_image, PHP_URL_PATH));
+        if ($post->image) {
+            Storage::disk('s3')->delete(parse_url($post->image, PHP_URL_PATH));
         }
 
         $post->delete();
