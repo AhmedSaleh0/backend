@@ -1,22 +1,26 @@
 <?php
 
-use App\Http\Controllers\Auth\SocialController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\ContactController;
-use App\Http\Controllers\InspireController;
-use App\Http\Controllers\ICanController;
-use App\Http\Controllers\INeedController;
-use App\Http\Controllers\CreditsController;
-use App\Http\Controllers\INeedRequestController;
-use App\Http\Controllers\InspireCommentController;
-use App\Http\Controllers\InspireReactionController;
-use App\Http\Controllers\InspireUserSaveController;
-use App\Http\Controllers\NewsletterController;
-use App\Http\Controllers\UserImageController;
-use App\Http\Controllers\SkillController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserSkillController;
+
+use App\Http\Controllers\Auth\SocialController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\INeed\INeedController;
+use App\Http\Controllers\INeed\INeedRequestController;
+use App\Http\Controllers\INeed\INeedReactionController;
+use App\Http\Controllers\ICan\ICanController;
+use App\Http\Controllers\Inspire\InspireController;
+use App\Http\Controllers\Inspire\InspireCommentController;
+use App\Http\Controllers\Inspire\InspireReactionController;
+use App\Http\Controllers\Inspire\InspireUserSaveController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\UserImageController;
+use App\Http\Controllers\User\UserSkillController;
+use App\Http\Controllers\Communications\ContactController;
+use App\Http\Controllers\Communications\NewsletterController;
+use App\Http\Controllers\Credits\CreditsController;
+use App\Http\Controllers\ICan\ICanReactionController;
+use App\Http\Controllers\ICan\ICanRequestController;
+use App\Http\Controllers\Skill\SkillController;
 
 
 // Authentication Routes
@@ -95,30 +99,65 @@ Route::prefix('inspire')->group(function () {
 
 
 // I-Can Routes
-Route::prefix('ican')->middleware('auth:api')->group(function () {
+Route::prefix('ican')->group(function () {
     Route::get('/posts', [ICanController::class, 'index']);
     Route::post('/posts', [ICanController::class, 'store']);
     Route::get('/posts/{id}', [ICanController::class, 'show']);
     Route::put('/posts/{id}', [ICanController::class, 'update']);
     Route::delete('/posts/{id}', [ICanController::class, 'destroy']);
+
+    Route::prefix('requests')->middleware('auth:api')->group(function () {
+        Route::get('/', [ICanRequestController::class, 'index'])->name('ican-requests.index');
+        Route::post('/apply', [ICanRequestController::class, 'apply'])->name('ican-requests.apply');
+        Route::post('/{request_id}/accept', [ICanRequestController::class, 'accept'])->name('ican-requests.accept');
+        Route::post('/{request_id}/reject', [ICanRequestController::class, 'reject'])->name('ican-requests.reject');
+        Route::get('/{request_id}', [ICanRequestController::class, 'show'])->name('ican-requests.show');
+        Route::delete('/{request_id}', [ICanRequestController::class, 'destroy'])->name('ican-requests.destroy');
+    });
+
+    Route::prefix('reactions')->group(function () {
+        Route::get('/{ican_id}', [ICanReactionController::class, 'index']);
+        Route::post('/{ican_id}', [ICanReactionController::class, 'store'])->middleware('auth:api');
+        Route::get('/{id}', [ICanReactionController::class, 'show']);
+        Route::put('/{id}', [ICanReactionController::class, 'update'])->middleware('auth:api');
+        Route::delete('/{id}', [ICanReactionController::class, 'destroy'])->middleware('auth:api');
+    });
 });
 
 // I-Need Routes
-Route::prefix('ineed')->middleware('auth:api')->group(function () {
+Route::prefix('ineed')->group(function () {
+    // Public routes
     Route::get('/posts', [INeedController::class, 'index']);
-    Route::post('/posts', [INeedController::class, 'store']);
     Route::get('/posts/{id}', [INeedController::class, 'show']);
-    Route::put('/posts/{id}', [INeedController::class, 'update']);
-    Route::delete('/posts/{id}', [INeedController::class, 'destroy']);
 
-    Route::prefix('requests')->middleware('auth:api')->group(function () {
-        // INeedRequest routes
-        Route::get('/', [INeedRequestController::class, 'index'])->name('ineed-requests.index');
-        Route::post('/apply', [INeedRequestController::class, 'apply'])->name('ineed-requests.apply');
-        Route::post('/{id}/accept', [INeedRequestController::class, 'accept'])->name('ineed-requests.accept');
-        Route::post('/{id}/reject', [INeedRequestController::class, 'reject'])->name('ineed-requests.reject');
-        Route::get('/{id}', [INeedRequestController::class, 'show'])->name('ineed-requests.show');
-        Route::delete('/{id}', [INeedRequestController::class, 'destroy'])->name('ineed-requests.destroy');
+    // Routes requiring authentication
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/posts', [INeedController::class, 'store']);
+        Route::put('/posts/{id}', [INeedController::class, 'update']);
+        Route::delete('/posts/{id}', [INeedController::class, 'destroy']);
+
+        Route::prefix('requests')->group(function () {
+            // INeedRequest routes
+            Route::get('/', [INeedRequestController::class, 'index'])->name('ineed-requests.index');
+            Route::post('/apply', [INeedRequestController::class, 'apply'])->name('ineed-requests.apply');
+            Route::post('/{request_id}/accept', [INeedRequestController::class, 'accept'])->name('ineed-requests.accept');
+            Route::post('/{request_id}/reject', [INeedRequestController::class, 'reject'])->name('ineed-requests.reject');
+            Route::get('/{request_id}', [INeedRequestController::class, 'show'])->name('ineed-requests.show');
+            Route::delete('/{request_id}', [INeedRequestController::class, 'destroy'])->name('ineed-requests.destroy');
+        });
+    });
+
+    // Reactions routes
+    Route::prefix('reactions')->group(function () {
+        Route::get('/{ineed_id}', [INeedReactionController::class, 'index']);
+        Route::get('/{id}', [INeedReactionController::class, 'show']);
+
+        // Routes requiring authentication
+        Route::middleware('auth:api')->group(function () {
+            Route::post('/{ineed_id}', [INeedReactionController::class, 'store']);
+            Route::put('/{id}', [INeedReactionController::class, 'update']);
+            Route::delete('/{id}', [INeedReactionController::class, 'destroy']);
+        });
     });
 });
 
