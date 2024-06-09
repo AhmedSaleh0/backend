@@ -8,6 +8,7 @@ use App\Http\Controllers\InspireController;
 use App\Http\Controllers\ICanController;
 use App\Http\Controllers\INeedController;
 use App\Http\Controllers\CreditsController;
+use App\Http\Controllers\INeedRequestController;
 use App\Http\Controllers\InspireCommentController;
 use App\Http\Controllers\InspireReactionController;
 use App\Http\Controllers\InspireUserSaveController;
@@ -109,6 +110,16 @@ Route::prefix('ineed')->middleware('auth:api')->group(function () {
     Route::get('/posts/{id}', [INeedController::class, 'show']);
     Route::put('/posts/{id}', [INeedController::class, 'update']);
     Route::delete('/posts/{id}', [INeedController::class, 'destroy']);
+
+    Route::prefix('requests')->middleware('auth:api')->group(function () {
+        // INeedRequest routes
+        Route::get('/', [INeedRequestController::class, 'index'])->name('ineed-requests.index');
+        Route::post('/apply', [INeedRequestController::class, 'apply'])->name('ineed-requests.apply');
+        Route::post('/{id}/accept', [INeedRequestController::class, 'accept'])->name('ineed-requests.accept');
+        Route::post('/{id}/reject', [INeedRequestController::class, 'reject'])->name('ineed-requests.reject');
+        Route::get('/{id}', [INeedRequestController::class, 'show'])->name('ineed-requests.show');
+        Route::delete('/{id}', [INeedRequestController::class, 'destroy'])->name('ineed-requests.destroy');
+    });
 });
 
 // Credits and Payments
