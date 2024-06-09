@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class INeedReaction extends Model
 {
     use HasFactory;
-
+    protected $table = "i_need_reactions";
     protected $fillable = [
         'ineed_id', 'user_id', 'reaction_type'
     ];

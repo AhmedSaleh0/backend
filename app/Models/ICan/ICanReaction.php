@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class ICanReaction extends Model
 {
     use HasFactory;
+    protected $table = "i_can_reactions";
 
     protected $fillable = [
         'ican_id', 'user_id', 'reaction_type'

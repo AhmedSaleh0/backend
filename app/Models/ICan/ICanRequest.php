@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class ICanRequest extends Model
 {
     use HasFactory;
+    protected $table = "i_can_requests";
 
     protected $fillable = [
         'ican_id', 'user_id', 'status'

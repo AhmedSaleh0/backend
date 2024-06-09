@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class UserImage extends Model
 {
     use HasFactory;
+
+    protected $table = "user_images";
     protected $fillable = ['user_id', 'image_path'];
 
     public function user()

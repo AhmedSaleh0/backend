@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class InspireUserSave extends Model
 {
     use HasFactory;
+    protected $table = "inspire_user_save";
 
     protected $fillable = [
         'inspire_id', 'user_id'

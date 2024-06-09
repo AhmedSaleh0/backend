@@ -10,6 +10,7 @@ class INeed extends Model
 {
     use HasFactory;
 
+    protected $table = "i_need";
     protected $fillable = [
         'title',
         'short_description',

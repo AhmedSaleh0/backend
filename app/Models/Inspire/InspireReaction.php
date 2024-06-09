@@ -10,6 +10,7 @@ class InspireReaction extends Model
 {
     use HasFactory;
 
+    protected $table = "inspire_reactions";
     protected $fillable = [
         'inspire_id', 'user_id', 'reaction_type'
     ];

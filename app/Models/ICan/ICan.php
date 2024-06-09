@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ICan extends Model
 {
     use HasFactory;
+    protected $table = "i_can";
 
     protected $fillable = [
         'title',

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class InspireComment extends Model
 {
     use HasFactory;
+    protected $table = "inspire_comments";
 
     protected $fillable = [
         'inspire_id', 'user_id', 'comment'
