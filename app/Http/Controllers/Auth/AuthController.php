@@ -19,50 +19,53 @@ class AuthController extends Controller
     const OTP_EXPIRATION_MINUTES = 15; // Set the OTP expiration time
 
     /**
-     * Register a new user and auto login.
-     *
-     * @unauthenticated
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     *
-     * @bodyParam first_name string required The user's first name.
-     * @bodyParam last_name string required The user's last name.
-     * @bodyParam email string required The user's email address.
-     * @bodyParam password string required The user's password.
-     * @bodyParam password_confirmation string required The password confirmation.
-     * @bodyParam phone string required The user's phone number.
-     */
-    public function signup(Request $request)
-    {
-        // Validate the request data, including making the phone number unique
-        $validatedData = $request->validate([
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'phone' => 'required|string|max:255|unique:users',
-        ]);
+ * Register a new user and auto login.
+ *
+ * @unauthenticated
+ * 
+ * @param Request $request
+ * @return \Illuminate\Http\JsonResponse
+ *
+ * @bodyParam first_name string required The user's first name.
+ * @bodyParam last_name string required The user's last name.
+ * @bodyParam email string required The user's email address.
+ * @bodyParam password string required The user's password.
+ * @bodyParam password_confirmation string required The password confirmation.
+ * @bodyParam phone string required The user's phone number. Example: +1234567890
+ * @bodyParam country_code string required The user's country code. Example: +1
+ */
+public function signup(Request $request)
+{
+    // Validate the request data, including making the phone number unique
+    $validatedData = $request->validate([
+        'first_name' => 'required|string|max:255',
+        'last_name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:8|confirmed',
+        'country_code' => 'required|string|max:5',
+        'phone' => 'required|string|max:20|unique:users|regex:/^\+?[0-9()\s-]+$/',
+    ]);
 
-        // Create a new user with the validated data
-        $user = User::create([
-            'first_name' => $validatedData['first_name'],
-            'last_name' => $validatedData['last_name'],
-            'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']),
-            'phone' => $validatedData['phone'],
-        ]);
+    // Create a new user with the validated data
+    $user = User::create([
+        'first_name' => $validatedData['first_name'],
+        'last_name' => $validatedData['last_name'],
+        'email' => $validatedData['email'],
+        'password' => bcrypt($validatedData['password']),
+        'country_code' => $validatedData['country_code'],
+        'phone' => $validatedData['phone'],
+    ]);
 
-        // Automatically log in the user and create a token
-        $token = $user->createToken('Personal Access Token')->accessToken;
+    // Automatically log in the user and create a token
+    $token = $user->createToken('Personal Access Token')->accessToken;
 
-        // Return a success response with the user and token data
-        return response()->json([
-            'message' => 'User successfully registered',
-            'user' => $user,
-            'token' => $token
-        ], 201);
-    }
+    // Return a success response with the user and token data
+    return response()->json([
+        'message' => 'User successfully registered',
+        'user' => $user,
+        'token' => $token
+    ], 201);
+}
 
     /**
      * Login user and create token.
