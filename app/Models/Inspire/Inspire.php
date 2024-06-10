@@ -44,19 +44,15 @@ class Inspire extends Model
 
     public function reactions()
     {
-        return $this->hasMany(InspireReaction::class);
+        return $this->hasOne(InspireReaction::class);
     }
     public function comments()
     {
         return $this->hasMany(InspireComment::class);
     }
 
-    // Method to check if the post is liked by the authenticated user
     public function isLikedByUser()
     {
-        if (Auth::check()) {
-            return $this->reactions()->where('user_id', Auth::id())->exists();
-        }
-        return false;
+        return $this->reactions()->where('user_id', Auth::id())->exists();
     }
 }

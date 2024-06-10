@@ -21,7 +21,11 @@ class InspireController extends Controller
     public function index()
     {
         $posts = Inspire::all()->map(function ($post) {
-            $post->liked_by_user = $post->isLikedByUser();
+            if (Auth::check()) {
+                $post->liked_by_user = $post->isLikedByUser();
+            } else {
+                $post->liked_by_user = false;
+            }
             return $post;
         });
         return response()->json($posts);
@@ -99,7 +103,11 @@ class InspireController extends Controller
     {
         $post = Inspire::findOrFail($inspire_id);
         $post->increment('views');  // Increment view count upon retrieval
-        $post->liked_by_user = $post->isLikedByUser();
+        if (Auth::check()) {
+            $post->liked_by_user = $post->isLikedByUser();
+        } else {
+            $post->liked_by_user = false;
+        }
         return response()->json($post);
     }
 
@@ -141,7 +149,7 @@ class InspireController extends Controller
         if ($request->hasFile('media')) {
             // Delete the old media from S3
             Storage::disk('s3')->delete(parse_url($post->media_url, PHP_URL_PATH));
-            
+
             // Store the new media
             $path = $request->file('media')->store('inspire', 's3');
             $post->update([
