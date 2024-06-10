@@ -13,19 +13,32 @@ class InspireController extends Controller
     /**
      * Display a listing of Inspire posts.
      *
-     * @unauthenticated
-     * 
      * @group Inspire Posts
-     * @return \Illuminate\Http\Response
+     * @unauthenticated
+     * @response 200 {
+     *   "id": 1,
+     *   "type": "image",
+     *   "title": "My New Post",
+     *   "content": "This is the content of my post.",
+     *   "media_url": "https://your-bucket.s3.your-region.amazonaws.com/inspire/1/media.jpg",
+     *   "user_id": 1,
+     *   "status": "active",
+     *   "views": 100,
+     *   "category": 1,
+     *   "sub_category": 2,
+     *   "liked_by_user": true,
+     *   "created_at": "2024-06-05T12:00:00.000000Z",
+     *   "updated_at": "2024-06-05T12:00:00.000000Z"
+     * }
+     * 
+     * @authenticated
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         $posts = Inspire::all()->map(function ($post) {
-            if (Auth::check()) {
-                $post->liked_by_user = $post->isLikedByUser();
-            } else {
-                $post->liked_by_user = false;
-            }
+            $post->liked_by_user = Auth::check() ? $post->reactions()->where('user_id', Auth::id())->exists() : false;
             return $post;
         });
         return response()->json($posts);
