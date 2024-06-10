@@ -22,8 +22,33 @@ class ICan extends Model
         'experience'
     ];
 
-    // If you have relationships, define them here. For example:
-    public function user() {
+    /**
+     * Set the experience attribute.
+     *
+     * @param string $value
+     * @return void
+     */
+    public function setExperienceAttribute($value)
+    {
+        $allowedValues = ['Entry', 'Intermediate', 'Expert'];
+        if (!in_array($value, $allowedValues)) {
+            throw new \InvalidArgumentException("Invalid experience value");
+        }
+        $this->attributes['experience'] = $value;
+    }
+
+    /**
+     * Get the user that owns the ICan post.
+     */    public function user()
+    {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the requests for the ICan post.
+     */
+    public function requests()
+    {
+        return $this->hasMany(ICanRequest::class, 'ican_id');
     }
 }

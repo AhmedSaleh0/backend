@@ -32,7 +32,7 @@ class INeedController extends Controller
      * @bodyParam price_type string required The type of pricing (fixed or hourly). Example: fixed
      * @bodyParam status string required The status of the post (active or inactive). Example: active
      * @bodyParam location string nullable The location of the post. Example: New York
-     * @bodyParam experience string nullable The experience required for the post. Example: 5 years
+     * @bodyParam experience string nullable The experience required for the post (Entry, Intermediate, Expert). Example: Entry
      * @response 201 {
      *   "message": "Post created successfully",
      *   "post": {
@@ -44,7 +44,7 @@ class INeedController extends Controller
      *     "price_type": "fixed",
      *     "status": "active",
      *     "location": "New York",
-     *     "experience": "5 years",
+     *     "experience": "Entry",
      *     "created_at": "2024-06-05T12:00:00.000000Z",
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
@@ -62,7 +62,7 @@ class INeedController extends Controller
             'price_type' => 'required|in:fixed,hourly',
             'status' => 'required|in:active,inactive',
             'location' => 'nullable|string|max:255',
-            'experience' => 'nullable|string|max:255'
+            'experience' => 'nullable|in:Entry,Intermediate,Expert'
         ]);
 
         $post = INeed::create($request->except('image'));
@@ -90,7 +90,7 @@ class INeedController extends Controller
      *   "price_type": "fixed",
      *   "status": "active",
      *   "location": "New York",
-     *   "experience": "5 years",
+     *   "experience": "Entry",
      *   "created_at": "2024-06-05T12:00:00.000000Z",
      *   "updated_at": "2024-06-05T12:00:00.000000Z"
      * }
@@ -115,7 +115,7 @@ class INeedController extends Controller
      * @bodyParam price_type string The type of pricing (fixed or hourly). Example: fixed
      * @bodyParam status string The status of the post (active or inactive). Example: active
      * @bodyParam location string nullable The location of the post. Example: New York
-     * @bodyParam experience string nullable The experience required for the post. Example: 5 years
+     * @bodyParam experience string nullable The experience required for the post (Entry, Intermediate, Expert). Example: Entry
      * @response 200 {
      *   "message": "Post updated successfully",
      *   "post": {
@@ -127,7 +127,7 @@ class INeedController extends Controller
      *     "price_type": "fixed",
      *     "status": "active",
      *     "location": "New York",
-     *     "experience": "5 years",
+     *     "experience": "Entry",
      *     "created_at": "2024-06-05T12:00:00.000000Z",
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
@@ -146,7 +146,7 @@ class INeedController extends Controller
             'price_type' => 'sometimes|in:fixed,hourly',
             'status' => 'sometimes|in:active,inactive',
             'location' => 'nullable|string|max:255',
-            'experience' => 'nullable|string|max:255'
+            'experience' => 'nullable|in:Entry,Intermediate,Expert'
         ]);
 
         $post = INeed::findOrFail($ineed_id);
