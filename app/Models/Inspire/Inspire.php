@@ -7,26 +7,28 @@ use App\Models\Skill\SkillsSubCategory;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 
 class Inspire extends Model
 {
     use HasFactory;
 
-    protected $table ="inspire";
+    protected $table = "inspire";
     protected $fillable = [
-        'type', 
-        'title', 
-        'content', 
-        'media_url', 
-        'user_id', 
-        'status', 
-        'views', 
-        'category', 
+        'type',
+        'title',
+        'content',
+        'media_url',
+        'user_id',
+        'status',
+        'views',
+        'category',
         'sub_category'
     ];
 
     // Relationship with User (assuming each post is associated with a user)
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
@@ -38,5 +40,23 @@ class Inspire extends Model
     public function subCategory()
     {
         return $this->belongsTo(SkillsSubCategory::class, 'sub_category');
+    }
+
+    public function reactions()
+    {
+        return $this->hasMany(InspireReaction::class);
+    }
+    public function comments()
+    {
+        return $this->hasMany(InspireComment::class);
+    }
+
+    // Method to check if the post is liked by the authenticated user
+    public function isLikedByUser()
+    {
+        if (Auth::check()) {
+            return $this->reactions()->where('user_id', Auth::id())->exists();
+        }
+        return false;
     }
 }

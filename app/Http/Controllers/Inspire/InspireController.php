@@ -20,7 +20,10 @@ class InspireController extends Controller
      */
     public function index()
     {
-        $posts = Inspire::all();
+        $posts = Inspire::all()->map(function ($post) {
+            $post->liked_by_user = $post->isLikedByUser();
+            return $post;
+        });
         return response()->json($posts);
     }
 
@@ -74,12 +77,29 @@ class InspireController extends Controller
      *
      * @group Inspire Posts
      * @urlParam inspire_id int required The ID of the post. Example: 1
-     * @return \Illuminate\Http\Response
+     * @response 200 {
+     *   "id": 1,
+     *   "type": "image",
+     *   "title": "My New Post",
+     *   "content": "This is the content of my post.",
+     *   "media_url": "https://your-bucket.s3.your-region.amazonaws.com/inspire/1/media.jpg",
+     *   "user_id": 1,
+     *   "status": "active",
+     *   "views": 100,
+     *   "category": 1,
+     *   "sub_category": 2,
+     *   "liked_by_user": true,
+     *   "created_at": "2024-06-05T12:00:00.000000Z",
+     *   "updated_at": "2024-06-05T12:00:00.000000Z"
+     * }
+     * @param int $inspire_id
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($inspire_id)
     {
         $post = Inspire::findOrFail($inspire_id);
         $post->increment('views');  // Increment view count upon retrieval
+        $post->liked_by_user = $post->isLikedByUser();
         return response()->json($post);
     }
 
