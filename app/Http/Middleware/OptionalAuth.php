@@ -18,11 +18,13 @@ class OptionalAuth
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->bearerToken()) {
-            $token = $request->bearerToken();
-            $tokenId = (new TokenRepository)->find($token)->id;
+        if ($token = $request->bearerToken()) {
+            $tokenId = optional((new TokenRepository)->find($token))->id;
             if ($tokenId) {
-                Auth::setUser(Token::find($tokenId)->user);
+                $user = optional(Token::find($tokenId))->user;
+                if ($user) {
+                    Auth::setUser($user);
+                }
             }
         }
 
