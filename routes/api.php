@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
+
+use App\Http\Middleware\OptionalAuth;
 
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\Auth\AuthController;
@@ -87,8 +87,8 @@ Route::prefix('user')->middleware('auth:api')->group(function () {
 // Inspire Routes
 Route::prefix('inspire')->group(function () {
     // Public routes
-    Route::get('/', [InspireController::class, 'index']);
-    Route::get('/{inspire_id}', [InspireController::class, 'show']);
+    Route::get('/', [InspireController::class, 'index'])->middleware(OptionalAuth::class);
+    Route::get('/{inspire_id}', [InspireController::class, 'show'])->middleware(OptionalAuth::class);
     Route::get('/{inspire_id}/comments', [InspireCommentController::class, 'index']);
     Route::get('/{inspire_id}/comments/{comment_id}', [InspireCommentController::class, 'show']);
     Route::get('/{inspire_id}/reactions', [InspireReactionController::class, 'index']);
