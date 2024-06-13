@@ -121,8 +121,8 @@ Route::prefix('inspire')->group(function () {
 // I-Can Routes
 Route::prefix('ican')->group(function () {
 
-    Route::get('/', [ICanController::class, 'index']);
-    Route::get('/{ican_id}', [ICanController::class, 'show']);
+    Route::get('/', [ICanController::class, 'index'])->middleware(OptionalAuth::class);
+    Route::get('/{ican_id}', [ICanController::class, 'show'])->middleware(OptionalAuth::class);
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {

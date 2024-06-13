@@ -6,6 +6,7 @@ use App\Models\Skill\Skill;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 
 class ICan extends Model
 {
@@ -56,5 +57,15 @@ class ICan extends Model
     public function skills()
     {
         return $this->belongsToMany(Skill::class, 'i_can_skills', 'i_can_id', 'skill_id');
+    }
+
+    public function reactions()
+    {
+        return $this->hasOne(ICanReaction::class, 'ican_id');
+    }
+
+    public function isLikedByUser()
+    {
+        return $this->reactions()->where('user_id', Auth::id())->exists();
     }
 }

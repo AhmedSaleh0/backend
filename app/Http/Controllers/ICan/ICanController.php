@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ICan;
 use App\Models\ICan\ICan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 class ICanController extends Controller
@@ -17,7 +18,10 @@ class ICanController extends Controller
      */
     public function index()
     {
-        $posts = ICan::with('skills')->get();
+        $posts = ICan::with('skills')->get()->map(function ($post) {
+            $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
+            return $post;
+        });
         return response()->json($posts);
     }
 
@@ -108,6 +112,7 @@ class ICanController extends Controller
     public function show($ican_id)
     {
         $post = ICan::with('skills')->findOrFail($ican_id);
+        $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
         return response()->json($post);
     }
 
