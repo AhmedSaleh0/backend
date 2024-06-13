@@ -50,4 +50,14 @@ class INeed extends Model
     {
         return $this->belongsToMany(Skill::class, 'i_need_skills', 'i_need_id', 'skill_id');
     }
+
+    public function reactions()
+    {
+        return $this->hasOne(INeedReaction::class, 'ineed_id');
+    }
+
+    public function isLikedByUser()
+    {
+        return $this->reactions()->where('user_id', Auth::id())->exists();
+    }
 }

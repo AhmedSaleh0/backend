@@ -152,8 +152,8 @@ Route::prefix('ican')->group(function () {
 // I-Need Routes
 Route::prefix('ineed')->group(function () {
     // Public routes
-    Route::get('/', [INeedController::class, 'index']);
-    Route::get('/{ineed_id}', [INeedController::class, 'show']);
+    Route::get('/', [INeedController::class, 'index'])->middleware(OptionalAuth::class);
+    Route::get('/{ineed_id}', [INeedController::class, 'show'])->middleware(OptionalAuth::class);
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {

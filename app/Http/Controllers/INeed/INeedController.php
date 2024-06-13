@@ -5,6 +5,7 @@ namespace App\Http\Controllers\INeed;
 use App\Models\INeed\INeed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 
 class INeedController extends Controller
@@ -17,7 +18,10 @@ class INeedController extends Controller
      */
     public function index()
     {
-        $posts = INeed::with('skills')->get();
+        $posts = INeed::with('skills')->get()->map(function ($post) {
+            $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
+            return $post;
+        });
         return response()->json($posts);
     }
 
@@ -108,6 +112,7 @@ class INeedController extends Controller
     public function show($ineed_id)
     {
         $post = INeed::with('skills')->findOrFail($ineed_id);
+        $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
         return response()->json($post);
     }
 
