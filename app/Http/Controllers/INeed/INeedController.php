@@ -17,7 +17,7 @@ class INeedController extends Controller
      */
     public function index()
     {
-        $posts = INeed::all();
+        $posts = INeed::with('skills')->get();
         return response()->json($posts);
     }
 
@@ -30,9 +30,9 @@ class INeedController extends Controller
      * @bodyParam image file nullable An image associated with the post (max 25MB).
      * @bodyParam price numeric required The price of the request. Example: 99.99
      * @bodyParam price_type string required The type of pricing (fixed or hourly). Example: fixed
-     * @bodyParam status string required The status of the post (active or inactive). Example: active
      * @bodyParam location string nullable The location of the post. Example: New York
-     * @bodyParam experience string nullable The experience required for the post (Entry, Intermediate, Expert). Example: Entry
+     * @bodyParam experience string nullable The experience required for the post. Example: Entry
+     * @bodyParam skills array nullable The skills associated with the post. Example: [1, 2, 3]
      * @response 201 {
      *   "message": "Post created successfully",
      *   "post": {
@@ -42,9 +42,10 @@ class INeedController extends Controller
      *     "image": "https://your-bucket.s3.your-region.amazonaws.com/ineed/1/image.jpg",
      *     "price": 99.99,
      *     "price_type": "fixed",
-     *     "status": "active",
+     *     "status": "pending",
      *     "location": "New York",
      *     "experience": "Entry",
+     *     "skills": [1, 2, 3],
      *     "created_at": "2024-06-05T12:00:00.000000Z",
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
@@ -60,17 +61,23 @@ class INeedController extends Controller
             'image' => 'nullable|image|max:25600', // 25MB max size
             'price' => 'required|numeric',
             'price_type' => 'required|in:fixed,hourly',
-            'status' => 'required|in:active,inactive',
             'location' => 'nullable|string|max:255',
-            'experience' => 'nullable|in:Entry,Intermediate,Expert'
+            'experience' => 'nullable|in:Entry,Intermediate,Expert',
+            'skills' => 'nullable|array',
+            'skills.*' => 'exists:skills,id',
         ]);
 
-        $post = INeed::create($request->except('image'));
+        $post = INeed::create($request->except('image', 'skills') + ['status' => 'pending']);
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store("ineed/{$post->id}", 's3');
             $post->image = Storage::disk('s3')->url($path);
             $post->save();
+        }
+
+        // Attach skills to the post
+        if ($request->has('skills')) {
+            $post->skills()->attach($request->skills);
         }
 
         return response()->json(['message' => 'Post created successfully', 'post' => $post], 201);
@@ -88,9 +95,10 @@ class INeedController extends Controller
      *   "image": "https://your-bucket.s3.your-region.amazonaws.com/ineed/1/image.jpg",
      *   "price": 99.99,
      *   "price_type": "fixed",
-     *   "status": "active",
+     *   "status": "pending",
      *   "location": "New York",
      *   "experience": "Entry",
+     *   "skills": [1, 2, 3],
      *   "created_at": "2024-06-05T12:00:00.000000Z",
      *   "updated_at": "2024-06-05T12:00:00.000000Z"
      * }
@@ -99,7 +107,7 @@ class INeedController extends Controller
      */
     public function show($ineed_id)
     {
-        $post = INeed::findOrFail($ineed_id);
+        $post = INeed::with('skills')->findOrFail($ineed_id);
         return response()->json($post);
     }
 
@@ -114,8 +122,9 @@ class INeedController extends Controller
      * @bodyParam price numeric The price of the request. Example: 99.99
      * @bodyParam price_type string The type of pricing (fixed or hourly). Example: fixed
      * @bodyParam status string The status of the post (active or inactive). Example: active
-     * @bodyParam location string nullable The location of the post. Example: New York
-     * @bodyParam experience string nullable The experience required for the post (Entry, Intermediate, Expert). Example: Entry
+     * @bodyParam location string The location of the post. Example: New York
+     * @bodyParam experience string The experience required for the post. Example: Entry
+     * @bodyParam skills array nullable The skills associated with the post. Example: [1, 2, 3]
      * @response 200 {
      *   "message": "Post updated successfully",
      *   "post": {
@@ -125,9 +134,10 @@ class INeedController extends Controller
      *     "image": "https://your-bucket.s3.your-region.amazonaws.com/ineed/1/image.jpg",
      *     "price": 99.99,
      *     "price_type": "fixed",
-     *     "status": "active",
+     *     "status": "pending",
      *     "location": "New York",
      *     "experience": "Entry",
+     *     "skills": [1, 2, 3],
      *     "created_at": "2024-06-05T12:00:00.000000Z",
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
@@ -144,13 +154,14 @@ class INeedController extends Controller
             'image' => 'nullable|image|max:25600', // 25MB max size
             'price' => 'sometimes|numeric',
             'price_type' => 'sometimes|in:fixed,hourly',
-            'status' => 'sometimes|in:active,inactive',
             'location' => 'nullable|string|max:255',
-            'experience' => 'nullable|in:Entry,Intermediate,Expert'
+            'experience' => 'nullable|in:Entry,Intermediate,Expert',
+            'skills' => 'nullable|array',
+            'skills.*' => 'exists:skills,id',
         ]);
 
         $post = INeed::findOrFail($ineed_id);
-        $post->update($request->except('image'));
+        $post->update($request->except('image', 'skills') + ['status' => 'pending']);
 
         if ($request->hasFile('image')) {
             // Delete the old image from S3
@@ -162,6 +173,11 @@ class INeedController extends Controller
             $path = $request->file('image')->store("ineed/{$post->id}", 's3');
             $post->image = Storage::disk('s3')->url($path);
             $post->save();
+        }
+
+        // Sync skills
+        if ($request->has('skills')) {
+            $post->skills()->sync($request->skills);
         }
 
         return response()->json(['message' => 'Post updated successfully', 'post' => $post]);
@@ -186,6 +202,9 @@ class INeedController extends Controller
         if ($post->image) {
             Storage::disk('s3')->delete(parse_url($post->image, PHP_URL_PATH));
         }
+
+        // Detach skills
+        $post->skills()->detach();
 
         $post->delete();
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\INeed;
 
+use App\Models\Skill\Skill;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -43,5 +44,10 @@ class INeed extends Model
     public function requests()
     {
         return $this->hasMany(INeedRequest::class, 'ineed_id');
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'i_need_skills', 'i_need_id', 'skill_id');
     }
 }

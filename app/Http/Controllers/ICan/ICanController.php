@@ -17,7 +17,7 @@ class ICanController extends Controller
      */
     public function index()
     {
-        $posts = ICan::all();
+        $posts = ICan::with('skills')->get();
         return response()->json($posts);
     }
 
@@ -30,9 +30,9 @@ class ICanController extends Controller
      * @bodyParam image file nullable An image associated with the post (max 25MB).
      * @bodyParam price numeric required The price of the service. Example: 99.99
      * @bodyParam price_type string required The type of pricing (fixed or hourly). Example: fixed
-     * @bodyParam status string required The status of the post (active or inactive). Example: active
      * @bodyParam location string nullable The location of the post. Example: Dubai
      * @bodyParam experience string nullable The experience required for the post. Example: Intermediate
+     * @bodyParam skills array nullable The skills associated with the post. Example: [1, 2, 3]
      * @response 201 {
      *   "message": "Post created successfully",
      *   "post": {
@@ -42,9 +42,10 @@ class ICanController extends Controller
      *     "image": "https://your-bucket.s3.your-region.amazonaws.com/ican/1/image.jpg",
      *     "price": 99.99,
      *     "price_type": "fixed",
-     *     "status": "active",
+     *     "status": "pending",
      *     "location": "Dubai",
      *     "experience": "Intermediate",
+     *     "skills": [1, 2, 3],
      *     "created_at": "2024-06-05T12:00:00.000000Z",
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
@@ -60,17 +61,23 @@ class ICanController extends Controller
             'image' => 'nullable|image|max:25600', // 25MB max size
             'price' => 'required|numeric',
             'price_type' => 'required|in:fixed,hourly',
-            'status' => 'required|in:active,inactive',
             'location' => 'nullable|string|max:255',
-            'experience' => 'nullable|in:Entry,Intermediate,Expert'
+            'experience' => 'nullable|in:Entry,Intermediate,Expert',
+            'skills' => 'nullable|array',
+            'skills.*' => 'exists:skills,id',
         ]);
 
-        $post = ICan::create($request->except('image'));
+        $post = ICan::create($request->except('image', 'skills') + ['status' => 'pending']);
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store("ican/{$post->id}", 's3');
             $post->image = Storage::disk('s3')->url($path);
             $post->save();
+        }
+
+        // Attach skills to the post
+        if ($request->has('skills')) {
+            $post->skills()->attach($request->skills);
         }
 
         return response()->json(['message' => 'Post created successfully', 'post' => $post], 201);
@@ -88,9 +95,10 @@ class ICanController extends Controller
      *   "image": "https://your-bucket.s3.your-region.amazonaws.com/ican/1/image.jpg",
      *   "price": 99.99,
      *   "price_type": "fixed",
-     *   "status": "active",
+     *   "status": "pending",
      *   "location": "Dubai",
      *   "experience": "Intermediate",
+     *   "skills": [1, 2, 3],
      *   "created_at": "2024-06-05T12:00:00.000000Z",
      *   "updated_at": "2024-06-05T12:00:00.000000Z"
      * }
@@ -99,7 +107,7 @@ class ICanController extends Controller
      */
     public function show($ican_id)
     {
-        $post = ICan::findOrFail($ican_id);
+        $post = ICan::with('skills')->findOrFail($ican_id);
         return response()->json($post);
     }
 
@@ -116,6 +124,7 @@ class ICanController extends Controller
      * @bodyParam status string The status of the post (active or inactive). Example: active
      * @bodyParam location string The location of the post. Example: Dubai
      * @bodyParam experience string The experience required for the post. Example: Intermediate
+     * @bodyParam skills array nullable The skills associated with the post. Example: [1, 2, 3]
      * @response 200 {
      *   "message": "Post updated successfully",
      *   "post": {
@@ -125,9 +134,10 @@ class ICanController extends Controller
      *     "image": "https://your-bucket.s3.your-region.amazonaws.com/ican/1/image.jpg",
      *     "price": 99.99,
      *     "price_type": "fixed",
-     *     "status": "active",
+     *     "status": "pending",
      *     "location": "Dubai",
      *     "experience": "Intermediate",
+     *     "skills": [1, 2, 3],
      *     "created_at": "2024-06-05T12:00:00.000000Z",
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
@@ -144,13 +154,14 @@ class ICanController extends Controller
             'image' => 'nullable|image|max:25600', // 25MB max size
             'price' => 'sometimes|numeric',
             'price_type' => 'sometimes|in:fixed,hourly',
-            'status' => 'sometimes|in:active,inactive',
             'location' => 'nullable|string|max:255',
-            'experience' => 'nullable|in:Entry,Intermediate,Expert'
+            'experience' => 'nullable|in:Entry,Intermediate,Expert',
+            'skills' => 'nullable|array',
+            'skills.*' => 'exists:skills,id',
         ]);
 
         $post = ICan::findOrFail($ican_id);
-        $post->update($request->except('image'));
+        $post->update($request->except('image', 'skills') + ['status' => 'pending']);
 
         if ($request->hasFile('image')) {
             // Delete the old image from S3
@@ -162,6 +173,11 @@ class ICanController extends Controller
             $path = $request->file('image')->store("ican/{$post->id}", 's3');
             $post->image = Storage::disk('s3')->url($path);
             $post->save();
+        }
+
+        // Sync skills
+        if ($request->has('skills')) {
+            $post->skills()->sync($request->skills);
         }
 
         return response()->json(['message' => 'Post updated successfully', 'post' => $post]);
@@ -186,6 +202,9 @@ class ICanController extends Controller
         if ($post->image) {
             Storage::disk('s3')->delete(parse_url($post->image, PHP_URL_PATH));
         }
+
+        // Detach skills
+        $post->skills()->detach();
 
         $post->delete();
 

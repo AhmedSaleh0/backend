@@ -2,6 +2,7 @@
 
 namespace App\Models\ICan;
 
+use App\Models\Skill\Skill;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,5 +51,10 @@ class ICan extends Model
     public function requests()
     {
         return $this->hasMany(ICanRequest::class, 'ican_id');
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'i_can_skills', 'i_can_id', 'skill_id');
     }
 }

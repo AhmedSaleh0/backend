@@ -79,7 +79,7 @@ class InspireController extends Controller
             'user_id' => Auth::id(),
             'category' => $request->category,
             'sub_category' => $request->sub_category,
-            'status' => 'active',  // Default status
+            'status' => 'pending',  // Default status
             'views' => 0,  // Default views
         ]);
 
@@ -170,7 +170,7 @@ class InspireController extends Controller
             ]);
         }
 
-        $post->update($request->except(['media', 'user_id']));
+        $post->update($request->except(['media', 'user_id']) + ['status' => 'pending']);
 
         return response()->json([
             'message' => 'Post updated successfully',
