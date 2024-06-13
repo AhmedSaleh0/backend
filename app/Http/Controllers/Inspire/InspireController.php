@@ -14,7 +14,6 @@ class InspireController extends Controller
      * Display a listing of Inspire posts.
      *
      * @group Inspire Posts
-     * @unauthenticated
      * @response 200 {
      *   "id": 1,
      *   "type": "image",
@@ -31,14 +30,13 @@ class InspireController extends Controller
      *   "updated_at": "2024-06-05T12:00:00.000000Z"
      * }
      * 
-     * @authenticated
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
         $posts = Inspire::all()->map(function ($post) {
-            $post->liked_by_user = Auth::check() ? $post->reactions()->where('user_id', Auth::id())->exists() : false;
+            $post->liked_by_user = optional(Auth::user())->id ? $post->reactions()->where('user_id', Auth::id())->exists() : false;
             return $post;
         });
         return response()->json($posts);
@@ -116,11 +114,7 @@ class InspireController extends Controller
     {
         $post = Inspire::findOrFail($inspire_id);
         $post->increment('views');  // Increment view count upon retrieval
-        if (Auth::check()) {
-            $post->liked_by_user = $post->isLikedByUser();
-        } else {
-            $post->liked_by_user = false;
-        }
+        $post->liked_by_user = optional(Auth::user())->id ? $post->isLikedByUser() : false;
         return response()->json($post);
     }
 
