@@ -36,7 +36,7 @@ class InspireController extends Controller
     public function index(Request $request)
     {
         $posts = Inspire::all()->map(function ($post) {
-            $post->liked_by_user = optional(Auth::user())->id ? $post->reactions()->where('user_id', Auth::id())->exists() : false;
+            $post->liked_by_user = Auth::check() ? $post->reactions()->where('user_id', Auth::id())->exists() : false;
             return $post;
         });
         return response()->json($posts);
@@ -114,7 +114,7 @@ class InspireController extends Controller
     {
         $post = Inspire::findOrFail($inspire_id);
         $post->increment('views');  // Increment view count upon retrieval
-        $post->liked_by_user = optional(Auth::user())->id ? $post->isLikedByUser() : false;
+        $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
         return response()->json($post);
     }
 

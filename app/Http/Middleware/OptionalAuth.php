@@ -6,6 +6,8 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\TokenRepository;
+use Laravel\Passport\Token;
 
 class OptionalAuth
 {
@@ -17,8 +19,11 @@ class OptionalAuth
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->bearerToken()) {
-            Auth::shouldUse('api');
-            Auth::onceUsingId(Auth::guard('api')->user()?->id);
+            $token = $request->bearerToken();
+            $tokenId = (new TokenRepository)->find($token)->id;
+            if ($tokenId) {
+                Auth::setUser(Token::find($tokenId)->user);
+            }
         }
 
         return $next($request);
