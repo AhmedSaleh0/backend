@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\TokenRepository;
+use Laravel\Passport\Token;
 
 class OptionalAuth
 {
@@ -16,10 +18,11 @@ class OptionalAuth
      */
     public function handle($request, Closure $next)
     {
-        // Attempt to authenticate the user using the 'api' guard
         if ($request->bearerToken()) {
-            Auth::shouldUse('api');
-            Auth::onceBasic('email') ?: Auth::guard('api')->user();
+            $user = Auth::guard('api')->user();
+            if ($user) {
+                Auth::setUser($user);
+            }
         }
 
         return $next($request);
