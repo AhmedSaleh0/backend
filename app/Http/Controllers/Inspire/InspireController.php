@@ -36,7 +36,7 @@ class InspireController extends Controller
     public function index(Request $request)
     {
         $posts = Inspire::all()->map(function ($post) {
-            $post->liked_by_user = Auth::check() ? $post->reactions()->where('user_id', Auth::id())->exists() : false;
+            $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
             return $post;
         });
         return response()->json($posts);
