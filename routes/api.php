@@ -170,15 +170,15 @@ Route::prefix('ineed')->group(function () {
             Route::get('/{request_id}', [INeedRequestController::class, 'show'])->name('ineed-requests.show');
             Route::delete('/{request_id}', [INeedRequestController::class, 'destroy'])->name('ineed-requests.destroy');
         });
-    });
 
-    // Reactions routes
-    Route::prefix('reactions')->group(function () {
-        Route::get('/{ineed_id}', [INeedReactionController::class, 'index']);
-        Route::get('/{id}', [INeedReactionController::class, 'show']);
-        Route::post('/{ineed_id}', [INeedReactionController::class, 'store']);
-        Route::put('/{id}', [INeedReactionController::class, 'update']);
-        Route::delete('/{id}', [INeedReactionController::class, 'destroy']);
+        // Reactions routes
+        Route::prefix('reactions')->group(function () {
+            Route::get('/{ineed_id}', [INeedReactionController::class, 'index']);
+            Route::get('/{id}', [INeedReactionController::class, 'show']);
+            Route::post('/{ineed_id}', [INeedReactionController::class, 'store']);
+            Route::put('/{id}', [INeedReactionController::class, 'update']);
+            Route::delete('/{id}', [INeedReactionController::class, 'destroy']);
+        });
     });
 });
 
