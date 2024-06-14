@@ -15,4 +15,18 @@ class VerifyEmail extends VerifyEmailBase
             ->subject('Verify Email Address')
             ->view('emails.verify-email', ['verificationUrl' => $verificationUrl]);
     }
+
+    /**
+     * Get the verification URL for the given notifiable.
+     *
+     * @param  mixed  $notifiable
+     * @return string
+     */
+    protected function verificationUrl($notifiable)
+    {
+        return config('app.webapp_service') . route('verification.verify', [
+            'id' => $notifiable->getKey(),
+            'hash' => sha1($notifiable->getEmailForVerification()),
+        ], false);
+    }
 }
