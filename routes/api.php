@@ -110,6 +110,7 @@ Route::prefix('inspire')->group(function () {
         Route::post('/{inspire_id}/reactions', [InspireReactionController::class, 'store']);
         Route::put('/{inspire_id}/reactions/{reaction_id}', [InspireReactionController::class, 'update']);
         Route::delete('/{inspire_id}/reactions/{reaction_id}', [InspireReactionController::class, 'destroy']);
+        Route::get('/my/liked', [InspireReactionController::class, 'myLikedInspire'])->name('inspire-reactions.myLiked'); // Add this line
 
         // User saves routes
         Route::get('/user/saves', [InspireUserSaveController::class, 'index']);
@@ -146,6 +147,8 @@ Route::prefix('ican')->group(function () {
             Route::get('/{id}', [ICanReactionController::class, 'show']);
             Route::put('/{id}', [ICanReactionController::class, 'update']);
             Route::delete('/{id}', [ICanReactionController::class, 'destroy']);
+            Route::get('/my/liked', [ICanReactionController::class, 'myLikedIcan'])->name('ican-reactions.myLiked'); // Add this line
+
         });
     });
 });
@@ -164,7 +167,7 @@ Route::prefix('ineed')->group(function () {
 
     // Public routes
     Route::get('/', [INeedController::class, 'index'])->middleware(OptionalAuth::class);
-    Route::get('/my', [INeedController::class, 'myINeed'])->name('ineed.my')->middleware('auth:api'); // Add this line
+    Route::get('/my', [INeedController::class, 'myINeed'])->name('ineed.my')->middleware('auth:api');
     Route::get('/{ineed_id}', [INeedController::class, 'show'])->middleware(OptionalAuth::class);
 
     // Routes requiring authentication
@@ -180,6 +183,7 @@ Route::prefix('ineed')->group(function () {
             Route::post('/{ineed_id}', [INeedReactionController::class, 'store']);
             Route::put('/{id}', [INeedReactionController::class, 'update']);
             Route::delete('/{id}', [INeedReactionController::class, 'destroy']);
+            Route::get('/my/liked', [INeedReactionController::class, 'myLikedINeed'])->name('ineed-reactions.myLiked');
         });
     });
 });

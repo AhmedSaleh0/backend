@@ -6,6 +6,7 @@ use App\Models\ICan\ICanReaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\ICan\ICan;
 
 class ICanReactionController extends Controller
 {
@@ -100,5 +101,21 @@ class ICanReactionController extends Controller
         $reaction->delete();
 
         return response()->json(['message' => 'Reaction deleted successfully']);
+    }
+
+    /**
+     * Display a listing of ICan posts liked by the current user.
+     *
+     * @group ICan Reactions
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function myLikedIcan()
+    {
+        $userId = Auth::id();
+        $likedIcans = ICan::whereHas('reactions', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->with(['user', 'user.image'])->get();
+
+        return response()->json($likedIcans);
     }
 }

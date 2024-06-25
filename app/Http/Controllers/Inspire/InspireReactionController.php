@@ -6,6 +6,7 @@ use App\Models\Inspire\InspireReaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Inspire\Inspire;
 
 class InspireReactionController extends Controller
 {
@@ -100,5 +101,47 @@ class InspireReactionController extends Controller
         $reaction->delete();
 
         return response()->json(['message' => 'Reaction deleted successfully']);
+    }
+
+    /**
+     * Display a listing of Inspire posts liked by the current user.
+     *
+     * @group Inspire Reactions
+     * @response 200 {
+     *   "id": 1,
+     *   "type": "image",
+     *   "title": "My New Post",
+     *   "content": "This is the content of my post.",
+     *   "media_url": "https://your-bucket.s3.your-region.amazonaws.com/inspire/1/media.jpg",
+     *   "user_id": 1,
+     *   "status": "active",
+     *   "views": 100,
+     *   "category": 1,
+     *   "sub_category": 2,
+     *   "liked_by_user": true,
+     *   "created_at": "2024-06-05T12:00:00.000000Z",
+     *   "updated_at": "2024-06-05T12:00:00.000000Z",
+     *   "user": {
+     *     "id": 1,
+     *     "first_name": "John",
+     *     "last_name": "Doe",
+     *     "email": "john.doe@example.com",
+     *     "created_at": "2024-06-09T00:00:00.000000Z",
+     *     "updated_at": "2024-06-09T00:00:00.000000Z",
+     *     "image": {
+     *       "id": 1,
+     *       "url": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1/image.jpg"
+     *     }
+     *   }
+     * }
+     */
+    public function myLikedInspire()
+    {
+        $userId = Auth::id();
+        $likedInspire = Inspire::whereHas('reactions', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->with(['user', 'user.image'])->get();
+
+        return response()->json($likedInspire);
     }
 }
