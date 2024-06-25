@@ -21,7 +21,8 @@ class ICan extends Model
         'price_type',
         'status',
         'location',
-        'experience'
+        'experience',
+        'user_id'
     ];
 
     /**
