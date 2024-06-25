@@ -35,7 +35,7 @@ class InspireController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Inspire::all()->map(function ($post) {
+        $posts = Inspire::with(['user', 'user.image', 'category', 'subCategory'])->get()->map(function ($post) {
             $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
             return $post;
         });
@@ -105,14 +105,30 @@ class InspireController extends Controller
      *   "sub_category": 2,
      *   "liked_by_user": true,
      *   "created_at": "2024-06-05T12:00:00.000000Z",
-     *   "updated_at": "2024-06-05T12:00:00.000000Z"
+     *   "updated_at": "2024-06-05T12:00:00.000000Z",
+     *   "user": {
+     *     "id": 1,
+     *     "first_name": "John",
+     *     "last_name": "Doe",
+     *     "email": "john.doe@example.com",
+     *     "phone": "+1234567890",
+     *     "country_code": "+1",
+     *     "username": "johndoe",
+     *     "country": "USA",
+     *     "birthdate": "1990-01-01",
+     *     "bio": "A short bio about John Doe.",
+     *     "image": {
+     *       "id": 1,
+     *       "url": "https://your-bucket.s3.your-region.amazonaws.com/users/1/image.jpg"
+     *     }
+     *   }
      * }
      * @param int $inspire_id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($inspire_id)
     {
-        $post = Inspire::findOrFail($inspire_id);
+        $post = Inspire::with(['user', 'user.image', 'category', 'subCategory'])->findOrFail($inspire_id);
         $post->increment('views');  // Increment view count upon retrieval
         $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
         return response()->json($post);
@@ -195,5 +211,20 @@ class InspireController extends Controller
         $post->delete();
 
         return response()->json(['message' => 'Post deleted successfully']);
+    }
+
+    /**
+     * Display a listing of the authenticated user's Inspire posts.
+     *
+     * @group Inspire Posts
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function myInspire()
+    {
+        $posts = Inspire::with(['user', 'user.image', 'category', 'subCategory'])->where('user_id', Auth::id())->get()->map(function ($post) {
+            $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
+            return $post;
+        });
+        return response()->json($posts);
     }
 }

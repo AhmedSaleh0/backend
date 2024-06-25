@@ -96,6 +96,7 @@ Route::prefix('inspire')->group(function () {
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {
+        Route::get('/my', [InspireController::class, 'myInspire'])->name('inspire.my'); // Add this line
         Route::post('/', [InspireController::class, 'store']);
         Route::put('/{inspire_id}', [InspireController::class, 'update']);
         Route::delete('/{inspire_id}', [InspireController::class, 'destroy']);
@@ -136,6 +137,7 @@ Route::prefix('ican')->group(function () {
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {
+        Route::get('/my', [ICanController::class, 'myIcan'])->name('ican.my');
         Route::post('/', [ICanController::class, 'store']);
         Route::put('/{ican_id}', [ICanController::class, 'update']);
         Route::delete('/{ican_id}', [ICanController::class, 'destroy']);
@@ -168,6 +170,7 @@ Route::prefix('ineed')->group(function () {
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {
+        Route::get('/my', [INeedController::class, 'myINeed'])->name('ineed.my'); // Add this line
         Route::post('/', [INeedController::class, 'store']);
         Route::put('/{ineed_id}', [INeedController::class, 'update']);
         Route::delete('/{ineed_id}', [INeedController::class, 'destroy']);

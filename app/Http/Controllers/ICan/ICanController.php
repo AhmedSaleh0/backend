@@ -18,7 +18,7 @@ class ICanController extends Controller
      */
     public function index()
     {
-        $posts = ICan::with('user','user.image','skills')->get()->map(function ($post) {
+        $posts = ICan::with(['user', 'user.image', 'skills'])->get()->map(function ($post) {
             $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
             return $post;
         });
@@ -103,15 +103,29 @@ class ICanController extends Controller
      *   "location": "Dubai",
      *   "experience": "Intermediate",
      *   "skills": [1, 2, 3],
-     *   "created_at": "2024-06-05T12:00:00.000000Z",
-     *   "updated_at": "2024-06-05T12:00:00.000000Z"
+     *   "user": {
+     *     "id": 1,
+     *     "first_name": "John",
+     *     "last_name": "Doe",
+     *     "email": "john.doe@example.com",
+     *     "phone": "+1234567890",
+     *     "country_code": "+1",
+     *     "username": "johndoe",
+     *     "country": "USA",
+     *     "birthdate": "1990-01-01",
+     *     "bio": "A short bio about John Doe.",
+     *     "image": {
+     *       "id": 1,
+     *       "url": "https://your-bucket.s3.your-region.amazonaws.com/users/1/image.jpg"
+     *     }
+     *   }
      * }
      * @param int $ican_id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($ican_id)
     {
-        $post = ICan::with('skills')->findOrFail($ican_id);
+        $post = ICan::with(['user', 'user.image', 'skills'])->findOrFail($ican_id);
         $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
         return response()->json($post);
     }
@@ -214,5 +228,20 @@ class ICanController extends Controller
         $post->delete();
 
         return response()->json(['message' => 'Post deleted successfully']);
+    }
+
+    /**
+     * Display a listing of the authenticated user's ICan posts.
+     *
+     * @group ICan Posts
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function myIcan()
+    {
+        $posts = ICan::with(['user', 'user.image', 'skills'])->where('user_id', Auth::id())->get()->map(function ($post) {
+            $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
+            return $post;
+        });
+        return response()->json($posts);
     }
 }
