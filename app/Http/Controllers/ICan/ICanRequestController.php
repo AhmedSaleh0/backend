@@ -7,8 +7,6 @@ use App\Models\ICan\ICan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\Log;
 
 class ICanRequestController extends Controller
 {
@@ -20,13 +18,8 @@ class ICanRequestController extends Controller
      */
     public function index()
     {
-        try {
-            $requests = ICanRequest::all();
-            return response()->json($requests);
-        } catch (\Exception $e) {
-            Log::error('Error retrieving ICan requests: ' . $e->getMessage());
-            return response()->json(['message' => 'Error retrieving requests'], 500);
-        }
+        $requests = ICanRequest::all();
+        return response()->json($requests);
     }
 
     /**
@@ -84,20 +77,16 @@ class ICanRequestController extends Controller
      */
     public function accept($request_id)
     {
-        try {
-            $icanRequest = ICanRequest::findOrFail($request_id);
-            $icanPost = ICan::findOrFail($icanRequest->ican_id);
+        $icanRequest = ICanRequest::findOrFail($request_id);
+        $icanPost = ICan::findOrFail($icanRequest->ican_id);
 
-            if (Auth::id() !== $icanPost->user_id) {
-                return response()->json(['message' => 'Unauthorized'], 403);
-            }
-
-            $icanRequest->update(['status' => 'accepted']);
-
-            return response()->json(['message' => 'Request accepted successfully', 'request' => $icanRequest]);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Resource not found'], 404);
+        if (Auth::id() !== $icanPost->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
+
+        $icanRequest->update(['status' => 'accepted']);
+
+        return response()->json(['message' => 'Request accepted successfully', 'request' => $icanRequest]);
     }
 
     /**
@@ -121,20 +110,16 @@ class ICanRequestController extends Controller
      */
     public function reject($request_id)
     {
-        try {
-            $icanRequest = ICanRequest::findOrFail($request_id);
-            $icanPost = ICan::findOrFail($icanRequest->ican_id);
+        $icanRequest = ICanRequest::findOrFail($request_id);
+        $icanPost = ICan::findOrFail($icanRequest->ican_id);
 
-            if (Auth::id() !== $icanPost->user_id) {
-                return response()->json(['message' => 'Unauthorized'], 403);
-            }
-
-            $icanRequest->update(['status' => 'rejected']);
-
-            return response()->json(['message' => 'Request rejected successfully', 'request' => $icanRequest]);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Resource not found'], 404);
+        if (Auth::id() !== $icanPost->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
         }
+
+        $icanRequest->update(['status' => 'rejected']);
+
+        return response()->json(['message' => 'Request rejected successfully', 'request' => $icanRequest]);
     }
 
     /**
@@ -155,12 +140,8 @@ class ICanRequestController extends Controller
      */
     public function show($request_id)
     {
-        try {
-            $icanRequest = ICanRequest::findOrFail($request_id);
-            return response()->json($icanRequest);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Resource not found'], 404);
-        }
+        $icanRequest = ICanRequest::findOrFail($request_id);
+        return response()->json($icanRequest);
     }
 
     /**
@@ -176,13 +157,9 @@ class ICanRequestController extends Controller
      */
     public function destroy($request_id)
     {
-        try {
-            $icanRequest = ICanRequest::findOrFail($request_id);
-            $icanRequest->delete();
+        $icanRequest = ICanRequest::findOrFail($request_id);
+        $icanRequest->delete();
 
-            return response()->json(['message' => 'Request deleted successfully']);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Resource not found'], 404);
-        }
+        return response()->json(['message' => 'Request deleted successfully']);
     }
 }

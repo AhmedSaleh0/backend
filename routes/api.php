@@ -121,6 +121,16 @@ Route::prefix('inspire')->group(function () {
 // I-Can Routes
 Route::prefix('ican')->group(function () {
 
+    // Routes for ICan requests should come first to avoid conflict
+    Route::prefix('requests')->middleware('auth:api')->group(function () {
+        Route::get('/', [ICanRequestController::class, 'index'])->name('ican-requests.index');
+        Route::post('/apply', [ICanRequestController::class, 'apply'])->name('ican-requests.apply');
+        Route::post('/{request_id}/accept', [ICanRequestController::class, 'accept'])->name('ican-requests.accept');
+        Route::post('/{request_id}/reject', [ICanRequestController::class, 'reject'])->name('ican-requests.reject');
+        Route::get('/{request_id}', [ICanRequestController::class, 'show'])->name('ican-requests.show');
+        Route::delete('/{request_id}', [ICanRequestController::class, 'destroy'])->name('ican-requests.destroy');
+    });
+
     Route::get('/', [ICanController::class, 'index'])->middleware(OptionalAuth::class);
     Route::get('/{ican_id}', [ICanController::class, 'show'])->middleware(OptionalAuth::class);
 
@@ -129,15 +139,6 @@ Route::prefix('ican')->group(function () {
         Route::post('/', [ICanController::class, 'store']);
         Route::put('/{ican_id}', [ICanController::class, 'update']);
         Route::delete('/{ican_id}', [ICanController::class, 'destroy']);
-
-        Route::prefix('requests')->group(function () {
-            Route::get('/', [ICanRequestController::class, 'index'])->name('ican-requests.index');
-            Route::post('/apply', [ICanRequestController::class, 'apply'])->name('ican-requests.apply');
-            Route::post('/{request_id}/accept', [ICanRequestController::class, 'accept'])->name('ican-requests.accept');
-            Route::post('/{request_id}/reject', [ICanRequestController::class, 'reject'])->name('ican-requests.reject');
-            Route::get('/{request_id}', [ICanRequestController::class, 'show'])->name('ican-requests.show');
-            Route::delete('/{request_id}', [ICanRequestController::class, 'destroy'])->name('ican-requests.destroy');
-        });
 
         Route::prefix('reactions')->group(function () {
             Route::get('/{ican_id}', [ICanReactionController::class, 'index']);
@@ -151,6 +152,16 @@ Route::prefix('ican')->group(function () {
 
 // I-Need Routes
 Route::prefix('ineed')->group(function () {
+    // Routes for INeed requests should come first to avoid conflict
+    Route::prefix('requests')->middleware('auth:api')->group(function () {
+        Route::get('/', [INeedRequestController::class, 'index'])->name('ineed-requests.index');
+        Route::post('/apply', [INeedRequestController::class, 'apply'])->name('ineed-requests.apply');
+        Route::post('/{request_id}/accept', [INeedRequestController::class, 'accept'])->name('ineed-requests.accept');
+        Route::post('/{request_id}/reject', [INeedRequestController::class, 'reject'])->name('ineed-requests.reject');
+        Route::get('/{request_id}', [INeedRequestController::class, 'show'])->name('ineed-requests.show');
+        Route::delete('/{request_id}', [INeedRequestController::class, 'destroy'])->name('ineed-requests.destroy');
+    });
+
     // Public routes
     Route::get('/', [INeedController::class, 'index'])->middleware(OptionalAuth::class);
     Route::get('/{ineed_id}', [INeedController::class, 'show'])->middleware(OptionalAuth::class);
@@ -160,16 +171,6 @@ Route::prefix('ineed')->group(function () {
         Route::post('/', [INeedController::class, 'store']);
         Route::put('/{ineed_id}', [INeedController::class, 'update']);
         Route::delete('/{ineed_id}', [INeedController::class, 'destroy']);
-
-        Route::prefix('requests')->group(function () {
-            // INeedRequest routes
-            Route::get('/', [INeedRequestController::class, 'index'])->name('ineed-requests.index');
-            Route::post('/apply', [INeedRequestController::class, 'apply'])->name('ineed-requests.apply');
-            Route::post('/{request_id}/accept', [INeedRequestController::class, 'accept'])->name('ineed-requests.accept');
-            Route::post('/{request_id}/reject', [INeedRequestController::class, 'reject'])->name('ineed-requests.reject');
-            Route::get('/{request_id}', [INeedRequestController::class, 'show'])->name('ineed-requests.show');
-            Route::delete('/{request_id}', [INeedRequestController::class, 'destroy'])->name('ineed-requests.destroy');
-        });
 
         // Reactions routes
         Route::prefix('reactions')->group(function () {
@@ -181,6 +182,7 @@ Route::prefix('ineed')->group(function () {
         });
     });
 });
+
 
 // Credits and Payments
 Route::prefix('credits')->middleware('auth:api')->group(function () {
