@@ -21,7 +21,8 @@ class INeed extends Model
         'price_type',
         'status',
         'location',
-        'experience'
+        'experience',
+        'user_id'
     ];
     /**
      * Set the experience attribute.

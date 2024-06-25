@@ -18,7 +18,7 @@ class INeedRequestController extends Controller
      */
     public function index()
     {
-        $requests = INeedRequest::all();
+        $requests = INeedRequest::where('user_id', Auth::id())->get();
         return response()->json($requests);
     }
 
@@ -38,6 +38,9 @@ class INeedRequestController extends Controller
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
      * }
+     * @response 400 {
+     *   "message": "You have already applied for this INeed post"
+     * }
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -46,6 +49,14 @@ class INeedRequestController extends Controller
         $request->validate([
             'ineed_id' => 'required|exists:i_need,id',
         ]);
+
+        $existingRequest = INeedRequest::where('ineed_id', $request->ineed_id)
+                                      ->where('user_id', Auth::id())
+                                      ->first();
+
+        if ($existingRequest) {
+            return response()->json(['message' => 'You have already applied for this INeed post'], 400);
+        }
 
         $ineedRequest = INeedRequest::create([
             'ineed_id' => $request->ineed_id,
@@ -60,7 +71,7 @@ class INeedRequestController extends Controller
      * Owner accepts an INeed request.
      *
      * @group INeed Requests
-     * @urlParam id int required The ID of the request. Example: 1
+     * @urlParam request_id int required The ID of the request. Example: 1
      * @response 200 {
      *   "message": "Request accepted successfully",
      *   "request": {
@@ -72,7 +83,7 @@ class INeedRequestController extends Controller
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
      * }
-     * @param int $id
+     * @param int $request_id
      * @return \Illuminate\Http\JsonResponse
      */
     public function accept($request_id)
@@ -93,7 +104,7 @@ class INeedRequestController extends Controller
      * Owner rejects an INeed request.
      *
      * @group INeed Requests
-     * @urlParam id int required The ID of the request. Example: 1
+     * @urlParam request_id int required The ID of the request. Example: 1
      * @response 200 {
      *   "message": "Request rejected successfully",
      *   "request": {
@@ -105,7 +116,7 @@ class INeedRequestController extends Controller
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
      * }
-     * @param int $id
+     * @param int $request_id
      * @return \Illuminate\Http\JsonResponse
      */
     public function reject($request_id)
@@ -126,7 +137,7 @@ class INeedRequestController extends Controller
      * Display the specified INeed request.
      *
      * @group INeed Requests
-     * @urlParam id int required The ID of the request. Example: 1
+     * @urlParam request_id int required The ID of the request. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "ineed_id": 1,
@@ -135,7 +146,7 @@ class INeedRequestController extends Controller
      *   "created_at": "2024-06-05T12:00:00.000000Z",
      *   "updated_at": "2024-06-05T12:00:00.000000Z"
      * }
-     * @param int $id
+     * @param int $request_id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($request_id)
@@ -148,11 +159,11 @@ class INeedRequestController extends Controller
      * Remove the specified INeed request from storage.
      *
      * @group INeed Requests
-     * @urlParam id int required The ID of the request. Example: 1
+     * @urlParam request_id int required The ID of the request. Example: 1
      * @response 200 {
      *   "message": "Request deleted successfully"
      * }
-     * @param int $id
+     * @param int $request_id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($request_id)

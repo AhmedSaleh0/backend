@@ -71,7 +71,7 @@ class INeedController extends Controller
             'skills.*' => 'exists:skills,id',
         ]);
 
-        $post = INeed::create($request->except('image', 'skills') + ['status' => 'pending']);
+        $post = INeed::create($request->except('image', 'skills') + ['status' => 'pending', 'user_id' => Auth::id()]);
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store("ineed/{$post->id}", 's3');
