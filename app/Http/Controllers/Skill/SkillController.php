@@ -25,6 +25,12 @@ class SkillController extends Controller
      * 
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * 
+     * @example GET /skills
+     * @example GET /skills?limit=5
+     * @example GET /skills?limit=5&random=true
+     * @example GET /skills?limit=0
+     * @example GET /skills?limit=0&random=true
      */
     public function index(Request $request)
     {
@@ -41,6 +47,25 @@ class SkillController extends Controller
         return response()->json($skills);
     }
 
+    /**
+     * Store a newly created skill in storage.
+     * 
+     * @bodyParam name string required The name of the skill. Example: "Programming"
+     * @bodyParam category string required The category of the skill. Example: "Technical"
+     * @bodyParam sub_category string Optional The sub-category of the skill. Example: "Software Development"
+     * 
+     * @response 201 {
+     *  "id": 1,
+     *  "name": "Programming",
+     *  "category": "Technical",
+     *  "sub_category": "Software Development",
+     *  "created_at": "2024-05-28T00:00:00.000000Z",
+     *  "updated_at": "2024-05-28T00:00:00.000000Z"
+     * }
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -53,11 +78,50 @@ class SkillController extends Controller
         return response()->json($skill, 201);
     }
 
+    /**
+     * Display the specified skill.
+     * 
+     * @urlParam id int required The ID of the skill. Example: 1
+     * 
+     * @response 200 {
+     *  "id": 1,
+     *  "name": "Programming",
+     *  "category": "Technical",
+     *  "sub_category": "Software Development",
+     *  "created_at": "2024-05-28T00:00:00.000000Z",
+     *  "updated_at": "2024-05-28T00:00:00.000000Z"
+     * }
+     * 
+     * @param Skill $skill
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show(Skill $skill)
     {
         return response()->json($skill);
     }
 
+    /**
+     * Update the specified skill in storage.
+     * 
+     * @urlParam id int required The ID of the skill. Example: 1
+     * 
+     * @bodyParam name string required The name of the skill. Example: "Programming"
+     * @bodyParam category string required The category of the skill. Example: "Technical"
+     * @bodyParam sub_category string Optional The sub-category of the skill. Example: "Software Development"
+     * 
+     * @response 200 {
+     *  "id": 1,
+     *  "name": "Programming",
+     *  "category": "Technical",
+     *  "sub_category": "Software Development",
+     *  "created_at": "2024-05-28T00:00:00.000000Z",
+     *  "updated_at": "2024-05-28T00:00:00.000000Z"
+     * }
+     * 
+     * @param Request $request
+     * @param Skill $skill
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, Skill $skill)
     {
         $validatedData = $request->validate([
@@ -70,6 +134,18 @@ class SkillController extends Controller
         return response()->json($skill);
     }
 
+    /**
+     * Remove the specified skill from storage.
+     * 
+     * @urlParam id int required The ID of the skill. Example: 1
+     * 
+     * @response 200 {
+     *  "message": "Skill deleted successfully"
+     * }
+     * 
+     * @param Skill $skill
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy(Skill $skill)
     {
         $skill->delete();
