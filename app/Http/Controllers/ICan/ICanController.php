@@ -18,7 +18,7 @@ class ICanController extends Controller
      */
     public function index()
     {
-        $posts = ICan::with('user','skills')->get()->map(function ($post) {
+        $posts = ICan::with('user','user.image','skills')->get()->map(function ($post) {
             $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
             return $post;
         });
