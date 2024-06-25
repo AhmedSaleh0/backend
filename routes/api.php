@@ -88,6 +88,7 @@ Route::prefix('user')->middleware('auth:api')->group(function () {
 Route::prefix('inspire')->group(function () {
     // Public routes
     Route::get('/', [InspireController::class, 'index'])->middleware(OptionalAuth::class);
+    Route::get('/my', [InspireController::class, 'myInspire'])->name('inspire.my')->middleware('auth:api'); // Add this line
     Route::get('/{inspire_id}', [InspireController::class, 'show'])->middleware(OptionalAuth::class);
     Route::get('/{inspire_id}/comments', [InspireCommentController::class, 'index']);
     Route::get('/{inspire_id}/comments/{comment_id}', [InspireCommentController::class, 'show']);
@@ -96,7 +97,6 @@ Route::prefix('inspire')->group(function () {
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {
-        Route::get('/my', [InspireController::class, 'myInspire'])->name('inspire.my'); // Add this line
         Route::post('/', [InspireController::class, 'store']);
         Route::put('/{inspire_id}', [InspireController::class, 'update']);
         Route::delete('/{inspire_id}', [InspireController::class, 'destroy']);
@@ -118,10 +118,8 @@ Route::prefix('inspire')->group(function () {
     });
 });
 
-
 // I-Can Routes
 Route::prefix('ican')->group(function () {
-
     // Routes for ICan requests should come first to avoid conflict
     Route::prefix('requests')->middleware('auth:api')->group(function () {
         Route::get('/', [ICanRequestController::class, 'index'])->name('ican-requests.index');
@@ -133,11 +131,11 @@ Route::prefix('ican')->group(function () {
     });
 
     Route::get('/', [ICanController::class, 'index'])->middleware(OptionalAuth::class);
+    Route::get('/my', [ICanController::class, 'myIcan'])->name('ican.my')->middleware('auth:api'); // Add this line
     Route::get('/{ican_id}', [ICanController::class, 'show'])->middleware(OptionalAuth::class);
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {
-        Route::get('/my', [ICanController::class, 'myIcan'])->name('ican.my');
         Route::post('/', [ICanController::class, 'store']);
         Route::put('/{ican_id}', [ICanController::class, 'update']);
         Route::delete('/{ican_id}', [ICanController::class, 'destroy']);
@@ -166,11 +164,11 @@ Route::prefix('ineed')->group(function () {
 
     // Public routes
     Route::get('/', [INeedController::class, 'index'])->middleware(OptionalAuth::class);
+    Route::get('/my', [INeedController::class, 'myINeed'])->name('ineed.my')->middleware('auth:api'); // Add this line
     Route::get('/{ineed_id}', [INeedController::class, 'show'])->middleware(OptionalAuth::class);
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {
-        Route::get('/my', [INeedController::class, 'myINeed'])->name('ineed.my'); // Add this line
         Route::post('/', [INeedController::class, 'store']);
         Route::put('/{ineed_id}', [INeedController::class, 'update']);
         Route::delete('/{ineed_id}', [INeedController::class, 'destroy']);
@@ -185,7 +183,6 @@ Route::prefix('ineed')->group(function () {
         });
     });
 });
-
 
 // Credits and Payments
 Route::prefix('credits')->middleware('auth:api')->group(function () {

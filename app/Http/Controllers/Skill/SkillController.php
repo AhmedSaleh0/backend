@@ -9,9 +9,10 @@ use App\Http\Controllers\Controller;
 class SkillController extends Controller
 {
     /**
-     * Display a random list of skills.
+     * Display a list of skills.
      * 
-     * @bodyParam limit int Optional The number of random skills to return. Default is 10. Example: 5
+     * @bodyParam limit int Optional The number of skills to return. If 0, return all skills. Default is 10. Example: 5
+     * @bodyParam random bool Optional Whether to return the skills in random order. Default is false. Example: true
      *
      * @response {
      *  "id": 1,
@@ -23,15 +24,19 @@ class SkillController extends Controller
      * }
      * 
      * @param Request $request
-     * @return JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
-        // Get the limit from the request, default to 10 if not provided
+        // Get the limit and random parameters from the request, default to 10 and false if not provided
         $limit = $request->input('limit', 10);
+        $random = $request->input('random', false);
 
-        // Get the random subset of skills with the specified or default limit
-        $skills = Skill::inRandomOrder()->limit($limit)->get();
+        // If random is true, get the skills in random order, otherwise get them in order
+        $query = $random ? Skill::inRandomOrder() : Skill::orderBy('id');
+
+        // If limit is 0, return all skills, otherwise apply the limit
+        $skills = $limit == 0 ? $query->get() : $query->limit($limit)->get();
 
         return response()->json($skills);
     }
