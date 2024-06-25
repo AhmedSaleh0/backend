@@ -18,7 +18,7 @@ class ICanRequestController extends Controller
      */
     public function index()
     {
-        $requests = ICanRequest::where('user_id', Auth::id())->get();
+        $requests = ICanRequest::where('user_id', Auth::id())->with(['ican','user', 'user.image'])->get();
         return response()->json($requests);
     }
 
@@ -151,7 +151,7 @@ class ICanRequestController extends Controller
      */
     public function show($request_id)
     {
-        $icanRequest = ICanRequest::findOrFail($request_id);
+        $icanRequest = ICanRequest::with(['ican','user', 'user.image'])->findOrFail($request_id);
         return response()->json($icanRequest);
     }
 

@@ -18,7 +18,7 @@ class INeedRequestController extends Controller
      */
     public function index()
     {
-        $requests = INeedRequest::where('user_id', Auth::id())->get();
+        $requests = INeedRequest::where('user_id', Auth::id())->with(['ican','user', 'user.image'])->get();
         return response()->json($requests);
     }
 
@@ -151,7 +151,7 @@ class INeedRequestController extends Controller
      */
     public function show($request_id)
     {
-        $ineedRequest = INeedRequest::findOrFail($request_id);
+        $ineedRequest = INeedRequest::with(['ineed','user', 'user.image'])->findOrFail($request_id);
         return response()->json($ineedRequest);
     }
 
