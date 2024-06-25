@@ -11,14 +11,14 @@ use App\Http\Controllers\Controller;
 class ICanRequestController extends Controller
 {
     /**
-     * Display a listing of ICan requests.
+     * Display a listing of the current user's ICan requests.
      *
      * @group ICan Requests
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $requests = ICanRequest::all();
+        $requests = ICanRequest::where('user_id', Auth::id())->get();
         return response()->json($requests);
     }
 
@@ -38,6 +38,9 @@ class ICanRequestController extends Controller
      *     "updated_at": "2024-06-05T12:00:00.000000Z"
      *   }
      * }
+     * @response 400 {
+     *   "message": "You have already applied for this ICan post"
+     * }
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -46,6 +49,14 @@ class ICanRequestController extends Controller
         $request->validate([
             'ican_id' => 'required|exists:i_can,id',
         ]);
+
+        $existingRequest = ICanRequest::where('ican_id', $request->ican_id)
+                                      ->where('user_id', Auth::id())
+                                      ->first();
+
+        if ($existingRequest) {
+            return response()->json(['message' => 'You have already applied for this ICan post'], 400);
+        }
 
         $icanRequest = ICanRequest::create([
             'ican_id' => $request->ican_id,
