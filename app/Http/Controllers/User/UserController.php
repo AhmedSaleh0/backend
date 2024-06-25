@@ -52,6 +52,7 @@ class UserController extends Controller
             return response()->json([
                 'user' => $user,
                 'user_image' => $user->image ? $user->image->image_path : null,
+                'user_skills' => $user->skills,
             ], 200);
         } else {
             return response()->json(['message' => 'User not authenticated'], 401);
