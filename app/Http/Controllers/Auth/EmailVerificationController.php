@@ -10,8 +10,12 @@ class EmailVerificationController extends Controller
     /**
      * Display a message that the email verification link has been sent.
      *
+     * @group Authentication
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @response 200 {
+     *  "message": "Email verification link sent."
+     * }
      */
     public function notice(Request $request)
     {
@@ -21,8 +25,12 @@ class EmailVerificationController extends Controller
     /**
      * Verify the user's email address.
      *
+     * @group Authentication
      * @param EmailVerificationRequest $request
      * @return \Illuminate\Http\JsonResponse
+     * @response 200 {
+     *  "message": "Email verified successfully."
+     * }
      */
     public function verify(EmailVerificationRequest $request)
     {
@@ -33,8 +41,12 @@ class EmailVerificationController extends Controller
     /**
      * Resend the email verification link.
      *
+     * @group Authentication
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
+     * @response 200 {
+     *  "message": "Email verification link resent."
+     * }
      */
     public function resend(Request $request)
     {

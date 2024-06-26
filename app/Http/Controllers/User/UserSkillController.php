@@ -12,6 +12,7 @@ class UserSkillController extends Controller
     /**
      * Display a listing of the user's skills.
      *
+     * @group User Skills
      * @authenticated
      *
      * @response 200 {
@@ -34,6 +35,7 @@ class UserSkillController extends Controller
     /**
      * Store a newly created user skill in storage.
      *
+     * @group User Skills
      * @authenticated
      * 
      * @param Request $request
@@ -77,6 +79,7 @@ class UserSkillController extends Controller
     /**
      * Remove the specified user skill from storage.
      *
+     * @group User Skills
      * @authenticated
      *
      * @param UserSkill $userSkill
