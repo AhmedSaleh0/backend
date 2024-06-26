@@ -134,10 +134,10 @@ class INeedRequestController extends Controller
     }
 
     /**
-     * Display the specified INeed request.
+     * Display all requests for a given INeed post.
      *
      * @group INeed Requests
-     * @urlParam request_id int required The ID of the request. Example: 1
+     * @urlParam ineed_id int required The ID of the INeed post. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "ineed_id": 1,
@@ -146,13 +146,15 @@ class INeedRequestController extends Controller
      *   "created_at": "2024-06-05T12:00:00.000000Z",
      *   "updated_at": "2024-06-05T12:00:00.000000Z"
      * }
-     * @param int $request_id
+     * @param int $ineed_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($request_id)
+    public function show($ineed_id)
     {
-        $ineedRequest = INeedRequest::with(['ineed','user', 'user.image'])->findOrFail($request_id);
-        return response()->json($ineedRequest);
+        $ineedRequests = INeedRequest::with(['ineed','user', 'user.image'])
+                                   ->where('ineed_id', $ineed_id)
+                                   ->get();
+        return response()->json($ineedRequests);
     }
 
     /**

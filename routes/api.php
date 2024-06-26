@@ -106,7 +106,7 @@ Route::prefix('inspire')->group(function () {
 
         // Reactions routes
         Route::post('/{inspire_id}/reactions', [InspireReactionController::class, 'store']);
-        Route::delete('/{inspire_id}/reactions', [InspireReactionController::class, 'destroy']); // Updated this line
+        Route::delete('/{inspire_id}/reactions', [InspireReactionController::class, 'destroy']);
         Route::get('/my/liked', [InspireReactionController::class, 'myLikedInspire'])->name('inspire-reactions.myLiked');
 
         // User saves routes
@@ -124,7 +124,7 @@ Route::prefix('ican')->group(function () {
         Route::post('/apply', [ICanRequestController::class, 'apply'])->name('ican-requests.apply');
         Route::post('/{request_id}/accept', [ICanRequestController::class, 'accept'])->name('ican-requests.accept');
         Route::post('/{request_id}/reject', [ICanRequestController::class, 'reject'])->name('ican-requests.reject');
-        Route::get('/{request_id}', [ICanRequestController::class, 'show'])->name('ican-requests.show');
+        Route::get('/{ican_id}', [ICanRequestController::class, 'show'])->name('ican-requests.show'); // Modified route
         Route::delete('/{request_id}', [ICanRequestController::class, 'destroy'])->name('ican-requests.destroy');
     });
 
@@ -142,7 +142,7 @@ Route::prefix('ican')->group(function () {
         Route::prefix('reactions')->group(function () {
             Route::get('/{ican_id}', [ICanReactionController::class, 'index']);
             Route::post('/{ican_id}', [ICanReactionController::class, 'store']);
-            Route::delete('/{ican_id}/reactions', [ICanReactionController::class, 'destroy']); // Updated this line
+            Route::delete('/{ican_id}/reactions', [ICanReactionController::class, 'destroy']);
             Route::get('/my/liked', [ICanReactionController::class, 'myLikedIcan'])->name('ican-reactions.myLiked');
         });
     });
@@ -156,7 +156,7 @@ Route::prefix('ineed')->group(function () {
         Route::post('/apply', [INeedRequestController::class, 'apply'])->name('ineed-requests.apply');
         Route::post('/{request_id}/accept', [INeedRequestController::class, 'accept'])->name('ineed-requests.accept');
         Route::post('/{request_id}/reject', [INeedRequestController::class, 'reject'])->name('ineed-requests.reject');
-        Route::get('/{request_id}', [INeedRequestController::class, 'show'])->name('ineed-requests.show');
+        Route::get('/{ineed_id}', [INeedRequestController::class, 'show'])->name('ineed-requests.show'); // Modified route
         Route::delete('/{request_id}', [INeedRequestController::class, 'destroy'])->name('ineed-requests.destroy');
     });
 
@@ -176,7 +176,7 @@ Route::prefix('ineed')->group(function () {
         Route::prefix('reactions')->group(function () {
             Route::get('/{ineed_id}', [INeedReactionController::class, 'index']);
             Route::post('/{ineed_id}', [INeedReactionController::class, 'store']);
-            Route::delete('/{ineed_id}/reactions', [INeedReactionController::class, 'destroy']); // Updated this line
+            Route::delete('/{ineed_id}/reactions', [INeedReactionController::class, 'destroy']);
             Route::get('/my/liked', [INeedReactionController::class, 'myLikedINeed'])->name('ineed-reactions.myLiked');
         });
     });

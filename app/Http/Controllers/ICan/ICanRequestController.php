@@ -134,10 +134,10 @@ class ICanRequestController extends Controller
     }
 
     /**
-     * Display the specified ICan request.
+     * Display all requests for a given ICan post.
      *
      * @group ICan Requests
-     * @urlParam request_id int required The ID of the request. Example: 1
+     * @urlParam ican_id int required The ID of the ICan post. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "ican_id": 1,
@@ -146,13 +146,15 @@ class ICanRequestController extends Controller
      *   "created_at": "2024-06-05T12:00:00.000000Z",
      *   "updated_at": "2024-06-05T12:00:00.000000Z"
      * }
-     * @param int $request_id
+     * @param int $ican_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($request_id)
+    public function show($ican_id)
     {
-        $icanRequest = ICanRequest::with(['ican','user', 'user.image'])->findOrFail($request_id);
-        return response()->json($icanRequest);
+        $icanRequests = ICanRequest::with(['ican','user', 'user.image'])
+                                   ->where('ican_id', $ican_id)
+                                   ->get();
+        return response()->json($icanRequests);
     }
 
     /**
