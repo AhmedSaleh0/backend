@@ -38,9 +38,20 @@ class InspireReactionController extends Controller
             'reaction_type' => 'required|integer',
         ]);
 
+        $userId = Auth::id();
+
+        // Check if the user has already reacted to this post
+        $existingReaction = InspireReaction::where('inspire_id', $inspire_id)->where('user_id', $userId)->first();
+
+        if ($existingReaction) {
+            return response()->json([
+                'message' => 'You have already reacted to this post.'
+            ], 400);
+        }
+
         $reaction = InspireReaction::create([
             'inspire_id' => $inspire_id,
-            'user_id' => Auth::id(),
+            'user_id' => $userId,
             'reaction_type' => $request->reaction_type,
         ]);
 

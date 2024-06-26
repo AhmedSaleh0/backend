@@ -106,7 +106,6 @@ Route::prefix('inspire')->group(function () {
 
         // Reactions routes
         Route::post('/{inspire_id}/reactions', [InspireReactionController::class, 'store']);
-        Route::put('/{inspire_id}/reactions/{reaction_id}', [InspireReactionController::class, 'update']);
         Route::delete('/{inspire_id}/reactions', [InspireReactionController::class, 'destroy']); // Updated this line
         Route::get('/my/liked', [InspireReactionController::class, 'myLikedInspire'])->name('inspire-reactions.myLiked');
 
@@ -142,8 +141,6 @@ Route::prefix('ican')->group(function () {
         Route::prefix('reactions')->group(function () {
             Route::get('/{ican_id}', [ICanReactionController::class, 'index']);
             Route::post('/{ican_id}', [ICanReactionController::class, 'store']);
-            Route::get('/{id}', [ICanReactionController::class, 'show']);
-            Route::put('/{id}', [ICanReactionController::class, 'update']);
             Route::delete('/{ican_id}/reactions', [ICanReactionController::class, 'destroy']); // Updated this line
             Route::get('/my/liked', [ICanReactionController::class, 'myLikedIcan'])->name('ican-reactions.myLiked');
         });

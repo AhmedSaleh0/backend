@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\ICan;
 
 use App\Models\ICan\ICanReaction;
@@ -37,9 +38,20 @@ class ICanReactionController extends Controller
             'reaction_type' => 'required|string',
         ]);
 
+        $userId = Auth::id();
+
+        // Check if the user has already reacted to this post
+        $existingReaction = ICanReaction::where('ican_id', $ican_id)->where('user_id', $userId)->first();
+
+        if ($existingReaction) {
+            return response()->json([
+                'message' => 'You have already reacted to this post.'
+            ], 400);
+        }
+
         $reaction = ICanReaction::create([
             'ican_id' => $ican_id,
-            'user_id' => Auth::id(),
+            'user_id' => $userId,
             'reaction_type' => $request->reaction_type,
         ]);
 
@@ -48,7 +60,7 @@ class ICanReactionController extends Controller
             'reaction' => $reaction
         ], 201);
     }
-    
+
     /**
      * Remove the specified reaction from storage.
      *
