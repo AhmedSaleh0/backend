@@ -19,66 +19,88 @@ class AuthController extends Controller
     const OTP_EXPIRATION_MINUTES = 15; // Set the OTP expiration time
 
     /**
- * Register a new user and auto login.
- *
- * @unauthenticated
- * 
- * @param Request $request
- * @return \Illuminate\Http\JsonResponse
- *
- * @bodyParam first_name string required The user's first name.
- * @bodyParam last_name string required The user's last name.
- * @bodyParam email string required The user's email address.
- * @bodyParam password string required The user's password.
- * @bodyParam password_confirmation string required The password confirmation.
- * @bodyParam phone string required The user's phone number. Example: 507742230
- * @bodyParam country_code string required The user's country code. Example: +1
- */
-public function signup(Request $request)
-{
-    // Validate the request data, including making the phone number unique
-    $validatedData = $request->validate([
-        'first_name' => 'required|string|max:255',
-        'last_name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:8|confirmed',
-        'country_code' => 'required|string|max:5',
-        'phone' => 'required|string|max:20|unique:users|regex:/^\+?[0-9()\s-]+$/',
-    ]);
+     * Register a new user and auto login.
+     *
+     * @group Authentication
+     * @unauthenticated
+     *
+     * @bodyParam first_name string required The user's first name.
+     * @bodyParam last_name string required The user's last name.
+     * @bodyParam email string required The user's email address.
+     * @bodyParam password string required The user's password.
+     * @bodyParam password_confirmation string required The password confirmation.
+     * @bodyParam phone string required The user's phone number. Example: 507742230
+     * @bodyParam country_code string required The user's country code. Example: +1
+     *
+     * @response {
+     *   "message": "User successfully registered. Please check your email to verify your account.",
+     *   "user": {
+     *     "id": 1,
+     *     "first_name": "John",
+     *     "last_name": "Doe",
+     *     "email": "john.doe@example.com",
+     *     "created_at": "2024-06-09T00:00:00.000000Z",
+     *     "updated_at": "2024-06-09T00:00:00.000000Z"
+     *   },
+     *   "token": "token"
+     * }
+     */
+    public function signup(Request $request)
+    {
+        // Validate the request data, including making the phone number unique
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'country_code' => 'required|string|max:5',
+            'phone' => 'required|string|max:20|unique:users|regex:/^\+?[0-9()\s-]+$/',
+        ]);
 
-    // Create a new user with the validated data
-    $user = User::create([
-        'first_name' => $validatedData['first_name'],
-        'last_name' => $validatedData['last_name'],
-        'email' => $validatedData['email'],
-        'password' => bcrypt($validatedData['password']),
-        'country_code' => $validatedData['country_code'],
-        'phone' => $validatedData['phone'],
-    ]);
+        // Create a new user with the validated data
+        $user = User::create([
+            'first_name' => $validatedData['first_name'],
+            'last_name' => $validatedData['last_name'],
+            'email' => $validatedData['email'],
+            'password' => bcrypt($validatedData['password']),
+            'country_code' => $validatedData['country_code'],
+            'phone' => $validatedData['phone'],
+        ]);
 
-    $user->sendEmailVerificationNotification();
+        $user->sendEmailVerificationNotification();
 
-    // Automatically log in the user and create a token
-    $token = $user->createToken('Personal Access Token')->accessToken;
+        // Automatically log in the user and create a token
+        $token = $user->createToken('Personal Access Token')->accessToken;
 
-    // Return a success response with the user and token data
-    return response()->json([
-        'message' => 'User successfully registered. Please check your email to verify your account.',
-        'user' => $user,
-        'token' => $token
-    ], 201);
-}
+        // Return a success response with the user and token data
+        return response()->json([
+            'message' => 'User successfully registered. Please check your email to verify your account.',
+            'user' => $user,
+            'token' => $token
+        ], 201);
+    }
 
     /**
      * Login user and create token.
-     * 
-     * @unauthenticated
      *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @group Authentication
+     * @unauthenticated
      *
      * @bodyParam login string required The login credential (username or email) of the user. Example: john@example.com
      * @bodyParam password string required The password. Example: pass1234
+     *
+     * @response {
+     *   "token": "token",
+     *   "user": {
+     *     "id": 1,
+     *     "first_name": "John",
+     *     "last_name": "Doe",
+     *     "email": "john.doe@example.com",
+     *     "created_at": "2024-06-09T00:00:00.000000Z",
+     *     "updated_at": "2024-06-09T00:00:00.000000Z"
+     *   },
+     *   "user_image": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1/image.jpg"
+     * }
      */
     public function login(Request $request)
     {
@@ -113,9 +135,12 @@ public function signup(Request $request)
     /**
      * Logout user (Revoke the token).
      *
+     * @group Authentication
      * @authenticated
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @response {
+     *   "message": "Successfully logged out"
+     * }
      */
     public function logout()
     {
@@ -134,12 +159,14 @@ public function signup(Request $request)
     /**
      * Send a password reset link to the given user.
      *
+     * @group Authentication
      * @unauthenticated
-     * 
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
      *
      * @bodyParam email string required The email of the user who is requesting a password reset.
+     *
+     * @response {
+     *   "message": "We have emailed your password reset link!"
+     * }
      */
     public function sendResetLinkEmail(Request $request)
     {
@@ -160,14 +187,16 @@ public function signup(Request $request)
     /**
      * Change the user's password.
      *
+     * @group Authentication
      * @authenticated
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
      *
      * @bodyParam current_password string required The current password of the user.
      * @bodyParam new_password string required The new password to set.
      * @bodyParam new_password_confirmation string required Confirmation of the new password.
+     *
+     * @response {
+     *   "message": "Password changed successfully."
+     * }
      */
     public function changePassword(Request $request)
     {
@@ -200,12 +229,14 @@ public function signup(Request $request)
     /**
      * Send a password reset OTP to the given user.
      *
+     * @group Authentication
      * @unauthenticated
      *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     *
      * @bodyParam email string required The email of the user who is requesting a password reset.
+     *
+     * @response {
+     *   "message": "OTP sent successfully."
+     * }
      */
     public function sendResetOtp(Request $request)
     {
@@ -238,13 +269,15 @@ public function signup(Request $request)
     /**
      * Verify the password reset OTP.
      *
+     * @group Authentication
      * @unauthenticated
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
      *
      * @bodyParam email string required The email of the user who is verifying the OTP.
      * @bodyParam otp string required The OTP to verify.
+     *
+     * @response {
+     *   "message": "OTP verified successfully."
+     * }
      */
     public function verifyResetOtp(Request $request)
     {
@@ -274,15 +307,17 @@ public function signup(Request $request)
     /**
      * Reset the password using the verified OTP.
      *
+     * @group Authentication
      * @unauthenticated
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
      *
      * @bodyParam email string required The email of the user who is resetting the password.
      * @bodyParam otp string required The verified OTP.
      * @bodyParam password string required The new password.
      * @bodyParam password_confirmation string required Confirmation of the new password.
+     *
+     * @response {
+     *   "message": "Password reset successfully."
+     * }
      */
     public function resetPassword(Request $request)
     {

@@ -10,11 +10,18 @@ class SkillController extends Controller
 {
     /**
      * Display a list of skills.
-     * 
+     *
+     * @group Skills
      * @bodyParam limit int Optional The number of skills to return. If 0, return all skills. Default is 10. Example: 5
      * @bodyParam random bool Optional Whether to return the skills in random order. Default is false. Example: true
+     * 
+     * @example GET /skills
+     * @example GET /skills?limit=5
+     * @example GET /skills?limit=5&random=true
+     * @example GET /skills?limit=0
+     * @example GET /skills?limit=0&random=true
      *
-     * @response {
+     * @response 200 {
      *  "id": 1,
      *  "name": "Skill Name",
      *  "category": 1,
@@ -22,15 +29,9 @@ class SkillController extends Controller
      *  "created_at": "2024-05-28T00:00:00.000000Z",
      *  "updated_at": "2024-05-28T00:00:00.000000Z"
      * }
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
-     * 
-     * @example GET /skills
-     * @example GET /skills?limit=5
-     * @example GET /skills?limit=5&random=true
-     * @example GET /skills?limit=0
-     * @example GET /skills?limit=0&random=true
      */
     public function index(Request $request)
     {
@@ -49,7 +50,8 @@ class SkillController extends Controller
 
     /**
      * Store a newly created skill in storage.
-     * 
+     *
+     * @group Skills
      * @bodyParam name string required The name of the skill. Example: "Programming"
      * @bodyParam category string required The category of the skill. Example: "Technical"
      * @bodyParam sub_category string Optional The sub-category of the skill. Example: "Software Development"
@@ -62,7 +64,7 @@ class SkillController extends Controller
      *  "created_at": "2024-05-28T00:00:00.000000Z",
      *  "updated_at": "2024-05-28T00:00:00.000000Z"
      * }
-     * 
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -80,7 +82,8 @@ class SkillController extends Controller
 
     /**
      * Display the specified skill.
-     * 
+     *
+     * @group Skills
      * @urlParam id int required The ID of the skill. Example: 1
      * 
      * @response 200 {
@@ -91,7 +94,7 @@ class SkillController extends Controller
      *  "created_at": "2024-05-28T00:00:00.000000Z",
      *  "updated_at": "2024-05-28T00:00:00.000000Z"
      * }
-     * 
+     *
      * @param Skill $skill
      * @return \Illuminate\Http\JsonResponse
      */
@@ -102,7 +105,8 @@ class SkillController extends Controller
 
     /**
      * Update the specified skill in storage.
-     * 
+     *
+     * @group Skills
      * @urlParam id int required The ID of the skill. Example: 1
      * 
      * @bodyParam name string required The name of the skill. Example: "Programming"
@@ -117,7 +121,7 @@ class SkillController extends Controller
      *  "created_at": "2024-05-28T00:00:00.000000Z",
      *  "updated_at": "2024-05-28T00:00:00.000000Z"
      * }
-     * 
+     *
      * @param Request $request
      * @param Skill $skill
      * @return \Illuminate\Http\JsonResponse
@@ -136,13 +140,14 @@ class SkillController extends Controller
 
     /**
      * Remove the specified skill from storage.
-     * 
+     *
+     * @group Skills
      * @urlParam id int required The ID of the skill. Example: 1
      * 
      * @response 200 {
      *  "message": "Skill deleted successfully"
      * }
-     * 
+     *
      * @param Skill $skill
      * @return \Illuminate\Http\JsonResponse
      */

@@ -12,6 +12,17 @@ class SkillQueryController extends Controller
     /**
      * Display a listing of sub-categories for the selected category.
      *
+     * @group Skills
+     * @urlParam categoryId int required The ID of the category. Example: 1
+     * 
+     * @response 200 {
+     *  "id": 1,
+     *  "name": "Sub-category Name",
+     *  "category_id": 1,
+     *  "created_at": "2024-05-28T00:00:00.000000Z",
+     *  "updated_at": "2024-05-28T00:00:00.000000Z"
+     * }
+     *
      * @param int $categoryId
      * @return \Illuminate\Http\JsonResponse
      */
@@ -24,6 +35,18 @@ class SkillQueryController extends Controller
     /**
      * Display a listing of skills for the specific sub-category.
      *
+     * @group Skills
+     * @urlParam subCategoryId int required The ID of the sub-category. Example: 1
+     * 
+     * @response 200 {
+     *  "id": 1,
+     *  "name": "Skill Name",
+     *  "category_id": 1,
+     *  "sub_category_id": 1,
+     *  "created_at": "2024-05-28T00:00:00.000000Z",
+     *  "updated_at": "2024-05-28T00:00:00.000000Z"
+     * }
+     *
      * @param int $subCategoryId
      * @return \Illuminate\Http\JsonResponse
      */
@@ -35,6 +58,18 @@ class SkillQueryController extends Controller
 
     /**
      * Display a listing of skills for the specific category.
+     *
+     * @group Skills
+     * @urlParam categoryId int required The ID of the category. Example: 1
+     * 
+     * @response 200 {
+     *  "id": 1,
+     *  "name": "Skill Name",
+     *  "category_id": 1,
+     *  "sub_category_id": 1,
+     *  "created_at": "2024-05-28T00:00:00.000000Z",
+     *  "updated_at": "2024-05-28T00:00:00.000000Z"
+     * }
      *
      * @param int $categoryId
      * @return \Illuminate\Http\JsonResponse

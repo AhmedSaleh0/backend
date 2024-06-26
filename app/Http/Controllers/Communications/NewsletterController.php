@@ -9,6 +9,29 @@ use App\Http\Controllers\Controller;
 
 class NewsletterController extends Controller
 {
+    /**
+     * Subscribe to the newsletter.
+     *
+     * @group Communications
+     * @bodyParam email string required The email address to subscribe. Example: john@example.com
+     * @bodyParam list string required The list to subscribe to. Example: weekly-updates
+     * @response 200 {
+     *  "message": "Subscribed successfully!"
+     * }
+     * @response 409 {
+     *  "error": "Email already subscribed."
+     * }
+     * @response 422 {
+     *  "errors": {
+     *    "email": [
+     *      "The email field is required."
+     *    ],
+     *    "list": [
+     *      "The list field is required."
+     *    ]
+     *  }
+     * }
+     */
     public function subscribe(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -31,6 +54,22 @@ class NewsletterController extends Controller
         return response()->json(['message' => 'Subscribed successfully!'], 200);
     }
 
+    /**
+     * Unsubscribe from the newsletter.
+     *
+     * @group Communications
+     * @bodyParam email string required The email address to unsubscribe. Example: john@example.com
+     * @response 200 {
+     *  "message": "Unsubscribed successfully!"
+     * }
+     * @response 422 {
+     *  "errors": {
+     *    "email": [
+     *      "The email field is required."
+     *    ]
+     *  }
+     * }
+     */
     public function unsubscribe(Request $request)
     {
         $validator = Validator::make($request->all(), [
