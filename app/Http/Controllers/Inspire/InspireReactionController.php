@@ -51,44 +51,6 @@ class InspireReactionController extends Controller
     }
 
     /**
-     * Display the specified reaction.
-     *
-     * @group Inspire Reactions
-     * @urlParam reaction_id int required The ID of the reaction. Example: 1
-     * @return \Illuminate\Http\Response
-     */
-    public function show($reaction_id)
-    {
-        $reaction = InspireReaction::with(['user', 'user.image'])->findOrFail($reaction_id);
-        return response()->json($reaction);
-    }
-
-    /**
-     * Update the specified reaction in storage.
-     *
-     * @group Inspire Reactions
-     * @param Request $request
-     * @param int $reaction_id
-     * @bodyParam reaction_type integer required The type of the reaction. Example: 1
-     * @urlParam reaction_id int required The ID of the reaction. Example: 1
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $reaction_id)
-    {
-        $request->validate([
-            'reaction_type' => 'required|integer',
-        ]);
-
-        $reaction = InspireReaction::findOrFail($reaction_id);
-        $reaction->update($request->all());
-
-        return response()->json([
-            'message' => 'Reaction updated successfully',
-            'reaction' => $reaction
-        ]);
-    }
-
-    /**
      * Remove the specified reaction from storage.
      *
      * @group Inspire Reactions

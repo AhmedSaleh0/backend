@@ -176,9 +176,7 @@ Route::prefix('ineed')->group(function () {
         // Reactions routes
         Route::prefix('reactions')->group(function () {
             Route::get('/{ineed_id}', [INeedReactionController::class, 'index']);
-            Route::get('/{id}', [INeedReactionController::class, 'show']);
             Route::post('/{ineed_id}', [INeedReactionController::class, 'store']);
-            Route::put('/{id}', [INeedReactionController::class, 'update']);
             Route::delete('/{ineed_id}/reactions', [INeedReactionController::class, 'destroy']); // Updated this line
             Route::get('/my/liked', [INeedReactionController::class, 'myLikedINeed'])->name('ineed-reactions.myLiked');
         });
