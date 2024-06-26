@@ -227,4 +227,55 @@ class InspireController extends Controller
         });
         return response()->json($posts);
     }
+
+    /**
+     * Display a listing of Inspire posts by a specific user.
+     *
+     * @group Inspire Posts
+     * @urlParam user_id int required The ID of the user. Example: 1
+     * @response 200 {
+     *   "id": 1,
+     *   "type": "image",
+     *   "title": "My New Post",
+     *   "content": "This is the content of my post.",
+     *   "media_url": "https://your-bucket.s3.your-region.amazonaws.com/inspire/1/media.jpg",
+     *   "user_id": 1,
+     *   "status": "active",
+     *   "views": 100,
+     *   "category": 1,
+     *   "sub_category": 2,
+     *   "liked_by_user": true,
+     *   "created_at": "2024-06-05T12:00:00.000000Z",
+     *   "updated_at": "2024-06-05T12:00:00.000000Z",
+     *   "user": {
+     *     "id": 1,
+     *     "first_name": "John",
+     *     "last_name": "Doe",
+     *     "email": "john.doe@example.com",
+     *     "phone": "+1234567890",
+     *     "country_code": "+1",
+     *     "username": "johndoe",
+     *     "country": "USA",
+     *     "birthdate": "1990-01-01",
+     *     "bio": "A short bio about John Doe.",
+     *     "image": {
+     *       "id": 1,
+     *       "url": "https://your-bucket.s3.your-region.amazonaws.com/users/1/image.jpg"
+     *     }
+     *   }
+     * }
+     * @param int $user_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function userInspire($user_id)
+    {
+        $posts = Inspire::with(['user', 'user.image', 'category', 'subCategory'])
+                        ->where('user_id', $user_id)
+                        ->get()
+                        ->map(function ($post) {
+                            $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
+                            return $post;
+                        });
+        return response()->json($posts);
+    }
 }

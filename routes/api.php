@@ -87,6 +87,7 @@ Route::prefix('inspire')->group(function () {
     // Public routes
     Route::get('/', [InspireController::class, 'index'])->middleware(OptionalAuth::class);
     Route::get('/my', [InspireController::class, 'myInspire'])->name('inspire.my')->middleware('auth:api');
+    Route::get('/user/{user_id}', [InspireController::class, 'userInspire'])->middleware(OptionalAuth::class); // New route
     Route::get('/{inspire_id}', [InspireController::class, 'show'])->middleware(OptionalAuth::class);
     Route::get('/{inspire_id}/comments', [InspireCommentController::class, 'index']);
     Route::get('/{inspire_id}/comments/{comment_id}', [InspireCommentController::class, 'show']);
@@ -129,6 +130,7 @@ Route::prefix('ican')->group(function () {
 
     Route::get('/', [ICanController::class, 'index'])->middleware(OptionalAuth::class);
     Route::get('/my', [ICanController::class, 'myIcan'])->name('ican.my')->middleware('auth:api');
+    Route::get('/user/{user_id}', [ICanController::class, 'userIcan'])->middleware(OptionalAuth::class); // New route
     Route::get('/{ican_id}', [ICanController::class, 'show'])->middleware(OptionalAuth::class);
 
     // Routes requiring authentication
@@ -161,6 +163,7 @@ Route::prefix('ineed')->group(function () {
     // Public routes
     Route::get('/', [INeedController::class, 'index'])->middleware(OptionalAuth::class);
     Route::get('/my', [INeedController::class, 'myINeed'])->name('ineed.my')->middleware('auth:api');
+    Route::get('/user/{user_id}', [INeedController::class, 'userINeed'])->middleware(OptionalAuth::class); // New route
     Route::get('/{ineed_id}', [INeedController::class, 'show'])->middleware(OptionalAuth::class);
 
     // Routes requiring authentication
