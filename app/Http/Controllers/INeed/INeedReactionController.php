@@ -139,14 +139,15 @@ class INeedReactionController extends Controller
      * Remove the specified reaction from storage.
      *
      * @group I-Need Reactions
-     * @urlParam id required The ID of the reaction. Example: 1
+     * @urlParam ineed_id required The ID of the I-Need post. Example: 1
      * @response 200 {
      *   "message": "Reaction deleted successfully"
      * }
      */
-    public function destroy($id)
+    public function destroy($ineed_id)
     {
-        $reaction = INeedReaction::findOrFail($id);
+        $userId = Auth::id();
+        $reaction = INeedReaction::where('ineed_id', $ineed_id)->where('user_id', $userId)->firstOrFail();
         $reaction->delete();
 
         return response()->json(['message' => 'Reaction deleted successfully']);

@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Middleware\OptionalAuth;
 
 use App\Http\Controllers\Auth\SocialController;
@@ -26,7 +25,6 @@ use App\Http\Controllers\ICan\ICanRequestController;
 use App\Http\Controllers\Skill\SkillController;
 use App\Http\Controllers\Skill\SkillQueryController;
 
-
 // Authentication Routes
 Route::prefix('auth')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup']);
@@ -34,9 +32,9 @@ Route::prefix('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
     // Password reset routes
-    Route::post('/forgot-password', [AuthController::class, 'sendResetOtp']); // Updated to send OTP
-    Route::post('/verify-otp', [AuthController::class, 'verifyResetOtp']); // New route to verify OTP
-    Route::post('/reset-password', [AuthController::class, 'resetPassword']); // Updated to reset password using OTP
+    Route::post('/forgot-password', [AuthController::class, 'sendResetOtp']);
+    Route::post('/verify-otp', [AuthController::class, 'verifyResetOtp']);
+    Route::post('/reset-password', [AuthController::class, 'resetPassword']);
     Route::post('/change-password', [AuthController::class, 'changePassword'])->middleware('auth:api');
 
     Route::get('/facebook', [SocialController::class, 'redirectToFacebook']);
@@ -88,7 +86,7 @@ Route::prefix('user')->middleware('auth:api')->group(function () {
 Route::prefix('inspire')->group(function () {
     // Public routes
     Route::get('/', [InspireController::class, 'index'])->middleware(OptionalAuth::class);
-    Route::get('/my', [InspireController::class, 'myInspire'])->name('inspire.my')->middleware('auth:api'); // Add this line
+    Route::get('/my', [InspireController::class, 'myInspire'])->name('inspire.my')->middleware('auth:api');
     Route::get('/{inspire_id}', [InspireController::class, 'show'])->middleware(OptionalAuth::class);
     Route::get('/{inspire_id}/comments', [InspireCommentController::class, 'index']);
     Route::get('/{inspire_id}/comments/{comment_id}', [InspireCommentController::class, 'show']);
@@ -109,8 +107,8 @@ Route::prefix('inspire')->group(function () {
         // Reactions routes
         Route::post('/{inspire_id}/reactions', [InspireReactionController::class, 'store']);
         Route::put('/{inspire_id}/reactions/{reaction_id}', [InspireReactionController::class, 'update']);
-        Route::delete('/{inspire_id}/reactions/{reaction_id}', [InspireReactionController::class, 'destroy']);
-        Route::get('/my/liked', [InspireReactionController::class, 'myLikedInspire'])->name('inspire-reactions.myLiked'); // Add this line
+        Route::delete('/{inspire_id}/reactions', [InspireReactionController::class, 'destroy']); // Updated this line
+        Route::get('/my/liked', [InspireReactionController::class, 'myLikedInspire'])->name('inspire-reactions.myLiked');
 
         // User saves routes
         Route::get('/user/saves', [InspireUserSaveController::class, 'index']);
@@ -132,7 +130,7 @@ Route::prefix('ican')->group(function () {
     });
 
     Route::get('/', [ICanController::class, 'index'])->middleware(OptionalAuth::class);
-    Route::get('/my', [ICanController::class, 'myIcan'])->name('ican.my')->middleware('auth:api'); // Add this line
+    Route::get('/my', [ICanController::class, 'myIcan'])->name('ican.my')->middleware('auth:api');
     Route::get('/{ican_id}', [ICanController::class, 'show'])->middleware(OptionalAuth::class);
 
     // Routes requiring authentication
@@ -146,9 +144,8 @@ Route::prefix('ican')->group(function () {
             Route::post('/{ican_id}', [ICanReactionController::class, 'store']);
             Route::get('/{id}', [ICanReactionController::class, 'show']);
             Route::put('/{id}', [ICanReactionController::class, 'update']);
-            Route::delete('/{id}', [ICanReactionController::class, 'destroy']);
-            Route::get('/my/liked', [ICanReactionController::class, 'myLikedIcan'])->name('ican-reactions.myLiked'); // Add this line
-
+            Route::delete('/{ican_id}/reactions', [ICanReactionController::class, 'destroy']); // Updated this line
+            Route::get('/my/liked', [ICanReactionController::class, 'myLikedIcan'])->name('ican-reactions.myLiked');
         });
     });
 });
@@ -182,7 +179,7 @@ Route::prefix('ineed')->group(function () {
             Route::get('/{id}', [INeedReactionController::class, 'show']);
             Route::post('/{ineed_id}', [INeedReactionController::class, 'store']);
             Route::put('/{id}', [INeedReactionController::class, 'update']);
-            Route::delete('/{id}', [INeedReactionController::class, 'destroy']);
+            Route::delete('/{ineed_id}/reactions', [INeedReactionController::class, 'destroy']); // Updated this line
             Route::get('/my/liked', [INeedReactionController::class, 'myLikedINeed'])->name('ineed-reactions.myLiked');
         });
     });

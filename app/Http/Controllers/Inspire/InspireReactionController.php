@@ -92,12 +92,13 @@ class InspireReactionController extends Controller
      * Remove the specified reaction from storage.
      *
      * @group Inspire Reactions
-     * @urlParam reaction_id int required The ID of the reaction. Example: 1
+     * @urlParam inspire_id int required The ID of the Inspire post. Example: 1
      * @return \Illuminate\Http\Response
      */
-    public function destroy($reaction_id)
+    public function destroy($inspire_id)
     {
-        $reaction = InspireReaction::findOrFail($reaction_id);
+        $userId = Auth::id();
+        $reaction = InspireReaction::where('inspire_id', $inspire_id)->where('user_id', $userId)->firstOrFail();
         $reaction->delete();
 
         return response()->json(['message' => 'Reaction deleted successfully']);

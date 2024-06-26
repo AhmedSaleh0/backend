@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\ICan;
 
 use App\Models\ICan\ICanReaction;
@@ -92,12 +91,13 @@ class ICanReactionController extends Controller
      * Remove the specified reaction from storage.
      *
      * @group ICan Reactions
-     * @urlParam id int required The ID of the reaction. Example: 1
+     * @urlParam ican_id int required The ID of the ICan post. Example: 1
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($ican_id)
     {
-        $reaction = ICanReaction::findOrFail($id);
+        $userId = Auth::id();
+        $reaction = ICanReaction::where('ican_id', $ican_id)->where('user_id', $userId)->firstOrFail();
         $reaction->delete();
 
         return response()->json(['message' => 'Reaction deleted successfully']);
