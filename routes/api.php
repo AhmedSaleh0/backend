@@ -91,7 +91,6 @@ Route::prefix('inspire')->group(function () {
     Route::get('/{inspire_id}/comments', [InspireCommentController::class, 'index']);
     Route::get('/{inspire_id}/comments/{comment_id}', [InspireCommentController::class, 'show']);
     Route::get('/{inspire_id}/reactions', [InspireReactionController::class, 'index']);
-    Route::get('/{inspire_id}/reactions/{reaction_id}', [InspireReactionController::class, 'show']);
 
     // Routes requiring authentication
     Route::middleware('auth:api')->group(function () {
