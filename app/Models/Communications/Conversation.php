@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Communications;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -29,7 +30,8 @@ class Conversation extends Model
     public function getOtherUserNameAttribute()
     {
         $otherUserId = $this->user_one_id == auth()->id() ? $this->user_two_id : $this->user_one_id;
-        return User::find($otherUserId)->name;
+        $otherUser = User::find($otherUserId);
+        return $otherUser ? "{$otherUser->first_name} {$otherUser->last_name}" : null;
     }
 
     public function getOtherUserImageAttribute()
