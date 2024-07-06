@@ -222,6 +222,6 @@ Route::prefix('conversations')->middleware('auth:api')->group(function () {
     Route::post('/', [ConversationController::class, 'store'])->name('conversations.store');
 
     // Routes for MessageController
-    Route::get('/messages', [MessageController::class, 'index'])->name('conversations.messages.index');
+    Route::post('/messages/show', [MessageController::class, 'index'])->name('conversations.messages.index');
     Route::post('/messages', [MessageController::class, 'store'])->name('conversations.messages.store');
 });

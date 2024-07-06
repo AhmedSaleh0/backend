@@ -35,7 +35,7 @@ class MessageController extends Controller
      */
     public function index(Request $request)
     {
-        $conversationId = $request->conversation_id;
+        $conversationId = $request->input('conversation_id');
 
         $conversation = Conversation::find($conversationId);
 
@@ -93,7 +93,14 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $conversation = Conversation::findOrFail($request->conversation_id);
+        $conversationId = $request->input('conversation_id');
+
+        $conversation = Conversation::find($conversationId);
+
+        if (!$conversation) {
+            return response()->json(['message' => 'Conversation not found'], 404);
+        }
+
         $userId = Auth::id();
 
         if ($conversation->user_one_id !== $userId && $conversation->user_two_id !== $userId) {
@@ -101,7 +108,7 @@ class MessageController extends Controller
         }
 
         $message = Message::create([
-            'conversation_id' => $request->conversation_id,
+            'conversation_id' => $conversationId,
             'sender_id' => $request->sender_id,
             'message' => $request->message,
         ]);
