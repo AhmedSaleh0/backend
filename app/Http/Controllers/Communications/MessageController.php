@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Communications;
 
 use App\Http\Controllers\Controller;
+use App\Models\Communications\Conversation;
 use App\Models\Communications\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -53,6 +55,7 @@ class MessageController extends Controller
         return response()->json($messages);
     }
 
+    
     /**
      * Send a new message in a conversation
      * 
@@ -68,9 +71,19 @@ class MessageController extends Controller
      *   "created_at": "2024-07-06T00:00:00.000000Z",
      *   "updated_at": "2024-07-06T00:00:00.000000Z"
      * }
+     * @response 403 {
+     *   "message": "Unauthorized"
+     * }
      */
     public function store(Request $request)
     {
+        $conversation = Conversation::findOrFail($request->conversation_id);
+        $userId = Auth::id();
+
+        if ($conversation->user_one_id !== $userId && $conversation->user_two_id !== $userId) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+
         $message = Message::create([
             'conversation_id' => $request->conversation_id,
             'sender_id' => $request->sender_id,
