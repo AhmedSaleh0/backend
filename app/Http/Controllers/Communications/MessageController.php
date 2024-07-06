@@ -25,7 +25,8 @@ class MessageController extends Controller
      *   "updated_at": "2024-07-06T00:00:00.000000Z",
      *   "sender": {
      *     "id": 1,
-     *     "name": "John Doe"
+     *     "name": "John Doe",
+     *     "image": "path/to/my_image.jpg"
      *   }
      * }
      * @response 403 {
@@ -63,6 +64,7 @@ class MessageController extends Controller
                     'sender' => [
                         'id' => $message->sender->id,
                         'name' => "{$message->sender->first_name} {$message->sender->last_name}",
+                        'image' => $message->sender->image ? $message->sender->image->image_path : null,
                     ]
                 ];
             });
