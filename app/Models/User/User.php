@@ -1,9 +1,8 @@
 <?php
-
 namespace App\Models\User;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use App\Models\Communications\Conversation;
+use App\Models\Communications\Message;
 use App\Models\ICan\ICanRequest;
 use App\Models\INeed\INeed;
 use App\Models\INeed\INeedRequest;
@@ -16,38 +15,21 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use App\Notifications\VerifyEmail;
 
-
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable, HasApiTokens;
 
     protected $table = "users";
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'first_name', 'last_name', 'email', 'password', 'phone', 'country_code', 'username', 'country', 'birthdate', 'bio', 'facebook_id', 'google_id'
-
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
@@ -60,11 +42,11 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(UserImage::class);
     }
+
     public function skills()
     {
         return $this->belongsToMany(Skill::class, 'user_skills');
     }
-
 
     public function sendEmailVerificationNotification()
     {
@@ -86,13 +68,24 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(INeed::class);
     }
 
-
     public function icanRequests()
     {
         return $this->hasMany(INeedRequest::class);
     }
+
     public function ineedRequests()
     {
         return $this->hasMany(INeedRequest::class);
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class, 'user_one_id')
+            ->orWhere('user_two_id', $this->id);
     }
 }

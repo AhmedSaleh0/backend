@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Communications;
 
 use App\Models\User\User;
@@ -20,5 +19,10 @@ class Message extends Model
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    public function getIsSenderAttribute()
+    {
+        return $this->sender_id === auth()->id();
     }
 }

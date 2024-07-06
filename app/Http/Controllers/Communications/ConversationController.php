@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Communications;
 
 use App\Http\Controllers\Controller;
@@ -9,41 +8,59 @@ use Illuminate\Http\Request;
 class ConversationController extends Controller
 {
     /**
-     * Get a list of conversations
+     * Get the current user's conversations
      * 
-     * @group Conversations
+     * @group Messages
      * @response 200 {
      *   "id": 1,
      *   "user_one_id": 1,
      *   "user_two_id": 2,
      *   "created_at": "2024-07-06T00:00:00.000000Z",
      *   "updated_at": "2024-07-06T00:00:00.000000Z",
-     *   "messages": [
-     *     {
+     *   "other_user_name": "Jane Doe",
+     *   "other_user_image": "http://example.com/path/to/image.jpg",
+     *   "last_message": {
+     *     "id": 1,
+     *     "conversation_id": 1,
+     *     "sender_id": 1,
+     *     "message": "Hello",
+     *     "created_at": "2024-07-06T00:00:00.000000Z",
+     *     "updated_at": "2024-07-06T00:00:00.000000Z",
+     *     "sender": {
      *       "id": 1,
-     *       "conversation_id": 1,
-     *       "sender_id": 1,
-     *       "message": "Hello",
-     *       "created_at": "2024-07-06T00:00:00.000000Z",
-     *       "updated_at": "2024-07-06T00:00:00.000000Z",
-     *       "sender": {
-     *         "id": 1,
-     *         "name": "John Doe"
-     *       }
+     *       "name": "John Doe"
      *     }
-     *   ]
+     *   }
      * }
      */
     public function index()
     {
-        $conversations = Conversation::with('messages.sender')->get();
+        $userId = auth()->id();
+
+        $conversations = Conversation::with(['messages.sender'])
+            ->where('user_one_id', $userId)
+            ->orWhere('user_two_id', $userId)
+            ->get()
+            ->map(function ($conversation) {
+                return [
+                    'id' => $conversation->id,
+                    'user_one_id' => $conversation->user_one_id,
+                    'user_two_id' => $conversation->user_two_id,
+                    'created_at' => $conversation->created_at,
+                    'updated_at' => $conversation->updated_at,
+                    'other_user_name' => $conversation->other_user_name,
+                    'other_user_image' => $conversation->other_user_image,
+                    'last_message' => $conversation->last_message,
+                ];
+            });
+
         return response()->json($conversations);
     }
 
     /**
      * Create a new conversation
      * 
-     * @group Conversations
+     * @group Messages
      * @bodyParam user_one_id int required The ID of the first user. Example: 1
      * @bodyParam user_two_id int required The ID of the second user. Example: 2
      * @response 201 {

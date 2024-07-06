@@ -1,10 +1,9 @@
 <?php
-
 namespace App\Models\Communications;
 
-use App\Models\User\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User\User;
 
 class Conversation extends Model
 {
@@ -25,5 +24,23 @@ class Conversation extends Model
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function getOtherUserNameAttribute()
+    {
+        $otherUserId = $this->user_one_id == auth()->id() ? $this->user_two_id : $this->user_one_id;
+        return User::find($otherUserId)->name;
+    }
+
+    public function getOtherUserImageAttribute()
+    {
+        $otherUserId = $this->user_one_id == auth()->id() ? $this->user_two_id : $this->user_one_id;
+        $otherUser = User::find($otherUserId);
+        return $otherUser->image ? $otherUser->image->image_path : null;
+    }
+
+    public function getLastMessageAttribute()
+    {
+        return $this->messages()->latest()->first();
     }
 }

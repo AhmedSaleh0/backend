@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\OptionalAuth;
-
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\EmailVerificationController;
@@ -89,7 +88,7 @@ Route::prefix('inspire')->group(function () {
     // Public routes
     Route::get('/', [InspireController::class, 'index'])->middleware(OptionalAuth::class);
     Route::get('/my', [InspireController::class, 'myInspire'])->name('inspire.my')->middleware('auth:api');
-    Route::get('/user/{user_id}', [InspireController::class, 'userInspire'])->middleware(OptionalAuth::class); // New route
+    Route::get('/user/{user_id}', [InspireController::class, 'userInspire'])->middleware(OptionalAuth::class);
     Route::get('/{inspire_id}', [InspireController::class, 'show'])->middleware(OptionalAuth::class);
     Route::get('/{inspire_id}/comments', [InspireCommentController::class, 'index']);
     Route::get('/{inspire_id}/comments/{comment_id}', [InspireCommentController::class, 'show']);
@@ -126,13 +125,13 @@ Route::prefix('ican')->group(function () {
         Route::post('/apply', [ICanRequestController::class, 'apply'])->name('ican-requests.apply');
         Route::post('/{request_id}/accept', [ICanRequestController::class, 'accept'])->name('ican-requests.accept');
         Route::post('/{request_id}/reject', [ICanRequestController::class, 'reject'])->name('ican-requests.reject');
-        Route::get('/{ican_id}', [ICanRequestController::class, 'show'])->name('ican-requests.show'); // Modified route
+        Route::get('/{ican_id}', [ICanRequestController::class, 'show'])->name('ican-requests.show');
         Route::delete('/{request_id}', [ICanRequestController::class, 'destroy'])->name('ican-requests.destroy');
     });
 
     Route::get('/', [ICanController::class, 'index'])->middleware(OptionalAuth::class);
     Route::get('/my', [ICanController::class, 'myIcan'])->name('ican.my')->middleware('auth:api');
-    Route::get('/user/{user_id}', [ICanController::class, 'userIcan'])->middleware(OptionalAuth::class); // New route
+    Route::get('/user/{user_id}', [ICanController::class, 'userIcan'])->middleware(OptionalAuth::class);
     Route::get('/{ican_id}', [ICanController::class, 'show'])->middleware(OptionalAuth::class);
 
     // Routes requiring authentication
@@ -158,14 +157,14 @@ Route::prefix('ineed')->group(function () {
         Route::post('/apply', [INeedRequestController::class, 'apply'])->name('ineed-requests.apply');
         Route::post('/{request_id}/accept', [INeedRequestController::class, 'accept'])->name('ineed-requests.accept');
         Route::post('/{request_id}/reject', [INeedRequestController::class, 'reject'])->name('ineed-requests.reject');
-        Route::get('/{ineed_id}', [INeedRequestController::class, 'show'])->name('ineed-requests.show'); // Modified route
+        Route::get('/{ineed_id}', [INeedRequestController::class, 'show'])->name('ineed-requests.show');
         Route::delete('/{request_id}', [INeedRequestController::class, 'destroy'])->name('ineed-requests.destroy');
     });
 
     // Public routes
     Route::get('/', [INeedController::class, 'index'])->middleware(OptionalAuth::class);
     Route::get('/my', [INeedController::class, 'myINeed'])->name('ineed.my')->middleware('auth:api');
-    Route::get('/user/{user_id}', [INeedController::class, 'userINeed'])->middleware(OptionalAuth::class); // New route
+    Route::get('/user/{user_id}', [INeedController::class, 'userINeed'])->middleware(OptionalAuth::class);
     Route::get('/{ineed_id}', [INeedController::class, 'show'])->middleware(OptionalAuth::class);
 
     // Routes requiring authentication
@@ -215,19 +214,12 @@ Route::prefix('contact')->middleware('api')->group(function () {
     Route::post('/send', [ContactController::class, 'send'])->name('contact.send');
 });
 
-// Conversation and Message Routes
 Route::prefix('conversations')->middleware('auth:api')->group(function () {
     // Routes for ConversationController
     Route::get('/', [ConversationController::class, 'index'])->name('conversations.index');
     Route::post('/', [ConversationController::class, 'store'])->name('conversations.store');
-    Route::get('/{conversation}', [ConversationController::class, 'show'])->name('conversations.show');
-    Route::put('/{conversation}', [ConversationController::class, 'update'])->name('conversations.update');
-    Route::delete('/{conversation}', [ConversationController::class, 'destroy'])->name('conversations.destroy');
 
     // Routes for MessageController
     Route::get('/{conversation}/messages', [MessageController::class, 'index'])->name('conversations.messages.index');
     Route::post('/{conversation}/messages', [MessageController::class, 'store'])->name('conversations.messages.store');
-    Route::get('/messages/{message}', [MessageController::class, 'show'])->name('messages.show');
-    Route::put('/messages/{message}', [MessageController::class, 'update'])->name('messages.update');
-    Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
 });

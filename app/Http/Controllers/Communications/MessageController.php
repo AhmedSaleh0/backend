@@ -18,6 +18,7 @@ class MessageController extends Controller
      *   "conversation_id": 1,
      *   "sender_id": 1,
      *   "message": "Hello",
+     *   "is_sender": true,
      *   "created_at": "2024-07-06T00:00:00.000000Z",
      *   "updated_at": "2024-07-06T00:00:00.000000Z",
      *   "sender": {
@@ -28,7 +29,25 @@ class MessageController extends Controller
      */
     public function index($conversationId)
     {
-        $messages = Message::where('conversation_id', $conversationId)->with('sender')->get();
+        $messages = Message::where('conversation_id', $conversationId)
+            ->with('sender')
+            ->get()
+            ->map(function ($message) {
+                return [
+                    'id' => $message->id,
+                    'conversation_id' => $message->conversation_id,
+                    'sender_id' => $message->sender_id,
+                    'message' => $message->message,
+                    'is_sender' => $message->is_sender,
+                    'created_at' => $message->created_at,
+                    'updated_at' => $message->updated_at,
+                    'sender' => [
+                        'id' => $message->sender->id,
+                        'name' => $message->sender->name,
+                    ]
+                ];
+            });
+
         return response()->json($messages);
     }
 
