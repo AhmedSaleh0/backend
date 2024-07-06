@@ -24,6 +24,8 @@ use App\Http\Controllers\ICan\ICanReactionController;
 use App\Http\Controllers\ICan\ICanRequestController;
 use App\Http\Controllers\Skill\SkillController;
 use App\Http\Controllers\Skill\SkillQueryController;
+use App\Http\Controllers\Communications\ConversationController;
+use App\Http\Controllers\Communications\MessageController;
 
 // Authentication Routes
 Route::prefix('auth')->group(function () {
@@ -211,4 +213,21 @@ Route::prefix('newsletter')->middleware('api')->group(function () {
 // Contact Routes
 Route::prefix('contact')->middleware('api')->group(function () {
     Route::post('/send', [ContactController::class, 'send'])->name('contact.send');
+});
+
+// Conversation and Message Routes
+Route::prefix('conversations')->middleware('auth:api')->group(function () {
+    // Routes for ConversationController
+    Route::get('/', [ConversationController::class, 'index'])->name('conversations.index');
+    Route::post('/', [ConversationController::class, 'store'])->name('conversations.store');
+    Route::get('/{conversation}', [ConversationController::class, 'show'])->name('conversations.show');
+    Route::put('/{conversation}', [ConversationController::class, 'update'])->name('conversations.update');
+    Route::delete('/{conversation}', [ConversationController::class, 'destroy'])->name('conversations.destroy');
+
+    // Routes for MessageController
+    Route::get('/{conversation}/messages', [MessageController::class, 'index'])->name('conversations.messages.index');
+    Route::post('/{conversation}/messages', [MessageController::class, 'store'])->name('conversations.messages.store');
+    Route::get('/messages/{message}', [MessageController::class, 'show'])->name('messages.show');
+    Route::put('/messages/{message}', [MessageController::class, 'update'])->name('messages.update');
+    Route::delete('/messages/{message}', [MessageController::class, 'destroy'])->name('messages.destroy');
 });
