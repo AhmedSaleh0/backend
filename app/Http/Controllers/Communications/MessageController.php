@@ -37,7 +37,7 @@ class MessageController extends Controller
     {
         $conversationId = $request->input('conversation_id');
 
-        $conversation = Conversation::find($conversationId);
+        $conversation = Conversation::find(1);
 
         if (!$conversation) {
             return response()->json(['message' => 'Conversation not found'], 404);
