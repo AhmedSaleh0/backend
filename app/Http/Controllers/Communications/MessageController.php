@@ -34,7 +34,14 @@ class MessageController extends Controller
      */
     public function index(Request $request)
     {
-        $conversation = Conversation::findOrFail($request->conversation_id);
+        $conversationId = $request->input('conversation_id');
+
+        $conversation = Conversation::find($conversationId);
+
+        if (!$conversation) {
+            return response()->json(['message' => 'Conversation not found'], 404);
+        }
+
         $userId = Auth::id();
 
         if ($conversation->user_one_id !== $userId && $conversation->user_two_id !== $userId) {
@@ -63,6 +70,25 @@ class MessageController extends Controller
         return response()->json($messages);
     }
 
+    /**
+     * Send a new message in a conversation
+     * 
+     * @group Messages
+     * @bodyParam conversation_id int required The ID of the conversation. Example: 1
+     * @bodyParam sender_id int required The ID of the sender. Example: 1
+     * @bodyParam message string required The message content. Example: Hello
+     * @response 201 {
+     *   "id": 1,
+     *   "conversation_id": 1,
+     *   "sender_id": 1,
+     *   "message": "Hello",
+     *   "created_at": "2024-07-06T00:00:00.000000Z",
+     *   "updated_at": "2024-07-06T00:00:00.000000Z"
+     * }
+     * @response 403 {
+     *   "message": "Unauthorized"
+     * }
+     */
     public function store(Request $request)
     {
         $conversation = Conversation::findOrFail($request->conversation_id);
