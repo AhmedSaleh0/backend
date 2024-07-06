@@ -12,7 +12,7 @@ class MessageController extends Controller
      * Get a list of messages in a conversation
      * 
      * @group Messages
-     * @urlParam conversationId int required The ID of the conversation. Example: 1
+     * @bodyParam conversation_id int required The ID of the conversation. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "conversation_id": 1,
@@ -27,8 +27,10 @@ class MessageController extends Controller
      *   }
      * }
      */
-    public function index($conversationId)
+    public function index(Request $request)
     {
+        $conversationId = $request->conversation_id;
+
         $messages = Message::where('conversation_id', $conversationId)
             ->with('sender')
             ->get()
@@ -55,7 +57,7 @@ class MessageController extends Controller
      * Send a new message in a conversation
      * 
      * @group Messages
-     * @urlParam conversationId int required The ID of the conversation. Example: 1
+     * @bodyParam conversation_id int required The ID of the conversation. Example: 1
      * @bodyParam sender_id int required The ID of the sender. Example: 1
      * @bodyParam message string required The message content. Example: Hello
      * @response 201 {
@@ -67,10 +69,10 @@ class MessageController extends Controller
      *   "updated_at": "2024-07-06T00:00:00.000000Z"
      * }
      */
-    public function store(Request $request, $conversationId)
+    public function store(Request $request)
     {
         $message = Message::create([
-            'conversation_id' => $conversationId,
+            'conversation_id' => $request->conversation_id,
             'sender_id' => $request->sender_id,
             'message' => $request->message,
         ]);
