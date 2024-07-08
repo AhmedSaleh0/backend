@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Common;
+namespace App\Http\Controllers;
 
-use App\Models\Common\Rating;
 use Illuminate\Http\Request;
+use App\Models\Common\Rating;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 
 class RatingController extends Controller
 {
@@ -54,11 +53,10 @@ class RatingController extends Controller
     }
 
     /**
-     * Get a list of ratings
+     * Get a list of ratings for iNeed
      * 
      * @group Ratings
-     * @queryParam rateable_type string The type of the entity being rated. Example: iNeed
-     * @queryParam rateable_id int The ID of the entity being rated. Example: 1
+     * @queryParam rateable_id int required The ID of the iNeed entity being rated. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "user_id": 1,
@@ -71,14 +69,44 @@ class RatingController extends Controller
      *   "updated_at": "2024-07-06T00:00:00.000000Z"
      * }
      */
-    public function index(Request $request)
+    public function indexINeed(Request $request)
     {
         $validatedData = $request->validate([
-            'rateable_type' => 'required|in:iNeed,iCan',
             'rateable_id' => 'required|integer',
         ]);
 
-        $ratings = Rating::where('rateable_type', $validatedData['rateable_type'])
+        $ratings = Rating::where('rateable_type', 'iNeed')
+            ->where('rateable_id', $validatedData['rateable_id'])
+            ->where('status', 'Approved')
+            ->get();
+
+        return response()->json($ratings);
+    }
+
+    /**
+     * Get a list of ratings for iCan
+     * 
+     * @group Ratings
+     * @queryParam rateable_id int required The ID of the iCan entity being rated. Example: 1
+     * @response 200 {
+     *   "id": 1,
+     *   "user_id": 1,
+     *   "rateable_id": 2,
+     *   "rateable_type": "iCan",
+     *   "rating": 5,
+     *   "review": "Great job!",
+     *   "status": "Approved",
+     *   "created_at": "2024-07-06T00:00:00.000000Z",
+     *   "updated_at": "2024-07-06T00:00:00.000000Z"
+     * }
+     */
+    public function indexICan(Request $request)
+    {
+        $validatedData = $request->validate([
+            'rateable_id' => 'required|integer',
+        ]);
+
+        $ratings = Rating::where('rateable_type', 'iCan')
             ->where('rateable_id', $validatedData['rateable_id'])
             ->where('status', 'Approved')
             ->get();
