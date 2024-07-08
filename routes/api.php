@@ -228,8 +228,8 @@ Route::prefix('conversations')->middleware('auth:api')->group(function () {
 Route::middleware('auth:api')->group(function () {
     Route::post('/ratings/ineed', [RatingController::class, 'storeINeed']);
     Route::post('/ratings/ican', [RatingController::class, 'storeICan']);
-    Route::get('/ratings/ineed', [RatingController::class, 'indexINeed']);
-    Route::get('/ratings/ican', [RatingController::class, 'indexICan']);
+    Route::post('/ratings/ineed', [RatingController::class, 'indexINeed']);
+    Route::post('/ratings/ican', [RatingController::class, 'indexICan']);
     Route::get('/ratings/my/ineed', [RatingController::class, 'myRatingsINeed']);
     Route::get('/ratings/my/ican', [RatingController::class, 'myRatingsICan']);
     Route::patch('/ratings/{rating}/status', [RatingController::class, 'updateStatus']);
