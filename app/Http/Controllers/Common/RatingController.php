@@ -14,14 +14,15 @@ class RatingController extends Controller
      * 
      * @group Ratings
      * @bodyParam rated_id int required The ID of the user being rated. Example: 1
-     * @bodyParam type string required The type of the rating. Example: iNeed, iCan
+     * @bodyParam rateable_id int required The ID of the entity being rated. Example: 1
+     * @bodyParam rateable_type string required The type of the entity being rated. Example: iNeed, iCan
      * @bodyParam rating int required The rating value between 1 and 5. Example: 5
      * @bodyParam review string The review content. Example: Great job!
      * @response 201 {
      *   "id": 1,
      *   "user_id": 1,
-     *   "rated_id": 2,
-     *   "type": "iNeed",
+     *   "rateable_id": 2,
+     *   "rateable_type": "iNeed",
      *   "rating": 5,
      *   "review": "Great job!",
      *   "status": "Pending",
@@ -33,7 +34,8 @@ class RatingController extends Controller
     {
         $validatedData = $request->validate([
             'rated_id' => 'required|exists:users,id',
-            'type' => 'required|in:iNeed,iCan',
+            'rateable_id' => 'required|integer',
+            'rateable_type' => 'required|in:iNeed,iCan',
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'nullable|string',
         ]);
@@ -41,7 +43,8 @@ class RatingController extends Controller
         $rating = Rating::create([
             'user_id' => Auth::id(),
             'rated_id' => $validatedData['rated_id'],
-            'type' => $validatedData['type'],
+            'rateable_id' => $validatedData['rateable_id'],
+            'rateable_type' => $validatedData['rateable_type'],
             'rating' => $validatedData['rating'],
             'review' => $validatedData['review'],
             'status' => 'Pending',
@@ -54,12 +57,13 @@ class RatingController extends Controller
      * Get a list of ratings
      * 
      * @group Ratings
-     * @queryParam type string The type of the rating to filter by. Example: iNeed
+     * @queryParam rateable_type string The type of the entity being rated. Example: iNeed
+     * @queryParam rateable_id int The ID of the entity being rated. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "user_id": 1,
-     *   "rated_id": 2,
-     *   "type": "iNeed",
+     *   "rateable_id": 2,
+     *   "rateable_type": "iNeed",
      *   "rating": 5,
      *   "review": "Great job!",
      *   "status": "Approved",
@@ -69,7 +73,13 @@ class RatingController extends Controller
      */
     public function index(Request $request)
     {
-        $ratings = Rating::where('type', $request->input('type', 'iNeed'))
+        $validatedData = $request->validate([
+            'rateable_type' => 'required|in:iNeed,iCan',
+            'rateable_id' => 'required|integer',
+        ]);
+
+        $ratings = Rating::where('rateable_type', $validatedData['rateable_type'])
+            ->where('rateable_id', $validatedData['rateable_id'])
             ->where('status', 'Approved')
             ->get();
 
@@ -85,8 +95,8 @@ class RatingController extends Controller
      * @response 200 {
      *   "id": 1,
      *   "user_id": 1,
-     *   "rated_id": 2,
-     *   "type": "iNeed",
+     *   "rateable_id": 2,
+     *   "rateable_type": "iNeed",
      *   "rating": 5,
      *   "review": "Great job!",
      *   "status": "Approved",

@@ -2,6 +2,7 @@
 
 namespace App\Models\INeed;
 
+use App\Models\Common\Rating;
 use App\Models\Skill\Skill;
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
@@ -61,5 +62,10 @@ class INeed extends Model
     public function isLikedByUser()
     {
         return $this->reactions()->where('user_id', Auth::id())->exists();
+    }
+
+    public function ratings()
+    {
+        return $this->morphMany(Rating::class, 'rateable');
     }
 }

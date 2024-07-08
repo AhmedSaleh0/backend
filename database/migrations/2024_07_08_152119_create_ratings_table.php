@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id'); // who gives the rating
-            $table->unsignedBigInteger('rated_id'); // who/what is being rated
-            $table->string('type'); // 'iNeed' or 'iCan'
+            $table->unsignedBigInteger('rateable_id'); // the entity being rated
+            $table->string('rateable_type'); // type of the entity being rated (iNeed, iCan)
             $table->integer('rating')->default(0);
             $table->text('review')->nullable();
             $table->string('status')->default('Pending'); // status of the review
@@ -23,7 +23,6 @@ return new class extends Migration
 
             // Foreign key constraints
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('rated_id')->references('id')->on('users')->onDelete('cascade'); // Assuming the rated entity is a user
         });
     }
 
