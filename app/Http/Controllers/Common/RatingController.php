@@ -21,6 +21,7 @@ class RatingController extends Controller
      * @response 201 {
      *   "id": 1,
      *   "user_id": 1,
+     *   "rated_id": 2,
      *   "rateable_id": 2,
      *   "rateable_type": "iNeed",
      *   "rating": 5,
@@ -61,7 +62,8 @@ class RatingController extends Controller
      * @response 200 {
      *   "id": 1,
      *   "user_id": 1,
-     *   "rateable_id": 2,
+     *   "rated_id": 2,
+     *   "rateable_id": 1,
      *   "rateable_type": "iNeed",
      *   "rating": 5,
      *   "review": "Great job!",
@@ -92,7 +94,8 @@ class RatingController extends Controller
      * @response 200 {
      *   "id": 1,
      *   "user_id": 1,
-     *   "rateable_id": 2,
+     *   "rated_id": 2,
+     *   "rateable_id": 1,
      *   "rateable_type": "iCan",
      *   "rating": 5,
      *   "review": "Great job!",
@@ -124,7 +127,8 @@ class RatingController extends Controller
      * @response 200 {
      *   "id": 1,
      *   "user_id": 1,
-     *   "rateable_id": 2,
+     *   "rated_id": 2,
+     *   "rateable_id": 1,
      *   "rateable_type": "iNeed",
      *   "rating": 5,
      *   "review": "Great job!",
