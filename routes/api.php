@@ -1,12 +1,11 @@
 <?php
 
-// routes/api.php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\OptionalAuth;
 use App\Http\Controllers\Auth\SocialController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\EmailVerificationController;
+use App\Http\Controllers\Common\RatingController;
 use App\Http\Controllers\INeed\INeedController;
 use App\Http\Controllers\INeed\INeedRequestController;
 use App\Http\Controllers\INeed\INeedReactionController;
@@ -224,4 +223,10 @@ Route::prefix('conversations')->middleware('auth:api')->group(function () {
     // Routes for MessageController
     Route::post('/messages/show', [MessageController::class, 'index'])->name('conversations.messages.index');
     Route::post('/messages', [MessageController::class, 'store'])->name('conversations.messages.store');
+});
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/ratings', [RatingController::class, 'store']);
+    Route::get('/ratings', [RatingController::class, 'index']);
+    Route::patch('/ratings/{rating}/status', [RatingController::class, 'updateStatus']);
 });

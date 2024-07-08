@@ -1,6 +1,8 @@
 <?php
+
 namespace App\Models\User;
 
+use App\Common\Models\Rating;
 use App\Models\Communications\Conversation;
 use App\Models\Communications\Message;
 use App\Models\ICan\ICanRequest;
@@ -87,5 +89,15 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Conversation::class, 'user_one_id')
             ->orWhere('user_two_id', $this->id);
+    }
+
+    public function ratingsGiven()
+    {
+        return $this->hasMany(Rating::class, 'user_id');
+    }
+
+    public function ratingsReceived()
+    {
+        return $this->hasMany(Rating::class, 'rated_id');
     }
 }
