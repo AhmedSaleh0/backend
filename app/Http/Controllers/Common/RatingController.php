@@ -10,12 +10,11 @@ use App\Http\Controllers\Controller;
 class RatingController extends Controller
 {
     /**
-     * Store a new rating and review
+     * Store a new rating and review for iNeed
      * 
      * @group Ratings
      * @bodyParam rated_id int required The ID of the user being rated. Example: 1
-     * @bodyParam rateable_id int required The ID of the entity being rated. Example: 1
-     * @bodyParam rateable_type string required The type of the entity being rated. Example: iNeed, iCan
+     * @bodyParam ineed_id int required The ID of the iNeed entity being rated. Example: 1
      * @bodyParam rating int required The rating value between 1 and 5. Example: 5
      * @bodyParam review string The review content. Example: Great job!
      * @response 201 {
@@ -31,12 +30,11 @@ class RatingController extends Controller
      *   "updated_at": "2024-07-06T00:00:00.000000Z"
      * }
      */
-    public function store(Request $request)
+    public function storeINeed(Request $request)
     {
         $validatedData = $request->validate([
             'rated_id' => 'required|exists:users,id',
-            'rateable_id' => 'required|integer',
-            'rateable_type' => 'required|in:iNeed,iCan',
+            'ineed_id' => 'required|integer|exists:i_needs,id',
             'rating' => 'required|integer|min:1|max:5',
             'review' => 'nullable|string',
         ]);
@@ -44,8 +42,51 @@ class RatingController extends Controller
         $rating = Rating::create([
             'user_id' => Auth::id(),
             'rated_id' => $validatedData['rated_id'],
-            'rateable_id' => $validatedData['rateable_id'],
-            'rateable_type' => $validatedData['rateable_type'],
+            'rateable_id' => $validatedData['ineed_id'],
+            'rateable_type' => 'iNeed',
+            'rating' => $validatedData['rating'],
+            'review' => $validatedData['review'],
+            'status' => 'Pending',
+        ]);
+
+        return response()->json($rating, 201);
+    }
+
+    /**
+     * Store a new rating and review for iCan
+     * 
+     * @group Ratings
+     * @bodyParam rated_id int required The ID of the user being rated. Example: 1
+     * @bodyParam ican_id int required The ID of the iCan entity being rated. Example: 1
+     * @bodyParam rating int required The rating value between 1 and 5. Example: 5
+     * @bodyParam review string The review content. Example: Great job!
+     * @response 201 {
+     *   "id": 1,
+     *   "user_id": 1,
+     *   "rated_id": 2,
+     *   "rateable_id": 2,
+     *   "rateable_type": "iCan",
+     *   "rating": 5,
+     *   "review": "Great job!",
+     *   "status": "Pending",
+     *   "created_at": "2024-07-06T00:00:00.000000Z",
+     *   "updated_at": "2024-07-06T00:00:00.000000Z"
+     * }
+     */
+    public function storeICan(Request $request)
+    {
+        $validatedData = $request->validate([
+            'rated_id' => 'required|exists:users,id',
+            'ican_id' => 'required|integer|exists:i_cans,id',
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'nullable|string',
+        ]);
+
+        $rating = Rating::create([
+            'user_id' => Auth::id(),
+            'rated_id' => $validatedData['rated_id'],
+            'rateable_id' => $validatedData['ican_id'],
+            'rateable_type' => 'iCan',
             'rating' => $validatedData['rating'],
             'review' => $validatedData['review'],
             'status' => 'Pending',
@@ -58,7 +99,7 @@ class RatingController extends Controller
      * Get a list of ratings for iNeed
      * 
      * @group Ratings
-     * @bodyParam rateable_id int required The ID of the iNeed entity being rated. Example: 1
+     * @bodyParam ineed_id int required The ID of the iNeed entity being rated. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "user_id": 1,
@@ -75,11 +116,11 @@ class RatingController extends Controller
     public function indexINeed(Request $request)
     {
         $validatedData = $request->validate([
-            'rateable_id' => 'required|integer',
+            'ineed_id' => 'required|integer',
         ]);
 
         $ratings = Rating::where('rateable_type', 'iNeed')
-            ->where('rateable_id', $validatedData['rateable_id'])
+            ->where('rateable_id', $validatedData['ineed_id'])
             ->where('status', 'Approved')
             ->get();
 
@@ -90,7 +131,7 @@ class RatingController extends Controller
      * Get a list of ratings for iCan
      * 
      * @group Ratings
-     * @bodyParam rateable_id int required The ID of the iCan entity being rated. Example: 1
+     * @bodyParam ican_id int required The ID of the iCan entity being rated. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "user_id": 1,
@@ -107,12 +148,68 @@ class RatingController extends Controller
     public function indexICan(Request $request)
     {
         $validatedData = $request->validate([
-            'rateable_id' => 'required|integer',
+            'ican_id' => 'required|integer',
         ]);
 
         $ratings = Rating::where('rateable_type', 'iCan')
-            ->where('rateable_id', $validatedData['rateable_id'])
+            ->where('rateable_id', $validatedData['ican_id'])
             ->where('status', 'Approved')
+            ->get();
+
+        return response()->json($ratings);
+    }
+
+    /**
+     * Get a list of ratings given by the current logged-in user for iNeed
+     * 
+     * @group Ratings
+     * @response 200 {
+     *   "id": 1,
+     *   "user_id": 1,
+     *   "rated_id": 2,
+     *   "rateable_id": 1,
+     *   "rateable_type": "iNeed",
+     *   "rating": 5,
+     *   "review": "Great job!",
+     *   "status": "Approved",
+     *   "created_at": "2024-07-06T00:00:00.000000Z",
+     *   "updated_at": "2024-07-06T00:00:00.000000Z"
+     * }
+     */
+    public function myRatingsINeed()
+    {
+        $userId = Auth::id();
+
+        $ratings = Rating::where('rateable_type', 'iNeed')
+            ->where('user_id', $userId)
+            ->get();
+
+        return response()->json($ratings);
+    }
+
+    /**
+     * Get a list of ratings given by the current logged-in user for iCan
+     * 
+     * @group Ratings
+     * @response 200 {
+     *   "id": 1,
+     *   "user_id": 1,
+     *   "rated_id": 2,
+     *   "rateable_id": 1,
+     *   "rateable_type": "iCan",
+     *   "rating": 5,
+     *   "review": "Great job!",
+     *   "status": "Approved",
+     *   "created_at": "2024-07-06T00:00:00.000000Z",
+     *   "updated_at": "2024-07-06T00:00:00.000000Z"
+     * }
+     */
+    public function myRatingsICan()
+    {
+        $userId = Auth::id();
+
+        $ratings = Rating::where('rateable_type', 'iCan')
+            ->where('user_id', $userId)
             ->get();
 
         return response()->json($ratings);
