@@ -57,6 +57,7 @@ class RatingController extends Controller
      * Get a list of ratings for iNeed
      * 
      * @group Ratings
+     * @queryParam rateable_id int required The ID of the iNeed entity being rated. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "user_id": 1,
@@ -87,6 +88,7 @@ class RatingController extends Controller
      * Get a list of ratings for iCan
      * 
      * @group Ratings
+     * @queryParam rateable_id int required The ID of the iCan entity being rated. Example: 1
      * @response 200 {
      *   "id": 1,
      *   "user_id": 1,
