@@ -14,12 +14,44 @@ class ICanController extends Controller
      * Display a listing of ICan posts.
      *
      * @group iCan Posts
-     * @return \Illuminate\Http\JsonResponse
+     * @response 200 {
+     *   "id": 1,
+     *   "title": "My New Service",
+     *   "short_description": "This is a short description of my service.",
+     *   "image": "https://your-bucket.s3.your-region.amazonaws.com/ican/1/image.jpg",
+     *   "price": 99.99,
+     *   "price_type": "fixed",
+     *   "status": "pending",
+     *   "location": "Dubai",
+     *   "experience": "Intermediate",
+     *   "skills": [
+     *     {
+     *       "id": 1,
+     *       "name": "Skill 1"
+     *     },
+     *     {
+     *       "id": 2,
+     *       "name": "Skill 2"
+     *     }
+     *   ],
+     *   "user": {
+     *     "id": 1,
+     *     "first_name": "John",
+     *     "last_name": "Doe",
+     *     "image": {
+     *       "id": 1,
+     *       "url": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1/image.jpg"
+     *     }
+     *   },
+     *   "liked_by_user": true,
+     *   "connection_status": "accepted"
+     * }
      */
     public function index()
     {
         $posts = ICan::with(['user', 'user.image', 'skills'])->get()->map(function ($post) {
             $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
+            $post->connection_status = $post->getConnectionStatusAttribute();
             return $post;
         });
         return response()->json($posts);

@@ -75,4 +75,15 @@ class ICan extends Model
     {
         return $this->morphMany(Rating::class, 'rateable');
     }
+
+    /**
+     * Get the connection status attribute.
+     * 
+     * @return string
+     */
+    public function getConnectionStatusAttribute()
+    {
+        $request = $this->requests()->where('user_id', Auth::id())->first();
+        return $request ? $request->status : 'notConnected';
+    }
 }
