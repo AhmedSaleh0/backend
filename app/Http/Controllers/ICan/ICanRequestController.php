@@ -18,7 +18,7 @@ class ICanRequestController extends Controller
      */
     public function index()
     {
-        $requests = ICanRequest::where('user_id', Auth::id())->with(['ican','user', 'user.image'])->get();
+        $requests = ICanRequest::where('user_id', Auth::id())->with(['ican','ican.isLikedByUser','user', 'user.image'])->get();
         return response()->json($requests);
     }
 

@@ -140,7 +140,10 @@ class INeedReactionController extends Controller
         $userId = Auth::id();
         $likedINeed = INeed::whereHas('reactions', function ($query) use ($userId) {
             $query->where('user_id', $userId);
-        })->with(['user', 'user.image'])->get();
+        })->with(['user', 'user.image'])->get()->map(function ($post) {
+            $post->liked_by_user = Auth::check() ? $post->isLikedByUser() : false;
+            return $post;
+        });
 
         return response()->json($likedINeed);
     }
