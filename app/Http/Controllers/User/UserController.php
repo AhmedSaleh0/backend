@@ -74,6 +74,8 @@ class UserController extends Controller
      * @bodyParam country string optional The user's country. Example: USA
      * @bodyParam birthdate date optional The user's birthdate in format day-month-year. Example: 31-12-1990
      * @bodyParam bio string optional A short bio for the user. Example: Just a developer!
+     * @bodyParam display_country boolean optional Whether to display the user's country. Example: true
+     * @bodyParam display_birthdate boolean optional Whether to display the user's birthdate. Example: true
      * @response 200 {
      *  "message": "User details updated successfully",
      *  "user": {
@@ -84,7 +86,9 @@ class UserController extends Controller
      *      "phone": "+1234567890",
      *      "country": "USA",
      *      "birthdate": "1990-12-31",
-     *      "bio": "Just a developer!"
+     *      "bio": "Just a developer!",
+     *      "display_country": false,
+     *      "display_birthdate": false
      *  }
      * }
      */
@@ -100,6 +104,8 @@ class UserController extends Controller
             'country' => 'nullable|string|max:255',
             'birthdate' => 'nullable|date_format:d-m-Y',
             'bio' => 'nullable|string|max:1000',
+            'display_country' => 'nullable|boolean',
+            'display_birthdate' => 'nullable|boolean',
         ]);
 
         if (isset($validatedData['birthdate'])) {
@@ -110,7 +116,6 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User details updated successfully', 'user' => $user]);
     }
-
     /**
      * Update the user's username.
      *

@@ -24,7 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $table = "users";
 
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password', 'phone', 'country_code', 'username', 'country', 'birthdate', 'bio', 'facebook_id', 'google_id'
+        'first_name', 'last_name', 'email', 'password', 'phone', 'country_code', 'username', 'country', 'birthdate', 'bio', 'facebook_id', 'google_id','display_country', 'display_birthdate'
     ];
 
     protected $hidden = [
@@ -37,6 +37,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'display_country' => 'boolean',
+            'display_birthdate' => 'boolean',
         ];
     }
 
