@@ -13,19 +13,26 @@ class ICanRequestController extends Controller
     /**
      * Display a listing of the current user's ICan requests.
      *
-     * @group ICan Requests
+     * @group iCan Requests
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $requests = ICanRequest::where('user_id', Auth::id())->with(['ican','ican.isLikedByUser','user', 'user.image'])->get();
+        $requests = ICanRequest::where('user_id', Auth::id())
+            ->with(['ican', 'ican.user', 'ican.user.image', 'ican.skills'])
+            ->get()
+            ->map(function ($request) {
+                $request->ican->liked_by_user = Auth::check() ? $request->ican->isLikedByUser() : false;
+                return $request;
+            });
+
         return response()->json($requests);
     }
 
     /**
      * Users apply for an ICan request.
      *
-     * @group ICan Requests
+     * @group iCan Requests
      * @bodyParam ican_id int required The ID of the ICan post. Example: 1
      * @response 201 {
      *   "message": "Request created successfully",
@@ -70,7 +77,7 @@ class ICanRequestController extends Controller
     /**
      * Owner accepts an ICan request.
      *
-     * @group ICan Requests
+     * @group iCan Requests
      * @urlParam request_id int required The ID of the request. Example: 1
      * @response 200 {
      *   "message": "Request accepted successfully",
@@ -103,7 +110,7 @@ class ICanRequestController extends Controller
     /**
      * Owner rejects an ICan request.
      *
-     * @group ICan Requests
+     * @group iCan Requests
      * @urlParam request_id int required The ID of the request. Example: 1
      * @response 200 {
      *   "message": "Request rejected successfully",
@@ -136,7 +143,7 @@ class ICanRequestController extends Controller
     /**
      * Display all requests for a given ICan post.
      *
-     * @group ICan Requests
+     * @group iCan Requests
      * @urlParam ican_id int required The ID of the ICan post. Example: 1
      * @response 200 {
      *   "id": 1,
@@ -160,7 +167,7 @@ class ICanRequestController extends Controller
     /**
      * Remove the specified ICan request from storage.
      *
-     * @group ICan Requests
+     * @group iCan Requests
      * @urlParam request_id int required The ID of the request. Example: 1
      * @response 200 {
      *   "message": "Request deleted successfully"

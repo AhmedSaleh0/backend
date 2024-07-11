@@ -13,19 +13,26 @@ class INeedRequestController extends Controller
     /**
      * Display a listing of INeed requests.
      *
-     * @group INeed Requests
+     * @group iNeed Requests
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
-        $requests = INeedRequest::where('user_id', Auth::id())->with(['ineed','ineed.isLikedByUser','user', 'user.image'])->get();
+        $requests = INeedRequest::where('user_id', Auth::id())
+            ->with(['ineed', 'ineed.user', 'ineed.user.image'])
+            ->get()
+            ->map(function ($request) {
+                $request->ineed->liked_by_user = Auth::check() ? $request->ineed->isLikedByUser() : false;
+                return $request;
+            });
+
         return response()->json($requests);
     }
 
     /**
      * Users apply for an INeed request.
      *
-     * @group INeed Requests
+     * @group iNeed Requests
      * @bodyParam ineed_id int required The ID of the INeed post. Example: 1
      * @response 201 {
      *   "message": "Request created successfully",
@@ -70,7 +77,7 @@ class INeedRequestController extends Controller
     /**
      * Owner accepts an INeed request.
      *
-     * @group INeed Requests
+     * @group iNeed Requests
      * @urlParam request_id int required The ID of the request. Example: 1
      * @response 200 {
      *   "message": "Request accepted successfully",
@@ -103,7 +110,7 @@ class INeedRequestController extends Controller
     /**
      * Owner rejects an INeed request.
      *
-     * @group INeed Requests
+     * @group iNeed Requests
      * @urlParam request_id int required The ID of the request. Example: 1
      * @response 200 {
      *   "message": "Request rejected successfully",
@@ -136,7 +143,7 @@ class INeedRequestController extends Controller
     /**
      * Display all requests for a given INeed post.
      *
-     * @group INeed Requests
+     * @group iNeed Requests
      * @urlParam ineed_id int required The ID of the INeed post. Example: 1
      * @response 200 {
      *   "id": 1,
@@ -160,7 +167,7 @@ class INeedRequestController extends Controller
     /**
      * Remove the specified INeed request from storage.
      *
-     * @group INeed Requests
+     * @group iNeed Requests
      * @urlParam request_id int required The ID of the request. Example: 1
      * @response 200 {
      *   "message": "Request deleted successfully"

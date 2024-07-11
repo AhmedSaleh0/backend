@@ -13,7 +13,7 @@ class InspireReactionController extends Controller
     /**
      * Display a listing of reactions for a specific Inspire post.
      *
-     * @group Inspire Reactions
+     * @group iNspire Reactions
      * @param int $inspire_id
      * @return \Illuminate\Http\Response
      */
@@ -26,7 +26,7 @@ class InspireReactionController extends Controller
     /**
      * Store a newly created reaction in storage.
      *
-     * @group Inspire Reactions
+     * @group iNspire Reactions
      * @param Request $request
      * @param int $inspire_id
      * @bodyParam reaction_type integer required The type of the reaction. Example: 1
@@ -64,7 +64,7 @@ class InspireReactionController extends Controller
     /**
      * Remove the specified reaction from storage.
      *
-     * @group Inspire Reactions
+     * @group iNspire Reactions
      * @urlParam inspire_id int required The ID of the Inspire post. Example: 1
      * @return \Illuminate\Http\Response
      */
@@ -80,7 +80,7 @@ class InspireReactionController extends Controller
     /**
      * Display a listing of Inspire posts liked by the current user.
      *
-     * @group Inspire Reactions
+     * @group iNspire Reactions
      * @response 200 {
      *   "id": 1,
      *   "type": "image",

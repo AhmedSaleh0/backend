@@ -13,7 +13,7 @@ class ICanReactionController extends Controller
     /**
      * Display a listing of reactions for a specific ICan post.
      *
-     * @group ICan Reactions
+     * @group iCan Reactions
      * @param int $ican_id
      * @return \Illuminate\Http\JsonResponse
      */
@@ -26,7 +26,7 @@ class ICanReactionController extends Controller
     /**
      * Store a newly created reaction in storage.
      *
-     * @group ICan Reactions
+     * @group iCan Reactions
      * @param Request $request
      * @param int $ican_id
      * @bodyParam reaction_type string required The type of the reaction. Example: like
@@ -64,7 +64,7 @@ class ICanReactionController extends Controller
     /**
      * Remove the specified reaction from storage.
      *
-     * @group ICan Reactions
+     * @group iCan Reactions
      * @urlParam ican_id int required The ID of the ICan post. Example: 1
      * @return \Illuminate\Http\JsonResponse
      */
@@ -80,7 +80,7 @@ class ICanReactionController extends Controller
 /**
      * Display a listing of ICan posts liked by the current user.
      *
-     * @group ICan Reactions
+     * @group iCan Reactions
      * @return \Illuminate\Http\JsonResponse
      */
     public function myLikedIcan()

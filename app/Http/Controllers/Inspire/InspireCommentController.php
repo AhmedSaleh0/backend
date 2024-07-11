@@ -14,7 +14,7 @@ class InspireCommentController extends Controller
      *
      * @unauthenticated
      * 
-     * @group Inspire Comments
+     * @group iNspire Comments
      * @param int $inspire_id
      * @return \Illuminate\Http\Response
      */
@@ -27,7 +27,7 @@ class InspireCommentController extends Controller
     /**
      * Store a newly created comment in storage.
      *
-     * @group Inspire Comments
+     * @group iNspire Comments
      * @param Request $request
      * @param int $inspire_id
      * @bodyParam comment string required The comment text. Example: This is a great post!
@@ -54,7 +54,7 @@ class InspireCommentController extends Controller
     /**
      * Display the specified comment.
      *
-     * @group Inspire Comments
+     * @group iNspire Comments
      * @urlParam comment_id int required The ID of the comment. Example: 1
      * @return \Illuminate\Http\Response
      */
@@ -67,7 +67,7 @@ class InspireCommentController extends Controller
     /**
      * Update the specified comment in storage.
      *
-     * @group Inspire Comments
+     * @group iNspire Comments
      * @param Request $request
      * @param int $comment_id
      * @bodyParam comment string required The comment text. Example: This is an updated comment!
@@ -92,7 +92,7 @@ class InspireCommentController extends Controller
     /**
      * Remove the specified comment from storage.
      *
-     * @group Inspire Comments
+     * @group iNspire Comments
      * @urlParam comment_id int required The ID of the comment. Example: 1
      * @return \Illuminate\Http\Response
      */

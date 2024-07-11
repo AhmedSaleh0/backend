@@ -12,7 +12,7 @@ class InspireUserSaveController extends Controller
     /**
      * Display a listing of saved Inspire posts for a user.
      *
-     * @group Inspire User Save
+     * @group iNspire User Save
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -24,7 +24,7 @@ class InspireUserSaveController extends Controller
     /**
      * Store a newly created save in storage.
      *
-     * @group Inspire User Save
+     * @group iNspire User Save
      * @param Request $request
      * @param int $inspire_id
      * @return \Illuminate\Http\Response
@@ -45,7 +45,7 @@ class InspireUserSaveController extends Controller
     /**
      * Remove the specified save from storage.
      *
-     * @group Inspire User Save
+     * @group iNspire User Save
      * @urlParam id int required The ID of the saved post. Example: 1
      * @return \Illuminate\Http\Response
      */

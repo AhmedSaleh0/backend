@@ -13,7 +13,7 @@ class ICanController extends Controller
     /**
      * Display a listing of ICan posts.
      *
-     * @group ICan Posts
+     * @group iCan Posts
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
@@ -28,7 +28,7 @@ class ICanController extends Controller
     /**
      * Store a newly created ICan post in storage.
      *
-     * @group ICan Posts
+     * @group iCan Posts
      * @bodyParam title string required The title of the post. Example: My New Service
      * @bodyParam short_description string required A short description of the post. Example: This is a short description of my service.
      * @bodyParam image file nullable An image associated with the post (max 25MB).
@@ -90,7 +90,7 @@ class ICanController extends Controller
     /**
      * Display the specified ICan post.
      *
-     * @group ICan Posts
+     * @group iCan Posts
      * @urlParam ican_id int required The ID of the post. Example: 1
      * @response 200 {
      *   "id": 1,
@@ -133,7 +133,7 @@ class ICanController extends Controller
     /**
      * Update the specified ICan post in storage.
      *
-     * @group ICan Posts
+     * @group iCan Posts
      * @urlParam ican_id int required The ID of the post. Example: 1
      * @bodyParam title string The title of the post. Example: My Updated Service
      * @bodyParam short_description string A short description of the post. Example: This is an updated short description of my service.
@@ -205,7 +205,7 @@ class ICanController extends Controller
     /**
      * Remove the specified ICan post from storage.
      *
-     * @group ICan Posts
+     * @group iCan Posts
      * @urlParam ican_id int required The ID of the post. Example: 1
      * @response 200 {
      *   "message": "Post deleted successfully"
@@ -233,7 +233,7 @@ class ICanController extends Controller
     /**
      * Display a listing of the authenticated user's ICan posts.
      *
-     * @group ICan Posts
+     * @group iCan Posts
      * @return \Illuminate\Http\JsonResponse
      */
     public function myIcan()
@@ -248,7 +248,7 @@ class ICanController extends Controller
     /**
      * Display a listing of ICan posts by a specific user.
      *
-     * @group ICan Posts
+     * @group iCan Posts
      * @urlParam user_id int required The ID of the user. Example: 1
      * @response 200 {
      *   "id": 1,

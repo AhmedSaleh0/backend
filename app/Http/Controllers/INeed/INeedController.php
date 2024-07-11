@@ -13,7 +13,7 @@ class INeedController extends Controller
     /**
      * Display a listing of INeed posts.
      *
-     * @group INeed Posts
+     * @group iNeed Posts
      * @return \Illuminate\Http\JsonResponse
      */
     public function index()
@@ -28,7 +28,7 @@ class INeedController extends Controller
     /**
      * Store a newly created INeed post in storage.
      *
-     * @group INeed Posts
+     * @group iNeed Posts
      * @bodyParam title string required The title of the post. Example: My New Request
      * @bodyParam short_description string required A short description of the post. Example: This is a short description of my request.
      * @bodyParam image file nullable An image associated with the post (max 25MB).
@@ -90,7 +90,7 @@ class INeedController extends Controller
     /**
      * Display the specified INeed post.
      *
-     * @group INeed Posts
+     * @group iNeed Posts
      * @urlParam ineed_id int required The ID of the post. Example: 1
      * @response 200 {
      *   "id": 1,
@@ -133,7 +133,7 @@ class INeedController extends Controller
     /**
      * Update the specified INeed post in storage.
      *
-     * @group INeed Posts
+     * @group iNeed Posts
      * @urlParam ineed_id int required The ID of the post. Example: 1
      * @bodyParam title string The title of the post. Example: My Updated Request
      * @bodyParam short_description string A short description of the post. Example: This is an updated short description of my request.
@@ -205,7 +205,7 @@ class INeedController extends Controller
     /**
      * Remove the specified INeed post from storage.
      *
-     * @group INeed Posts
+     * @group iNeed Posts
      * @urlParam ineed_id int required The ID of the post. Example: 1
      * @response 200 {
      *   "message": "Post deleted successfully"
@@ -233,7 +233,7 @@ class INeedController extends Controller
     /**
      * Display a listing of the authenticated user's INeed posts.
      *
-     * @group INeed Posts
+     * @group iNeed Posts
      * @return \Illuminate\Http\JsonResponse
      */
     public function myINeed()
@@ -248,7 +248,7 @@ class INeedController extends Controller
     /**
      * Display a listing of INeed posts by a specific user.
      *
-     * @group INeed Posts
+     * @group iNeed Posts
      * @urlParam user_id int required The ID of the user. Example: 1
      * @response 200 {
      *   "id": 1,

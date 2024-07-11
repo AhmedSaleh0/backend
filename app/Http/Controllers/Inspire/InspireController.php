@@ -13,7 +13,7 @@ class InspireController extends Controller
     /**
      * Display a listing of Inspire posts.
      *
-     * @group Inspire Posts
+     * @group iNspire Posts
      * @response 200 {
      *   "id": 1,
      *   "type": "image",
@@ -45,7 +45,7 @@ class InspireController extends Controller
     /**
      * Store a newly created Inspire post in storage.
      *
-     * @group Inspire Posts
+     * @group iNspire Posts
      * @param Request $request
      * @bodyParam title string required The title of the post. Example: My New Post
      * @bodyParam content string required The content of the post. Example: This is the content of my post.
@@ -90,7 +90,7 @@ class InspireController extends Controller
     /**
      * Display the specified Inspire post.
      *
-     * @group Inspire Posts
+     * @group iNspire Posts
      * @urlParam inspire_id int required The ID of the post. Example: 1
      * @response 200 {
      *   "id": 1,
@@ -137,7 +137,7 @@ class InspireController extends Controller
     /**
      * Update the specified Inspire post in storage.
      *
-     * @group Inspire Posts
+     * @group iNspire Posts
      * @param Request $request
      * @param int $inspire_id
      * @bodyParam title string The title of the post. Example: My Updated Post
@@ -191,7 +191,7 @@ class InspireController extends Controller
     /**
      * Remove the specified Inspire post from storage.
      *
-     * @group Inspire Posts
+     * @group iNspire Posts
      * @urlParam inspire_id int required The ID of the post. Example: 1
      * @return \Illuminate\Http\Response
      */
@@ -216,7 +216,7 @@ class InspireController extends Controller
     /**
      * Display a listing of the authenticated user's Inspire posts.
      *
-     * @group Inspire Posts
+     * @group iNspire Posts
      * @return \Illuminate\Http\JsonResponse
      */
     public function myInspire()
@@ -231,7 +231,7 @@ class InspireController extends Controller
     /**
      * Display a listing of Inspire posts by a specific user.
      *
-     * @group Inspire Posts
+     * @group iNspire Posts
      * @urlParam user_id int required The ID of the user. Example: 1
      * @response 200 {
      *   "id": 1,

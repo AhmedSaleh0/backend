@@ -13,7 +13,7 @@ class INeedReactionController extends Controller
     /**
      * Display a listing of reactions for a specific I-Need post.
      *
-     * @group I-Need Reactions
+     * @group iNeed Reactions
      * @urlParam ineed_id required The ID of the I-Need post. Example: 1
      * @response 200 {
      *   "id": 1,
@@ -41,7 +41,7 @@ class INeedReactionController extends Controller
     /**
      * Store a newly created reaction in storage.
      *
-     * @group I-Need Reactions
+     * @group iNeed Reactions
      * @urlParam ineed_id required The ID of the I-Need post. Example: 1
      * @bodyParam reaction_type integer required The type of the reaction. Example: 1
      * @response 201 {
@@ -88,7 +88,7 @@ class INeedReactionController extends Controller
     /**
      * Remove the specified reaction from storage.
      *
-     * @group I-Need Reactions
+     * @group iNeed Reactions
      * @urlParam ineed_id required The ID of the I-Need post. Example: 1
      * @response 200 {
      *   "message": "Reaction deleted successfully"
@@ -106,7 +106,7 @@ class INeedReactionController extends Controller
     /**
      * Display a listing of I-Need posts liked by the current user.
      *
-     * @group I-Need Reactions
+     * @group iNeed Reactions
      * @response 200 {
      *   "id": 1,
      *   "type": "image",
