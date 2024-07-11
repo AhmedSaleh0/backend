@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Communications;
 
 use App\Http\Controllers\Controller;
@@ -70,12 +71,38 @@ class ConversationController extends Controller
      *   "created_at": "2024-07-06T00:00:00.000000Z",
      *   "updated_at": "2024-07-06T00:00:00.000000Z"
      * }
+     * @response 200 {
+     *   "message": "Conversation already exists",
+     *   "conversation": {
+     *     "id": 1,
+     *     "user_one_id": 1,
+     *     "user_two_id": 2,
+     *     "created_at": "2024-07-06T00:00:00.000000Z",
+     *     "updated_at": "2024-07-06T00:00:00.000000Z"
+     *   }
+     * }
      */
     public function store(Request $request)
     {
+        $userOneId = $request->user_one_id;
+        $userTwoId = $request->user_two_id;
+
+        $existingConversation = Conversation::where(function ($query) use ($userOneId, $userTwoId) {
+            $query->where('user_one_id', $userOneId)->where('user_two_id', $userTwoId);
+        })->orWhere(function ($query) use ($userOneId, $userTwoId) {
+            $query->where('user_one_id', $userTwoId)->where('user_two_id', $userOneId);
+        })->first();
+
+        if ($existingConversation) {
+            return response()->json([
+                'message' => 'Conversation already exists',
+                'conversation' => $existingConversation
+            ], 200);
+        }
+
         $conversation = Conversation::create([
-            'user_one_id' => $request->user_one_id,
-            'user_two_id' => $request->user_two_id,
+            'user_one_id' => $userOneId,
+            'user_two_id' => $userTwoId,
         ]);
 
         return response()->json($conversation, 201);
