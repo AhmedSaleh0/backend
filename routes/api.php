@@ -63,6 +63,7 @@ Route::middleware('auth:api')->group(function () {
 
 Route::prefix('user')->middleware('auth:api')->group(function () {
     Route::get('/details', [UserController::class, 'getUserDetails']);
+    Route::get('/{user_id}', [UserController::class, 'getUserById']); 
     Route::put('/', [UserController::class, 'updateUser']);
     Route::put('/username', [UserController::class, 'updateUsername']);
     Route::post('/profile', [UserController::class, 'updateUserProfile']);
