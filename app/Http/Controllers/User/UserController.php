@@ -6,7 +6,6 @@ use App\Models\User\User;
 use App\Models\User\UserImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -14,8 +13,6 @@ use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
-
-
     /**
      * Get authenticated user details.
      *
@@ -26,18 +23,55 @@ class UserController extends Controller
      *      "id": 1,
      *      "first_name": "John",
      *      "last_name": "Doe",
-     *      "email": "user@example.com",
      *      "phone": "+1234567890",
+     *      "country_code": "+1",
      *      "country": "USA",
-     *      "birthdate": "1990-12-31",
+     *      "birthdate": "1990-01-01",
      *      "bio": "Just a developer!",
+     *      "email": "user@example.com",
      *      "username": "johndoe",
+     *      "email_verified_at": "2024-06-08T12:52:12.000000Z",
      *      "created_at": "2024-06-08T12:52:12.000000Z",
      *      "updated_at": "2024-06-08T12:52:12.000000Z",
      *      "facebook_id": null,
-     *      "google_id": null
+     *      "google_id": null,
+     *      "display_country": false,
+     *      "display_birthdate": false,
+     *      "image": {
+     *          "id": 1,
+     *          "user_id": 1,
+     *          "image_path": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1.jpg",
+     *          "created_at": "2024-06-08T12:52:12.000000Z",
+     *          "updated_at": "2024-06-08T12:52:12.000000Z"
+     *      },
+     *      "skills": [
+     *          {
+     *              "id": 1,
+     *              "name": "PHP",
+     *              "category": "Backend",
+     *              "created_at": null,
+     *              "updated_at": null,
+     *              "pivot": {
+     *                  "user_id": 1,
+     *                  "skill_id": 1
+     *              }
+     *          }
+     *      ]
      *  },
-     *  "user_image": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1.jpg"
+     *  "user_image": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1.jpg",
+     *  "user_skills": [
+     *      {
+     *          "id": 1,
+     *          "name": "PHP",
+     *          "category": "Backend",
+     *          "created_at": null,
+     *          "updated_at": null,
+     *          "pivot": {
+     *              "user_id": 1,
+     *              "skill_id": 1
+     *          }
+     *      }
+     *  ]
      * }
      * @response 401 {
      *  "message": "User not authenticated"
@@ -56,6 +90,87 @@ class UserController extends Controller
             ], 200);
         } else {
             return response()->json(['message' => 'User not authenticated'], 401);
+        }
+    }
+
+    /**
+     * Get any user's details by ID.
+     *
+     * @group User
+     * @authenticated
+     * @urlParam user_id int required The ID of the user. Example: 1
+     * @response 200 {
+     *  "user": {
+     *      "id": 1,
+     *      "first_name": "John",
+     *      "last_name": "Doe",
+     *      "phone": "+1234567890",
+     *      "country_code": "+1",
+     *      "country": "USA",
+     *      "birthdate": "1990-01-01",
+     *      "bio": "Just a developer!",
+     *      "email": "user@example.com",
+     *      "username": "johndoe",
+     *      "email_verified_at": "2024-06-08T12:52:12.000000Z",
+     *      "created_at": "2024-06-08T12:52:12.000000Z",
+     *      "updated_at": "2024-06-08T12:52:12.000000Z",
+     *      "facebook_id": null,
+     *      "google_id": null,
+     *      "display_country": false,
+     *      "display_birthdate": false,
+     *      "image": {
+     *          "id": 1,
+     *          "user_id": 1,
+     *          "image_path": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1.jpg",
+     *          "created_at": "2024-06-08T12:52:12.000000Z",
+     *          "updated_at": "2024-06-08T12:52:12.000000Z"
+     *      },
+     *      "skills": [
+     *          {
+     *              "id": 1,
+     *              "name": "PHP",
+     *              "category": "Backend",
+     *              "created_at": null,
+     *              "updated_at": null,
+     *              "pivot": {
+     *                  "user_id": 1,
+     *                  "skill_id": 1
+     *              }
+     *          }
+     *      ]
+     *  },
+     *  "user_image": "https://your-bucket.s3.your-region.amazonaws.com/user_images/1.jpg",
+     *  "user_skills": [
+     *      {
+     *          "id": 1,
+     *          "name": "PHP",
+     *          "category": "Backend",
+     *          "created_at": null,
+     *          "updated_at": null,
+     *          "pivot": {
+     *              "user_id": 1,
+     *              "skill_id": 1
+     *          }
+     *      }
+     *  ]
+     * }
+     * @response 404 {
+     *  "message": "User not found"
+     * }
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getUserById($user_id)
+    {
+        $user = User::with(['image', 'skills'])->find($user_id);
+
+        if ($user) {
+            return response()->json([
+                'user' => $user,
+                'user_image' => $user->image ? $user->image->image_path : null,
+                'user_skills' => $user->skills,
+            ], 200);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
         }
     }
 
@@ -116,6 +231,7 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User details updated successfully', 'user' => $user]);
     }
+
     /**
      * Update the user's username.
      *
@@ -164,7 +280,8 @@ class UserController extends Controller
      * @bodyParam bio string optional A short bio for the user. Example: Just a developer!
      * @bodyParam image file optional An image file to be uploaded as user's profile picture.
      * @bodyParam skills array optional An array of skill IDs to assign to the user. Example: [1, 2, 3]
-     *
+     * @bodyParam display_country boolean optional Whether to display the user's country. Example: true
+     * @bodyParam display_birthdate boolean optional Whether to display the user's birthdate. Example: true
      * @response 200 {
      *  "message": "User profile updated successfully",
      *  "user": {
@@ -175,7 +292,9 @@ class UserController extends Controller
      *      "phone": "+1234567890",
      *      "country": "USA",
      *      "birthdate": "1990-12-31",
-     *      "bio": "Just a developer!"
+     *      "bio": "Just a developer!",
+     *      "display_country": false,
+     *      "display_birthdate": false
      *  },
      *  "image": {
      *      "id": 1,
@@ -203,6 +322,8 @@ class UserController extends Controller
                 'country' => 'nullable|string|max:255',
                 'birthdate' => 'nullable|date_format:d-m-Y',
                 'bio' => 'nullable|string|max:1000',
+                'display_country' => 'nullable|boolean',
+                'display_birthdate' => 'nullable|boolean',
             ]);
 
             if (isset($validatedUserData['birthdate'])) {
