@@ -65,11 +65,15 @@ class ConversationController extends Controller
      * @bodyParam user_one_id int required The ID of the first user. Example: 1
      * @bodyParam user_two_id int required The ID of the second user. Example: 2
      * @response 201 {
-     *   "id": 1,
-     *   "user_one_id": 1,
-     *   "user_two_id": 2,
-     *   "created_at": "2024-07-06T00:00:00.000000Z",
-     *   "updated_at": "2024-07-06T00:00:00.000000Z"
+     *   "message": "Conversation created successfully",
+     *   "conversation": {
+     *     "id": 1,
+     *     "user_one_id": 1,
+     *     "user_two_id": 2,
+     *     "created_at": "2024-07-06T00:00:00.000000Z",
+     *     "updated_at": "2024-07-06T00:00:00.000000Z"
+     *   },
+     *   "status": "created"
      * }
      * @response 200 {
      *   "message": "Conversation already exists",
@@ -79,7 +83,8 @@ class ConversationController extends Controller
      *     "user_two_id": 2,
      *     "created_at": "2024-07-06T00:00:00.000000Z",
      *     "updated_at": "2024-07-06T00:00:00.000000Z"
-     *   }
+     *   },
+     *   "status": "existing"
      * }
      */
     public function store(Request $request)
@@ -96,7 +101,8 @@ class ConversationController extends Controller
         if ($existingConversation) {
             return response()->json([
                 'message' => 'Conversation already exists',
-                'conversation' => $existingConversation
+                'conversation' => $existingConversation,
+                'status' => 'existing'
             ], 200);
         }
 
@@ -105,6 +111,10 @@ class ConversationController extends Controller
             'user_two_id' => $userTwoId,
         ]);
 
-        return response()->json($conversation, 201);
+        return response()->json([
+            'message' => 'Conversation created successfully',
+            'conversation' => $conversation,
+            'status' => 'created'
+        ], 201);
     }
 }
